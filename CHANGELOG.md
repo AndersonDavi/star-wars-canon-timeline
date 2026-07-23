@@ -3,6 +3,17 @@
 Todas las versiones notables de esta guía interactiva de visionado.
 Formato basado en [Keep a Changelog](https://keepachangelog.com/). Versionado [SemVer](https://semver.org/).
 
+## [1.0.1] — 2026-07-23
+
+### Corregido
+- Orden contrastado con las guías vigentes de Lucasfilm para películas, series y los 133 episodios de The Clone Wars.
+- Tales of the Underworld se divide en sus arcos: Cad Bane antes del Episodio I y Ventress antes de su encuentro con el Bad Batch en T3 E9.
+- The Path of Fear queda inmediatamente después de The Clone Wars T4 E19, durante la masacre de Dathomir.
+- Tales of the Empire se separa por episodios para no mezclar la juventud de Morgan Elsbeth, el arco de Barriss y la Nueva República en una sola tarjeta fuera de época.
+- Maul: Shadow Lord indica los 10 episodios completos de su primera temporada.
+- La nota metodológica distingue el orden cronológico confirmado de los solapamientos sin intercalación oficial.
+- El progreso local y los JSON de v1.0.0 se migran a las nuevas tarjetas sin perder lo ya marcado.
+
 ## [1.0.0] — 2026-07-23
 
 Primera versión completa.
@@ -18,4 +29,5 @@ Primera versión completa.
 - Guardado automático en el navegador (localStorage) + exportar/importar progreso en JSON.
 - Modal estilizado para reiniciar el progreso.
 
+[1.0.1]: #
 [1.0.0]: #

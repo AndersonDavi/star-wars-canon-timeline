@@ -233,6 +233,7 @@
   .foot p{font-size:12.5px;color:var(--muted);margin:8px 0}
   .foot strong{color:var(--txt)}
   .foot-note{font-size:11px;color:var(--muted-2)}
+  .foot-note a{color:var(--saber);text-underline-offset:2px}
   .version{font-size:11px;color:var(--muted-2);letter-spacing:.04em;margin-top:14px}
   .ver-tag{display:inline-block;font-weight:700;color:var(--saber);border:1px solid color-mix(in srgb,var(--saber) 45%,var(--line));
     background:color-mix(in srgb,var(--saber) 12%,transparent);border-radius:99px;padding:2px 9px;
@@ -319,8 +320,8 @@
 
 <footer class="foot">
   <p>Secuencia continua de visionado, numerada del 01 en adelante. Cada tramo de The Clone Wars con salto de orden es su propia tarjeta; márcalas todas a la vista.</p>
-  <p class="foot-note">Portadas oficiales cortesía de TMDB. Orden basado en las guías de Lucasfilm y StarWars.com. El Episodio III va entre los arcos de la Temporada 7: el Sitio de Mandalore transcurre en paralelo y la Orden 66 sucede en ambos.</p>
-  <p class="version"><span class="ver-tag" id="verTag">v1.0.0</span> · actualizado <span id="verDate">2026-07-23</span></p>
+  <p class="foot-note">Portadas oficiales cortesía de TMDB. Orden contrastado con las guías de <a href="https://www.starwars.com/news/star-wars-movies-and-series-guide" target="_blank" rel="noopener noreferrer">películas y series</a> y de <a href="https://www.starwars.com/news/star-wars-the-clone-wars-chronological-episodeorder" target="_blank" rel="noopener noreferrer">The Clone Wars</a> publicadas por Lucasfilm. Las antologías y algunos finales abarcan fechas paralelas: en esos casos se prioriza una ruta de visionado continua, no una intercalación por minutos.</p>
+  <p class="version"><span class="ver-tag" id="verTag">v1.0.1</span> · actualizado <span id="verDate">2026-07-23</span></p>
 </footer>
 
 <div class="modal-backdrop" id="modal" hidden>
@@ -342,7 +343,7 @@
 (function(){
   "use strict";
   var KEY="sw-canon-explode-v1";
-  var APP_VERSION="1.0.0", APP_UPDATED="2026-07-23";
+  var APP_VERSION="1.0.1", APP_UPDATED="2026-07-23";
   (function(){ var t=document.getElementById("verTag"), d=document.getElementById("verDate");
     if(t) t.textContent="v"+APP_VERSION; if(d) d.textContent=APP_UPDATED; })();
 
@@ -355,9 +356,10 @@
     { era:"Caída de los Jedi", kicker:"Precuelas", color:"var(--e-pre)", cards:[
       {id:"toj-e2",p:"toj",t:"Tales of the Jedi · Justice",m:"T1 · E2 · joven Dooku",k:"tv"},
       {id:"toj-e3",p:"toj",t:"Tales of the Jedi · Choices",m:"T1 · E3 · Dooku y Mace",k:"tv"},
+      {id:"underworld-bane",p:"underworld",t:"Tales of the Underworld · Cad Bane",m:"T1 · E4–6 · antes del Episodio I",k:"tv"},
       {id:"toj-e1",p:"toj",t:"Tales of the Jedi · Life and Death",m:"T1 · E1 · nace Ahsoka",k:"tv"},
       {id:"ep1",p:"ep1",t:"Episodio I: La amenaza fantasma",m:"Película · 1999",k:"film"},
-      {id:"toj-e4",p:"toj",t:"Tales of the Jedi · The Sith Lord",m:"T1 · E4 · Dooku cae",k:"tv"},
+      {id:"toj-e4",p:"toj",t:"Tales of the Jedi · The Sith Lord",m:"T1 · E4 · empieza en paralelo al Episodio I",k:"tv"},
       {id:"ep2",p:"ep2",t:"Episodio II: El ataque de los clones",m:"Película · 2002",k:"film"},
     ]},
     { era:"Las Guerras Clon", kicker:"Orden cronológico oficial", color:"var(--e-clone)", cards:[
@@ -393,11 +395,14 @@
       {id:"cw-r",p:"tcw",t:"The Clone Wars",m:"T3 E12–22 · Hermanas · Mortis · Ciudadela",k:"tv",ep:[
         "E12 Nightsisters","E13 Monster","E14 Witches of the Mist","E15 Overlords","E16 Altar of Mortis","E17 Ghosts of Mortis",
         "E18 The Citadel","E19 Counterattack","E20 Citadel Rescue","E21 Padawan Lost","E22 Wookiee Hunt"]},
-      {id:"cw-s",p:"tcw",t:"The Clone Wars",m:"T4 E1–22 · Umbara y el regreso de Maul",k:"tv",ep:[
+      {id:"cw-s",p:"tcw",t:"The Clone Wars",m:"T4 E1–19 · Umbara, Maul y Dathomir",k:"tv",ep:[
         "E1 Water War","E2 Gungan Attack","E3 Prisoners","E4 Shadow Warrior","E5 Mercy Mission","E6 Nomad Droids",
         "E7 Darkness on Umbara","E8 The General","E9 Plan of Dissent","E10 Carnage of Krell","E11 Kidnapped",
         "E12 Slaves of the Republic","E13 Escape from Kadavo","E14 A Friend in Need","E15 Deception","E16 Friends and Enemies",
-        "E17 The Box","E18 Crisis on Naboo","E19 Massacre","E20 Bounty","E21 Brothers","E22 Revenge"]},
+        "E17 The Box","E18 Crisis on Naboo","E19 Massacre"]},
+      {id:"toe-fear",p:"toe",t:"Tales of the Empire · The Path of Fear",m:"T1 · E1 · tras la masacre de Dathomir",k:"tv"},
+      {id:"cw-s2",p:"tcw",t:"The Clone Wars",m:"T4 E20–22 · Ventress y el regreso de Maul",k:"tv",ep:[
+        "E20 Bounty","E21 Brothers","E22 Revenge"]},
       {id:"cw-t",p:"tcw",t:"The Clone Wars",m:"T5 E2–13 · Onderon y Younglings",k:"tv",ep:[
         "E2 A War on Two Fronts","E3 Front Runners","E4 The Soft War","E5 Tipping Points","E6 The Gathering","E7 A Test of Strength",
         "E8 Bound for Rescue","E9 A Necessary Bond","E10 Secret Weapons","E11 A Sunny Day in the Void","E12 Missing in Action","E13 Point of No Return"]},
@@ -418,19 +423,23 @@
     ]},
     { era:"Nacimiento del Imperio", kicker:"Orden 66 y secuelas", color:"var(--e-imp)", cards:[
       {id:"toe-dev",p:"toe",t:"Tales of the Empire · Devoted",m:"T1 · E4 · durante la Orden 66",k:"tv"},
+      {id:"toe-real",p:"toe",t:"Tales of the Empire · Realization",m:"T1 · E5 · primeros tiempos del Imperio",k:"tv"},
       {id:"toj-res",p:"toj",t:"Tales of the Jedi · Resolve",m:"T1 · E6 · Ahsoka oculta",k:"tv"},
-      {id:"badbatch",p:"badbatch",t:"The Bad Batch",m:"T1–T3 completas",k:"tv"},
-      {id:"underworld",p:"underworld",t:"Tales of the Underworld",m:"Cad Bane y Ventress",k:"tv"},
-      {id:"toe-rest",p:"toe",t:"Tales of the Empire (resto)",m:"T1 · Morgan Elsbeth",k:"tv"},
-      {id:"maul",p:"maul",t:"Maul: Shadow Lord",m:"T1 · 2026",k:"tv"},
+      {id:"badbatch",p:"badbatch",t:"The Bad Batch",m:"T1–T2 completas",k:"tv"},
+      {id:"badbatch3a",p:"badbatch",t:"The Bad Batch · Temporada 3",m:"T3 · E1–8",k:"tv"},
+      {id:"underworld",p:"underworld",t:"Tales of the Underworld · Ventress",m:"T1 · E1–3 · antes de su encuentro con el Bad Batch",k:"tv"},
+      {id:"badbatch3b",p:"badbatch",t:"The Bad Batch · Temporada 3",m:"T3 · E9–15 · incluye The Harbinger",k:"tv"},
+      {id:"maul",p:"maul",t:"Maul: Shadow Lord",m:"T1 · 10 episodios · 2026",k:"tv"},
     ]},
     { era:"Era de la Rebelión", kicker:"Trilogía original", color:"var(--e-reb)", cards:[
       {id:"solo",p:"solo",t:"Solo: Una historia de Star Wars",m:"Película · 2018",k:"film"},
       {id:"kenobi",p:"kenobi",t:"Obi-Wan Kenobi",m:"T1 · 6 episodios",k:"tv"},
-      {id:"andor1",p:"andor",t:"Andor — Temporada 1",m:"T1 · 12 episodios",k:"tv"},
-      {id:"rebels12",p:"rebels",t:"Rebels — T1 y T2",m:"Serie animada",k:"tv"},
-      {id:"andor2",p:"andor",t:"Andor — Temporada 2",m:"T2 · 12 episodios",k:"tv"},
-      {id:"rebels34",p:"rebels",t:"Rebels — T3 y T4",m:"Serie animada · epílogo tardío",k:"tv"},
+      {id:"toe-anger",p:"toe",t:"Tales of the Empire · The Path of Anger",m:"T1 · E2 · entre 9 y 2 BBY",k:"tv"},
+      {id:"toe-wayout",p:"toe",t:"Tales of the Empire · The Way Out",m:"T1 · E6 · tras Obi-Wan Kenobi; fecha aproximada",k:"tv"},
+      {id:"andor1",p:"andor",t:"Andor — Temporada 1",m:"T1 · 5 BBY",k:"tv"},
+      {id:"rebels12",p:"rebels",t:"Rebels — T1 y T2",m:"5–3 BBY · en paralelo con Andor",k:"tv"},
+      {id:"andor2",p:"andor",t:"Andor — Temporada 2",m:"T2 · 4–1 BBY · en paralelo con Rebels",k:"tv"},
+      {id:"rebels34",p:"rebels",t:"Rebels — T3 y T4",m:"2–0 BBY · epílogo posterior",k:"tv"},
       {id:"rogue",p:"rogue",t:"Rogue One",m:"Película · 2016 · pega con el IV",k:"film"},
       {id:"ep4",p:"ep4",t:"Episodio IV: Una nueva esperanza",m:"Película · 1977",k:"film"},
       {id:"ep5",p:"ep5",t:"Episodio V: El Imperio contraataca",m:"Película · 1980",k:"film"},
@@ -438,29 +447,50 @@
     ]},
     { era:"Nueva República", kicker:"El Mandoverso", color:"var(--e-nr)", cards:[
       {id:"mando1",p:"mando",t:"The Mandalorian — T1",m:"Temporada 1",k:"tv"},
+      {id:"toe-hate",p:"toe",t:"Tales of the Empire · The Path of Hate",m:"T1 · E3 · antes de The Mandalorian T2",k:"tv"},
       {id:"mando2",p:"mando",t:"The Mandalorian — T2",m:"Temporada 2",k:"tv"},
       {id:"boba",p:"boba",t:"The Book of Boba Fett",m:"T1 · caps 5–7 = Mando T2.5",k:"tv"},
       {id:"mando3",p:"mando",t:"The Mandalorian — T3",m:"Temporada 3",k:"tv"},
       {id:"ahsoka",p:"ahsoka",t:"Ahsoka",m:"T1 · secuela de Rebels",k:"tv"},
       {id:"skeleton",p:"skeleton",t:"Skeleton Crew",m:"T1 · 8 episodios",k:"tv"},
-      {id:"mandogrogu",p:"mandogrogu",t:"The Mandalorian & Grogu",m:"Película · tras Skeleton Crew",k:"film"},
+      {id:"mandogrogu",p:"mandogrogu",t:"The Mandalorian & Grogu",m:"Película · 2026 · tras Skeleton Crew",k:"film"},
     ]},
     { era:"Primera Orden", kicker:"Trilogía secuela", color:"var(--e-fo)", cards:[
-      {id:"res-a",p:"resistance",t:"Resistance — T1 E1–17",m:"Serie animada",k:"tv"},
+      {id:"res-a",p:"resistance",t:"Resistance — T1 E1–17",m:"Antes del Episodio VII",k:"tv"},
       {id:"ep7",p:"ep7",t:"Episodio VII: El despertar de la Fuerza",m:"Película · 2015",k:"film"},
-      {id:"res-b",p:"resistance",t:"Resistance — T1 E18–21",m:"Serie",k:"tv"},
-      {id:"res-c",p:"resistance",t:"Resistance — T2 E1",m:"Serie",k:"tv"},
+      {id:"res-b",p:"resistance",t:"Resistance — T1 E18–21",m:"Se solapa con el Episodio VII",k:"tv"},
+      {id:"res-c",p:"resistance",t:"Resistance — T2 E1",m:"Puente hacia el Episodio VIII",k:"tv"},
       {id:"ep8",p:"ep8",t:"Episodio VIII: Los últimos Jedi",m:"Película · 2017",k:"film"},
-      {id:"res-d",p:"resistance",t:"Resistance — T2 E2–19",m:"Serie",k:"tv"},
+      {id:"res-d",p:"resistance",t:"Resistance — T2 E2–19",m:"Continúa después del Episodio VIII",k:"tv"},
       {id:"ep9",p:"ep9",t:"Episodio IX: El ascenso de Skywalker",m:"Película · 2019",k:"film"},
     ]},
   ];
 
+  function expandLegacyProgress(list){
+    var expanded=list.slice();
+    function has(id){ return expanded.indexOf(id)>-1; }
+    function add(id){ if(!has(id)) expanded.push(id); }
+    if(has("cw-s")) add("cw-s2");
+    if(has("underworld")) add("underworld-bane");
+    if(has("badbatch")){ add("badbatch3a"); add("badbatch3b"); }
+    if(has("toe-rest")){
+      ["toe-fear","toe-real","toe-anger","toe-wayout","toe-hate"].forEach(add);
+    }
+    return expanded;
+  }
+
   var state={};
   try{ state=JSON.parse(localStorage.getItem(KEY))||{}; }catch(e){ state={}; }
   if(!state||typeof state!=="object") state={};
+  if(!state.__schema101){
+    expandLegacyProgress(Object.keys(state).filter(function(id){ return state[id]===true; }))
+      .forEach(function(id){ state[id]=true; });
+    delete state["toe-rest"];
+    state.__schema101=true;
+  }
   var ALL=[]; ERAS.forEach(function(s){ s.cards.forEach(function(c){ ALL.push(c.id); }); });
   function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+  save();
   var CHECK='<svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17 4 12"/></svg>';
 
   var root=document.getElementById("root");
@@ -604,7 +634,10 @@
         var data=JSON.parse(r.result);
         var list=Array.isArray(data)?data:(data.watched||[]);
         if(!Array.isArray(list)) throw 0;
-        state={}; list.forEach(function(id){ if(ALL.indexOf(id)>-1) state[id]=true; });
+        if(Array.isArray(data)||!data.appVersion||data.appVersion==="1.0.0"){
+          list=expandLegacyProgress(list);
+        }
+        state={__schema101:true}; list.forEach(function(id){ if(ALL.indexOf(id)>-1) state[id]=true; });
         save();
         [].forEach.call(root.querySelectorAll(".card"), function(c){
           var d=!!state[c.getAttribute("data-id")];
