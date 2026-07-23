@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guía Star Wars — Orden cronológico del canon</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🪐</text></svg>">
+<style>
+  :root{
+    --bg:#03040a; --panel:#0c0d15; --panel-2:#11121c;
+    --line:#20222f; --line-soft:#181a25;
+    --txt:#dfe2ec; --muted:#8b90a3; --muted-2:#565b6d;
+    --accent:#ffe81f; --saber:#37b6ff;
+    --e-hr:#e8b84b; --e-pre:#e2493a; --e-clone:#49a3e6; --e-imp:#c0c8d4;
+    --e-reb:#e8853b; --e-nr:#43bd84; --e-fo:#d0313d;
+    --font:"Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
+    --shadow:0 14px 40px rgba(0,0,0,.6);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--txt);font-family:var(--font);line-height:1.5;-webkit-font-smoothing:antialiased}
+
+  /* ===== FONDO ESPACIO ===== */
+  .space{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;
+    background:
+      radial-gradient(1200px 800px at 78% -8%, rgba(73,120,230,.14), transparent 60%),
+      radial-gradient(1000px 700px at 12% 8%, rgba(150,60,190,.10), transparent 60%),
+      radial-gradient(900px 900px at 90% 105%, rgba(210,49,61,.08), transparent 60%),
+      radial-gradient(1400px 1000px at 50% 50%, #06070f, #020208 90%);
+  }
+  .space::before,.space::after{content:"";position:absolute;inset:-50%;background-repeat:repeat}
+  .space::before{
+    background-image:
+      radial-gradient(1.4px 1.4px at 20% 30%, rgba(255,255,255,.9), transparent),
+      radial-gradient(1.4px 1.4px at 70% 20%, rgba(255,255,255,.7), transparent),
+      radial-gradient(1.8px 1.8px at 40% 70%, rgba(255,255,255,.85), transparent),
+      radial-gradient(1.2px 1.2px at 85% 60%, rgba(200,225,255,.7), transparent),
+      radial-gradient(1.4px 1.4px at 15% 85%, rgba(255,255,255,.75), transparent),
+      radial-gradient(1.2px 1.2px at 60% 92%, rgba(255,240,220,.65), transparent),
+      radial-gradient(1.5px 1.5px at 32% 12%, rgba(255,255,255,.7), transparent),
+      radial-gradient(1.2px 1.2px at 92% 40%, rgba(255,255,255,.6), transparent);
+    background-size:520px 520px;
+    animation:drift 240s linear infinite}
+  .space::after{
+    background-image:
+      radial-gradient(1px 1px at 50% 40%, rgba(255,255,255,.6), transparent),
+      radial-gradient(1px 1px at 25% 65%, rgba(255,255,255,.5), transparent),
+      radial-gradient(1px 1px at 80% 80%, rgba(255,255,255,.55), transparent),
+      radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,.5), transparent),
+      radial-gradient(1px 1px at 65% 15%, rgba(255,255,255,.45), transparent);
+    background-size:300px 300px;opacity:.7;
+    animation:drift 400s linear infinite reverse}
+  @keyframes drift{to{transform:translate(-260px,-260px)}}
+
+  /* ===== TOPBAR ===== */
+  .stick{position:sticky;top:0;z-index:20}
+  .topbar{backdrop-filter:blur(12px);
+    background:rgba(3,4,10,.9);border-bottom:1px solid var(--line)}
+  .topbar-inner{max-width:1220px;margin:0 auto;padding:13px 22px;
+    display:flex;align-items:center;gap:22px;flex-wrap:wrap}
+  .brand{display:flex;align-items:center;gap:12px;min-width:180px}
+  .brand-mark{color:var(--accent);font-size:20px;filter:drop-shadow(0 0 8px rgba(255,232,31,.6))}
+  .brand-txt h1{margin:0;font-size:15px;font-weight:800;letter-spacing:.17em;text-transform:uppercase}
+  .brand-txt p{margin:2px 0 0;font-size:11px;color:var(--muted);letter-spacing:.05em}
+  .progress{flex:1;min-width:230px}
+  .progress-meta{display:flex;align-items:baseline;gap:10px;margin-bottom:8px}
+  #pct{font-size:22px;font-weight:800;color:var(--saber);font-variant-numeric:tabular-nums;
+    text-shadow:0 0 12px rgba(55,182,255,.6)}
+  .count{font-size:12px;color:var(--muted);letter-spacing:.04em;text-transform:uppercase}
+
+  /* ===== SABLE DE LUZ (barra de progreso) ===== */
+  .saber{display:flex;align-items:center;height:14px}
+  .hilt{flex:0 0 auto;width:34px;height:13px;border-radius:3px 5px 5px 3px;position:relative;z-index:3;
+    background:linear-gradient(180deg,#9aa0ad 0%,#4a4e58 42%,#23262f 60%,#585c66 100%);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.5),inset 0 -1px 0 rgba(0,0,0,.5),0 1px 3px #000}
+  .hilt::before{content:"";position:absolute;left:6px;top:1px;bottom:1px;width:2px;background:rgba(0,0,0,.45);
+    box-shadow:4px 0 0 rgba(0,0,0,.4),8px 0 0 rgba(0,0,0,.4)}
+  .hilt::after{content:"";position:absolute;right:-4px;top:2px;bottom:2px;width:5px;border-radius:1px;
+    background:linear-gradient(180deg,#d6d9df,#9498a2)}
+  .blade-track{flex:1;height:8px;border-radius:99px;margin-left:-1px;position:relative;
+    background:rgba(120,180,255,.05);box-shadow:inset 0 0 0 1px rgba(120,180,255,.06)}
+  .blade{height:100%;width:0;border-radius:99px;position:relative;
+    background:linear-gradient(90deg,#fdffff,color-mix(in srgb,var(--saber) 42%,#fff) 28%,var(--saber));
+    box-shadow:0 0 6px var(--saber),0 0 15px var(--saber),0 0 30px color-mix(in srgb,var(--saber) 55%,transparent);
+    transition:width .55s cubic-bezier(.4,0,.2,1),box-shadow .5s ease}
+  .blade.igniting{transition:width 1s cubic-bezier(.16,.9,.24,1),box-shadow .5s ease}
+  .blade::before{content:"";position:absolute;left:2px;right:6px;top:1px;height:2px;border-radius:99px;
+    background:rgba(255,255,255,.92)}
+  .blade::after{content:"";position:absolute;right:-4px;top:50%;transform:translateY(-50%);
+    width:11px;height:11px;border-radius:50%;background:#fff;
+    box-shadow:0 0 8px #fff,0 0 18px var(--saber),0 0 30px var(--saber)}
+  /* Al completar el 100% — pulso lado oscuro */
+  body.maxed .blade{animation:saberPulse 1.5s ease-in-out infinite}
+  body.maxed .blade::after{animation:tipPulse 1.5s ease-in-out infinite}
+  body.maxed #pct{animation:pctPulse 1.5s ease-in-out infinite}
+  @keyframes saberPulse{
+    0%,100%{box-shadow:0 0 6px var(--saber),0 0 15px var(--saber),0 0 30px color-mix(in srgb,var(--saber) 55%,transparent)}
+    50%{box-shadow:0 0 12px var(--saber),0 0 30px var(--saber),0 0 60px var(--saber)}}
+  @keyframes tipPulse{0%,100%{transform:translateY(-50%) scale(1)}50%{transform:translateY(-50%) scale(1.4)}}
+  @keyframes pctPulse{0%,100%{text-shadow:0 0 12px color-mix(in srgb,var(--saber) 60%,transparent)}50%{text-shadow:0 0 22px var(--saber),0 0 40px var(--saber)}}
+
+  .actions{display:flex;gap:8px;flex-wrap:wrap}
+  .btn{font-family:inherit;font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+    color:var(--txt);background:var(--panel-2);border:1px solid var(--line);
+    padding:9px 13px;border-radius:9px;cursor:pointer;transition:.18s;white-space:nowrap;
+    display:inline-flex;align-items:center;gap:7px}
+  .btn .ic{width:15px;height:15px;flex:0 0 auto;display:none}
+  .btn:hover{border-color:var(--accent);color:var(--accent)}
+  .btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .btn-ghost{background:transparent;color:var(--muted)}
+  .btn-ghost:hover{border-color:var(--e-pre);color:var(--e-pre)}
+
+  /* ===== TOOLBAR ===== */
+  .toolbar{backdrop-filter:blur(12px);
+    background:rgba(3,4,10,.82);border-bottom:1px solid var(--line-soft)}
+  .toolbar-inner{max-width:1220px;margin:0 auto;padding:10px 22px;
+    display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .filters{display:flex;gap:7px}
+  .chip{font-family:inherit;font-size:12px;font-weight:700;letter-spacing:.04em;
+    color:var(--muted);background:var(--panel-2);border:1px solid var(--line);
+    padding:7px 15px;border-radius:99px;cursor:pointer;transition:.18s}
+  .chip:hover{color:var(--txt)}
+  .chip.active{color:#08090d;background:var(--accent);border-color:var(--accent)}
+  .chip:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .tool-label{font-size:11px;color:var(--muted-2);letter-spacing:.1em;text-transform:uppercase}
+  .toolbar .spacer{flex:1}
+
+  /* ===== TIMELINE ===== */
+  main{position:relative;z-index:1;max-width:1220px;margin:0 auto;padding:24px 22px 60px}
+  .era{position:relative;padding:16px 0 10px 60px}
+  .era::before{content:"";position:absolute;left:21px;top:0;bottom:-16px;width:2px;
+    background:linear-gradient(var(--era),color-mix(in srgb,var(--era) 22%,transparent));
+    box-shadow:0 0 10px -2px var(--era)}
+  .era:last-child::before{bottom:55%}
+  .era-node{position:absolute;left:11px;top:20px;width:22px;height:22px;border-radius:50%;
+    background:var(--bg);border:2px solid var(--era);
+    box-shadow:0 0 14px -1px var(--era),0 0 4px var(--era);z-index:2}
+  .era-head{margin-bottom:10px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+  .era-title{margin:0;font-size:17px;font-weight:800;letter-spacing:.02em;color:#fff}
+  .era-kicker{font-size:10.5px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--era)}
+  .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:15px}
+
+  /* ===== CARD ===== */
+  .card{position:relative;text-align:left;font-family:inherit;color:inherit;cursor:pointer;
+    background:transparent;border:none;padding:0;display:flex;flex-direction:column;gap:8px;transition:transform .18s}
+  .card:hover{transform:translateY(-4px)}
+  .card:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:12px}
+  .poster{position:relative;border-radius:10px;overflow:hidden;background:var(--panel-2);
+    border:1px solid var(--line);box-shadow:var(--shadow);aspect-ratio:2/3}
+  .poster img{width:100%;height:100%;object-fit:cover;display:block;
+    filter:grayscale(1) brightness(.58) contrast(.95);transition:filter .4s}
+  .poster.noimg img{display:none}
+  .poster.noimg::after{content:attr(data-t);position:absolute;inset:0;display:grid;place-items:center;
+    padding:10px;text-align:center;font-size:12px;font-weight:700;color:#aeb4c2;
+    background:radial-gradient(120% 90% at 50% 15%,color-mix(in srgb,var(--era) 40%,#000),#05060a 80%)}
+  .poster::after{content:"";position:absolute;inset:0;pointer-events:none;
+    box-shadow:inset 0 -38px 34px -20px rgba(0,0,0,.55)}
+  .seqnum{position:absolute;top:7px;left:7px;z-index:2;min-width:25px;height:25px;padding:0 6px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:12px;font-weight:800;font-variant-numeric:tabular-nums;
+    color:#eef1f7;background:rgba(0,0,0,.62);border:1.5px solid color-mix(in srgb,var(--era) 70%,rgba(255,255,255,.25));
+    border-radius:99px;backdrop-filter:blur(2px)}
+  .tick{position:absolute;top:7px;right:7px;z-index:3;width:25px;height:25px;border-radius:50%;
+    display:grid;place-items:center;background:rgba(0,0,0,.5);border:1.5px solid rgba(255,255,255,.3);transition:.2s}
+  .tick svg{width:14px;height:14px;stroke:transparent}
+  .body{display:flex;flex-direction:column;gap:2px;padding:0 2px}
+  .title{font-size:13px;font-weight:700;line-height:1.22}
+  .meta{font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums;line-height:1.35}
+  .ep-toggle{margin-top:6px;font-family:inherit;font-size:10px;font-weight:700;letter-spacing:.06em;
+    text-transform:uppercase;color:var(--era);background:none;border:none;padding:4px 0 0;cursor:pointer;text-align:left}
+  .ep-toggle:hover{filter:brightness(1.25)}
+  .ep-toggle:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+  .ep-toggle .caret{display:inline-block;transition:transform .2s}
+  .ep-toggle[aria-expanded="true"] .caret{transform:rotate(90deg)}
+  .eplist{list-style:none;margin:6px 0 0;padding:6px 0 0;border-top:1px solid var(--line-soft);
+    display:none;flex-direction:column;gap:1px}
+  .eplist.open{display:flex}
+  .eplist li{font-size:10px;color:var(--muted-2);line-height:1.42;padding-left:10px;position:relative;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .eplist li::before{content:"";position:absolute;left:0;top:6px;width:4px;height:4px;border-radius:50%;
+    background:color-mix(in srgb,var(--era) 75%,transparent)}
+  .card.done .eplist li{color:var(--muted)}
+
+  .card.done .poster img{filter:none}
+  .card.done .poster{border-color:color-mix(in srgb,var(--era) 70%,transparent);
+    box-shadow:0 0 0 1px color-mix(in srgb,var(--era) 40%,transparent),0 12px 30px -8px color-mix(in srgb,var(--era) 60%,transparent)}
+  .card.done .tick{background:var(--era);border-color:var(--era);box-shadow:0 0 12px -1px var(--era)}
+  .card.done .tick svg{stroke:#08090d}
+  .card.done .title{color:#fff}
+  .card.film.done .poster{box-shadow:0 0 0 1px rgba(255,232,31,.45),0 12px 30px -8px rgba(255,232,31,.55)}
+  .card.film.done .tick{background:var(--accent);border-color:var(--accent);box-shadow:0 0 13px -1px var(--accent)}
+
+  .card.hide{display:none}
+  .era.hide{display:none}
+
+  /* ===== COMPACTO ===== */
+  main.compact .cards{grid-template-columns:1fr;gap:7px}
+  main.compact .card{flex-direction:row;align-items:center;gap:12px;
+    background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:7px 13px 7px 9px}
+  main.compact .card:hover{transform:none;border-color:color-mix(in srgb,var(--era) 55%,var(--line))}
+  main.compact .poster{width:36px;flex:0 0 36px;box-shadow:none;border-radius:5px}
+  main.compact .poster::after{display:none}
+  main.compact .seqnum{position:static;min-width:30px;height:auto;padding:0;background:none;border:none;
+    color:var(--era);font-size:13px;flex:0 0 30px;justify-content:center;backdrop-filter:none}
+  main.compact .cnum{order:-1}
+  main.compact .body{flex:1;padding:0}
+  main.compact .tick{position:static;margin-left:auto;flex:0 0 auto}
+  main.compact .eplist,main.compact .ep-toggle{display:none}
+
+  /* ===== MODAL ===== */
+  .modal-backdrop{position:fixed;inset:0;z-index:60;display:grid;place-items:center;padding:20px;
+    background:rgba(2,3,8,.74);backdrop-filter:blur(6px)}
+  .modal-backdrop[hidden]{display:none}
+  .modal{max-width:410px;width:100%;text-align:center;border-radius:16px;padding:28px 26px 24px;
+    background:linear-gradient(180deg,var(--panel),#08090f);
+    border:1px solid var(--line);
+    box-shadow:0 24px 60px rgba(0,0,0,.65),0 0 0 1px rgba(226,73,58,.14),0 0 40px -10px rgba(226,73,58,.4);
+    animation:pop .22s cubic-bezier(.2,.9,.3,1.3)}
+  @keyframes pop{from{opacity:0;transform:translateY(10px) scale(.96)}to{opacity:1;transform:none}}
+  .modal-icon{width:54px;height:54px;margin:0 auto 15px;border-radius:50%;display:grid;place-items:center;
+    font-size:26px;color:var(--e-pre);background:rgba(226,73,58,.12);
+    border:1px solid rgba(226,73,58,.4);box-shadow:0 0 22px -4px var(--e-pre)}
+  .modal h3{margin:0 0 9px;font-size:19px;font-weight:800;letter-spacing:.01em;color:#fff}
+  .modal p{margin:0 0 22px;font-size:13px;color:var(--muted);line-height:1.55}
+  .modal-actions{display:flex;gap:9px;justify-content:center;flex-wrap:wrap}
+  .mbtn-danger{font-family:inherit;font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+    color:#fff;background:linear-gradient(180deg,#e2493a,#b32a24);border:1px solid #e2493a;
+    padding:10px 18px;border-radius:9px;cursor:pointer;transition:.18s;box-shadow:0 0 18px -5px var(--e-pre)}
+  .mbtn-danger:hover{filter:brightness(1.12);box-shadow:0 0 24px -3px var(--e-pre)}
+  .mbtn-danger:focus-visible,.modal .btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+  .foot{position:relative;z-index:1;max-width:840px;margin:0 auto;padding:6px 22px 60px;text-align:center}
+  .foot p{font-size:12.5px;color:var(--muted);margin:8px 0}
+  .foot strong{color:var(--txt)}
+  .foot-note{font-size:11px;color:var(--muted-2)}
+  .version{font-size:11px;color:var(--muted-2);letter-spacing:.04em;margin-top:14px}
+  .ver-tag{display:inline-block;font-weight:700;color:var(--saber);border:1px solid color-mix(in srgb,var(--saber) 45%,var(--line));
+    background:color-mix(in srgb,var(--saber) 12%,transparent);border-radius:99px;padding:2px 9px;
+    font-variant-numeric:tabular-nums}
+
+  .toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,20px);z-index:50;
+    background:var(--panel-2);border:1px solid var(--saber);color:var(--txt);
+    padding:11px 18px;border-radius:10px;font-size:13px;font-weight:600;
+    box-shadow:0 0 20px rgba(55,182,255,.3),var(--shadow);opacity:0;pointer-events:none;transition:.3s}
+  .toast.show{opacity:1;transform:translate(-50%,0)}
+
+  @media (max-width:640px){
+    .btn .ic{display:block}
+    .btn .btxt{display:none}
+    .btn{padding:9px 11px}
+    .tool-label{display:none}
+    .brand{min-width:0;flex:1}
+    .progress{min-width:100%;order:3}
+    .actions{order:2}
+  }
+  @media (max-width:560px){
+    .cards{grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:11px}
+    .era{padding-left:48px}.era::before{left:17px}.era-node{left:7px}
+  }
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<div class="space" aria-hidden="true"></div>
+
+<div class="stick">
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <span class="brand-mark">◆</span>
+      <div class="brand-txt">
+        <h1>Orden del Canon</h1>
+        <p>Star Wars · secuencia de visionado · jul 2026</p>
+      </div>
+    </div>
+    <div class="progress">
+      <div class="progress-meta">
+        <span id="pct">0%</span>
+        <span id="count" class="count">0 / 0 vistos</span>
+      </div>
+      <div class="saber">
+        <div class="hilt"></div>
+        <div class="blade-track"><div class="blade" id="barFill"></div></div>
+      </div>
+    </div>
+    <div class="actions">
+      <button type="button" id="btnSave" class="btn" title="Guardar JSON">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
+        <span class="btxt">Guardar JSON</span></button>
+      <button type="button" id="btnLoad" class="btn" title="Cargar JSON">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 9l5-5 5 5"/><path d="M12 4v12"/></svg>
+        <span class="btxt">Cargar JSON</span></button>
+      <button type="button" id="btnReset" class="btn btn-ghost" title="Reiniciar">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>
+        <span class="btxt">Reiniciar</span></button>
+      <input type="file" id="fileInput" accept="application/json,.json" hidden>
+    </div>
+  </div>
+</header>
+
+<div class="toolbar">
+  <div class="toolbar-inner">
+    <span class="tool-label">Mostrar</span>
+    <div class="filters" role="group" aria-label="Filtrar">
+      <button type="button" class="chip active" data-filter="all">Todos</button>
+      <button type="button" class="chip" data-filter="film">Películas</button>
+      <button type="button" class="chip" data-filter="tv">Series</button>
+    </div>
+    <span class="spacer"></span>
+    <button type="button" id="btnCompact" class="btn btn-ghost" title="Compactar">
+      <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
+      <span class="btxt">Compactar</span></button>
+  </div>
+</div>
+</div>
+
+<main id="root"></main>
+
+<footer class="foot">
+  <p>Secuencia continua de visionado, numerada del 01 en adelante. Cada tramo de The Clone Wars con salto de orden es su propia tarjeta; márcalas todas a la vista.</p>
+  <p class="foot-note">Portadas oficiales cortesía de TMDB. Orden basado en las guías de Lucasfilm y StarWars.com. El Episodio III va entre los arcos de la Temporada 7: el Sitio de Mandalore transcurre en paralelo y la Orden 66 sucede en ambos.</p>
+  <p class="version"><span class="ver-tag" id="verTag">v1.0.0</span> · actualizado <span id="verDate">2026-07-23</span></p>
+</footer>
+
+<div class="modal-backdrop" id="modal" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+    <div class="modal-icon" aria-hidden="true">⚠</div>
+    <h3 id="mTitle">¿Reiniciar tu progreso?</h3>
+    <p>Se desmarcarán todas las entradas y volverás al 0%. Esta acción no se puede deshacer. Si quieres conservarlo, descarga primero tu JSON.</p>
+    <div class="modal-actions">
+      <button type="button" class="btn" id="mSave">Guardar JSON antes</button>
+      <button type="button" class="btn btn-ghost" id="mCancel">Cancelar</button>
+      <button type="button" class="mbtn-danger" id="mConfirm">Sí, reiniciar</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  "use strict";
+  var KEY="sw-canon-explode-v1";
+  var APP_VERSION="1.0.0", APP_UPDATED="2026-07-23";
+  (function(){ var t=document.getElementById("verTag"), d=document.getElementById("verDate");
+    if(t) t.textContent="v"+APP_VERSION; if(d) d.textContent=APP_UPDATED; })();
+
+  // Épocas = paradas de la línea de tiempo. La numeración es global y continua.
+  var ERAS=[
+    { era:"Alta República", kicker:"Siglos antes de la saga", color:"var(--e-hr)", cards:[
+      {id:"yja",p:"yja",t:"Young Jedi Adventures",m:"Serie · público infantil",k:"tv"},
+      {id:"acolyte",p:"acolyte",t:"The Acolyte",m:"T1 · 8 episodios",k:"tv"},
+    ]},
+    { era:"Caída de los Jedi", kicker:"Precuelas", color:"var(--e-pre)", cards:[
+      {id:"toj-e2",p:"toj",t:"Tales of the Jedi · Justice",m:"T1 · E2 · joven Dooku",k:"tv"},
+      {id:"toj-e3",p:"toj",t:"Tales of the Jedi · Choices",m:"T1 · E3 · Dooku y Mace",k:"tv"},
+      {id:"toj-e1",p:"toj",t:"Tales of the Jedi · Life and Death",m:"T1 · E1 · nace Ahsoka",k:"tv"},
+      {id:"ep1",p:"ep1",t:"Episodio I: La amenaza fantasma",m:"Película · 1999",k:"film"},
+      {id:"toj-e4",p:"toj",t:"Tales of the Jedi · The Sith Lord",m:"T1 · E4 · Dooku cae",k:"tv"},
+      {id:"ep2",p:"ep2",t:"Episodio II: El ataque de los clones",m:"Película · 2002",k:"film"},
+    ]},
+    { era:"Las Guerras Clon", kicker:"Orden cronológico oficial", color:"var(--e-clone)", cards:[
+      {id:"cw-a",p:"tcw",t:"The Clone Wars",m:"T2 E16 · Cat and Mouse",k:"tv"},
+      {id:"cw-b",p:"tcw",t:"The Clone Wars",m:"T1 E16 · Hidden Enemy",k:"tv"},
+      {id:"cw-film",p:"cwfilm",t:"The Clone Wars · La Película",m:"Película · 2008",k:"film"},
+      {id:"cw-c",p:"tcw",t:"The Clone Wars",m:"T3 E1 · Clone Cadets",k:"tv"},
+      {id:"cw-d",p:"tcw",t:"The Clone Wars",m:"T3 E3 · Supply Lines",k:"tv"},
+      {id:"cw-e",p:"tcw",t:"The Clone Wars",m:"T1 E1–15 · Malevolence y Grievous",k:"tv",ep:[
+        "E1 Ambush","E2 Rising Malevolence","E3 Shadow of Malevolence","E4 Destroy Malevolence","E5 Rookies",
+        "E6 Downfall of a Droid","E7 Duel of the Droids","E8 Bombad Jedi","E9 Cloak of Darkness","E10 Lair of Grievous",
+        "E11 Dooku Captured","E12 The Gungan General","E13 Jedi Crash","E14 Defenders of Peace","E15 Trespass"]},
+      {id:"cw-f",p:"tcw",t:"The Clone Wars",m:"T1 E17–21 · Virus y Ryloth",k:"tv",ep:[
+        "E17 Blue Shadow Virus","E18 Mystery of a Thousand Moons","E19 Storm Over Ryloth","E20 Innocents of Ryloth","E21 Liberty on Ryloth"]},
+      {id:"cw-g",p:"tcw",t:"The Clone Wars",m:"T2 E1–3 · Robo del holocrón",k:"tv",ep:[
+        "E1 Holocron Heist","E2 Cargo of Doom","E3 Children of the Force"]},
+      {id:"cw-h",p:"tcw",t:"The Clone Wars",m:"T2 E17–19 · Bounty Hunters y el Zillo",k:"tv",ep:[
+        "E17 Bounty Hunters","E18 The Zillo Beast","E19 The Zillo Beast Strikes Back"]},
+      {id:"cw-i",p:"tcw",t:"The Clone Wars",m:"T2 E4–14 · Geonosis y Mandalore",k:"tv",ep:[
+        "E4 Senate Spy","E5 Landing at Point Rain","E6 Weapons Factory","E7 Legacy of Terror","E8 Brain Invaders",
+        "E9 Grievous Intrigue","E10 The Deserter","E11 Lightsaber Lost","E12 The Mandalore Plot","E13 Voyage of Temptation","E14 Duchess of Mandalore"]},
+      {id:"cw-j",p:"tcw",t:"The Clone Wars",m:"T2 E20–22 · Death Trap (Boba)",k:"tv",ep:[
+        "E20 Death Trap","E21 R2 Come Home","E22 Lethal Trackdown"]},
+      {id:"cw-k",p:"tcw",t:"The Clone Wars",m:"T3 E5–7 · Corrupción en Mandalore",k:"tv",ep:[
+        "E5 Corruption","E6 The Academy","E7 Assassin"]},
+      {id:"cw-l",p:"tcw",t:"The Clone Wars",m:"T3 E2 · ARC Troopers (Kamino)",k:"tv"},
+      {id:"cw-m",p:"tcw",t:"The Clone Wars",m:"T3 E4 · Sphere of Influence",k:"tv"},
+      {id:"cw-n",p:"tcw",t:"The Clone Wars",m:"T3 E8 · Evil Plans",k:"tv"},
+      {id:"cw-o",p:"tcw",t:"The Clone Wars",m:"T1 E22 · Hostage Crisis (Cad Bane)",k:"tv"},
+      {id:"cw-p",p:"tcw",t:"The Clone Wars",m:"T3 E9–11 · Senado y política",k:"tv",ep:[
+        "E9 Hunt for Ziro","E10 Heroes on Both Sides","E11 Pursuit of Peace"]},
+      {id:"cw-q",p:"tcw",t:"The Clone Wars",m:"T2 E15 · Senate Murders",k:"tv"},
+      {id:"cw-r",p:"tcw",t:"The Clone Wars",m:"T3 E12–22 · Hermanas · Mortis · Ciudadela",k:"tv",ep:[
+        "E12 Nightsisters","E13 Monster","E14 Witches of the Mist","E15 Overlords","E16 Altar of Mortis","E17 Ghosts of Mortis",
+        "E18 The Citadel","E19 Counterattack","E20 Citadel Rescue","E21 Padawan Lost","E22 Wookiee Hunt"]},
+      {id:"cw-s",p:"tcw",t:"The Clone Wars",m:"T4 E1–22 · Umbara y el regreso de Maul",k:"tv",ep:[
+        "E1 Water War","E2 Gungan Attack","E3 Prisoners","E4 Shadow Warrior","E5 Mercy Mission","E6 Nomad Droids",
+        "E7 Darkness on Umbara","E8 The General","E9 Plan of Dissent","E10 Carnage of Krell","E11 Kidnapped",
+        "E12 Slaves of the Republic","E13 Escape from Kadavo","E14 A Friend in Need","E15 Deception","E16 Friends and Enemies",
+        "E17 The Box","E18 Crisis on Naboo","E19 Massacre","E20 Bounty","E21 Brothers","E22 Revenge"]},
+      {id:"cw-t",p:"tcw",t:"The Clone Wars",m:"T5 E2–13 · Onderon y Younglings",k:"tv",ep:[
+        "E2 A War on Two Fronts","E3 Front Runners","E4 The Soft War","E5 Tipping Points","E6 The Gathering","E7 A Test of Strength",
+        "E8 Bound for Rescue","E9 A Necessary Bond","E10 Secret Weapons","E11 A Sunny Day in the Void","E12 Missing in Action","E13 Point of No Return"]},
+      {id:"cw-u",p:"tcw",t:"The Clone Wars",m:"T5 E1 · Revival (Maul y Savage)",k:"tv"},
+      {id:"cw-v",p:"tcw",t:"The Clone Wars",m:"T5 E14–20 · Mandalore y juicio de Ahsoka",k:"tv",ep:[
+        "E14 Eminence","E15 Shades of Reason","E16 The Lawless","E17 Sabotage","E18 The Jedi Who Knew Too Much","E19 To Catch a Jedi","E20 The Wrong Jedi"]},
+      {id:"cw-w",p:"tcw",t:"The Clone Wars",m:"T6 E1–13 · Los chips y Yoda",k:"tv",ep:[
+        "E1 The Unknown","E2 Conspiracy","E3 Fugitive","E4 Orders","E5 An Old Friend","E6 The Rise of Clovis","E7 Crisis at the Heart",
+        "E8 The Disappeared I","E9 The Disappeared II","E10 The Lost One","E11 Voices","E12 Destiny","E13 Sacrifice"]},
+      {id:"cw-x",p:"tcw",t:"The Clone Wars",m:"T7 E5–8 · Trace y Rafa",k:"tv",ep:[
+        "E5 Gone with a Trace","E6 Deal No Deal","E7 Dangerous Debt","E8 Together Again"]},
+      {id:"cw-y",p:"tcw",t:"The Clone Wars",m:"T7 E1–4 · El regreso de Echo",k:"tv",ep:[
+        "E1 The Bad Batch","E2 A Distant Echo","E3 On the Wings of Keeradaks","E4 Unfinished Business"]},
+      {id:"ep3",p:"ep3",t:"Episodio III: La venganza de los Sith",m:"Película · 2005 · Orden 66",k:"film"},
+      {id:"cw-z",p:"tcw",t:"The Clone Wars · Sitio de Mandalore",m:"T7 E9–12 · en paralelo al Ep. III",k:"tv",ep:[
+        "E9 Old Friends Not Forgotten","E10 The Phantom Apprentice","E11 Shattered","E12 Victory and Death"]},
+      {id:"toj-prac",p:"toj",t:"Tales of the Jedi · Practice",m:"T1 · E5 · Ahsoka",k:"tv"},
+    ]},
+    { era:"Nacimiento del Imperio", kicker:"Orden 66 y secuelas", color:"var(--e-imp)", cards:[
+      {id:"toe-dev",p:"toe",t:"Tales of the Empire · Devoted",m:"T1 · E4 · durante la Orden 66",k:"tv"},
+      {id:"toj-res",p:"toj",t:"Tales of the Jedi · Resolve",m:"T1 · E6 · Ahsoka oculta",k:"tv"},
+      {id:"badbatch",p:"badbatch",t:"The Bad Batch",m:"T1–T3 completas",k:"tv"},
+      {id:"underworld",p:"underworld",t:"Tales of the Underworld",m:"Cad Bane y Ventress",k:"tv"},
+      {id:"toe-rest",p:"toe",t:"Tales of the Empire (resto)",m:"T1 · Morgan Elsbeth",k:"tv"},
+      {id:"maul",p:"maul",t:"Maul: Shadow Lord",m:"T1 · 2026",k:"tv"},
+    ]},
+    { era:"Era de la Rebelión", kicker:"Trilogía original", color:"var(--e-reb)", cards:[
+      {id:"solo",p:"solo",t:"Solo: Una historia de Star Wars",m:"Película · 2018",k:"film"},
+      {id:"kenobi",p:"kenobi",t:"Obi-Wan Kenobi",m:"T1 · 6 episodios",k:"tv"},
+      {id:"andor1",p:"andor",t:"Andor — Temporada 1",m:"T1 · 12 episodios",k:"tv"},
+      {id:"rebels12",p:"rebels",t:"Rebels — T1 y T2",m:"Serie animada",k:"tv"},
+      {id:"andor2",p:"andor",t:"Andor — Temporada 2",m:"T2 · 12 episodios",k:"tv"},
+      {id:"rebels34",p:"rebels",t:"Rebels — T3 y T4",m:"Serie animada · epílogo tardío",k:"tv"},
+      {id:"rogue",p:"rogue",t:"Rogue One",m:"Película · 2016 · pega con el IV",k:"film"},
+      {id:"ep4",p:"ep4",t:"Episodio IV: Una nueva esperanza",m:"Película · 1977",k:"film"},
+      {id:"ep5",p:"ep5",t:"Episodio V: El Imperio contraataca",m:"Película · 1980",k:"film"},
+      {id:"ep6",p:"ep6",t:"Episodio VI: El regreso del Jedi",m:"Película · 1983",k:"film"},
+    ]},
+    { era:"Nueva República", kicker:"El Mandoverso", color:"var(--e-nr)", cards:[
+      {id:"mando1",p:"mando",t:"The Mandalorian — T1",m:"Temporada 1",k:"tv"},
+      {id:"mando2",p:"mando",t:"The Mandalorian — T2",m:"Temporada 2",k:"tv"},
+      {id:"boba",p:"boba",t:"The Book of Boba Fett",m:"T1 · caps 5–7 = Mando T2.5",k:"tv"},
+      {id:"mando3",p:"mando",t:"The Mandalorian — T3",m:"Temporada 3",k:"tv"},
+      {id:"ahsoka",p:"ahsoka",t:"Ahsoka",m:"T1 · secuela de Rebels",k:"tv"},
+      {id:"skeleton",p:"skeleton",t:"Skeleton Crew",m:"T1 · 8 episodios",k:"tv"},
+      {id:"mandogrogu",p:"mandogrogu",t:"The Mandalorian & Grogu",m:"Película · tras Skeleton Crew",k:"film"},
+    ]},
+    { era:"Primera Orden", kicker:"Trilogía secuela", color:"var(--e-fo)", cards:[
+      {id:"res-a",p:"resistance",t:"Resistance — T1 E1–17",m:"Serie animada",k:"tv"},
+      {id:"ep7",p:"ep7",t:"Episodio VII: El despertar de la Fuerza",m:"Película · 2015",k:"film"},
+      {id:"res-b",p:"resistance",t:"Resistance — T1 E18–21",m:"Serie",k:"tv"},
+      {id:"res-c",p:"resistance",t:"Resistance — T2 E1",m:"Serie",k:"tv"},
+      {id:"ep8",p:"ep8",t:"Episodio VIII: Los últimos Jedi",m:"Película · 2017",k:"film"},
+      {id:"res-d",p:"resistance",t:"Resistance — T2 E2–19",m:"Serie",k:"tv"},
+      {id:"ep9",p:"ep9",t:"Episodio IX: El ascenso de Skywalker",m:"Película · 2019",k:"film"},
+    ]},
+  ];
+
+  var state={};
+  try{ state=JSON.parse(localStorage.getItem(KEY))||{}; }catch(e){ state={}; }
+  if(!state||typeof state!=="object") state={};
+  var ALL=[]; ERAS.forEach(function(s){ s.cards.forEach(function(c){ ALL.push(c.id); }); });
+  function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+  var CHECK='<svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17 4 12"/></svg>';
+
+  var root=document.getElementById("root");
+  var n=0, html="";
+  ERAS.forEach(function(sec){
+    var cardsHtml=sec.cards.map(function(c){
+      n++; var num=String(n).padStart(2,"0");
+      var done=!!state[c.id];
+      var eplist=c.ep?'<button type="button" class="ep-toggle" aria-expanded="false"><span class="caret">▸</span> '+c.ep.length+' capítulos</button><ul class="eplist">'+c.ep.map(function(x){return '<li>'+x+'</li>';}).join("")+'</ul>':'';
+      return '<article class="card '+(c.k==="film"?"film ":"")+(done?"done ":"")+'" data-id="'+c.id+'" data-kind="'+c.k+'" tabindex="0" role="button" aria-pressed="'+done+'" aria-label="'+num+'. '+c.t+'">'
+        + '<div class="poster" data-t="'+c.t+'">'
+        +   '<img src="posters/'+c.p+'.jpg" alt="Póster de '+c.t+'" loading="lazy" onerror="this.closest(\'.poster\').classList.add(\'noimg\')">'
+        +   '<span class="seqnum cnum">'+num+'</span>'
+        +   '<span class="tick">'+CHECK+'</span>'
+        + '</div>'
+        + '<div class="body"><div class="title">'+c.t+'</div><div class="meta">'+c.m+'</div>'+eplist+'</div>'
+        + '</article>';
+    }).join("");
+    html+='<section class="era" style="--era:'+sec.color+'">'
+      + '<span class="era-node"></span>'
+      + '<div class="era-head"><h2 class="era-title">'+sec.era+'</h2><span class="era-kicker">'+sec.kicker+'</span></div>'
+      + '<div class="cards">'+cardsHtml+'</div></section>';
+  });
+  root.innerHTML=html;
+
+  function toggle(card){
+    var id=card.getAttribute("data-id");
+    if(state[id]) delete state[id]; else state[id]=true;
+    var done=!!state[id];
+    card.classList.toggle("done", done);
+    card.setAttribute("aria-pressed", done);
+    save(); refresh();
+  }
+  root.addEventListener("click", function(e){
+    var tog=e.target.closest(".ep-toggle");
+    if(tog){
+      var list=tog.parentNode.querySelector(".eplist");
+      var open=list.classList.toggle("open");
+      tog.setAttribute("aria-expanded", open);
+      return;
+    }
+    var card=e.target.closest(".card"); if(card) toggle(card);
+  });
+  root.addEventListener("keydown", function(e){
+    if(e.target.closest(".ep-toggle")) return;   // el botón maneja su propio Enter/Espacio
+    var card=e.target.closest(".card"); if(!card) return;
+    if(e.key===" "||e.key==="Enter"){ e.preventDefault(); toggle(card); }
+  });
+
+  // Viaje del sable al lado oscuro: azul (Jedi) → verde → morado (Mace) → rojo (Sith).
+  // Interpolado en HSL para que los intermedios sean vivos, no grises.
+  var SABER_STOPS=[[0,[203,100,61]],[0.34,[150,47,50]],[0.67,[267,72,63]],[1,[360,72,56]]];
+  function hslToRgb(h,s,l){
+    h/=360;s/=100;l/=100;
+    function f(p,q,t){if(t<0)t+=1;if(t>1)t-=1;if(t<1/6)return p+(q-p)*6*t;if(t<1/2)return q;if(t<2/3)return p+(q-p)*(2/3-t)*6;return p;}
+    var r,g,b;
+    if(s===0){r=g=b=l;}else{var q=l<0.5?l*(1+s):l+s-l*s,p=2*l-q;r=f(p,q,h+1/3);g=f(p,q,h);b=f(p,q,h-1/3);}
+    return "rgb("+Math.round(r*255)+","+Math.round(g*255)+","+Math.round(b*255)+")";
+  }
+  function saberColor(t){
+    if(t<=0) return hslToRgb(203,100,61);
+    if(t>=1) return hslToRgb(360,72,56);
+    for(var i=1;i<SABER_STOPS.length;i++){
+      if(t<=SABER_STOPS[i][0]){
+        var a=SABER_STOPS[i-1], b=SABER_STOPS[i], f=(t-a[0])/(b[0]-a[0]);
+        return hslToRgb(a[1][0]+(b[1][0]-a[1][0])*f, a[1][1]+(b[1][1]-a[1][1])*f, a[1][2]+(b[1][2]-a[1][2])*f);
+      }
+    }
+    return hslToRgb(360,72,56);
+  }
+
+  var barFill=document.getElementById("barFill"), wasMax=false, ignited=false;
+  function refresh(ignite){
+    var done=ALL.filter(function(id){return state[id];}).length, total=ALL.length;
+    var pct=total?Math.round(done/total*100):0;
+    document.getElementById("pct").textContent=pct+"%";
+    document.getElementById("count").textContent=done+" / "+total+" vistos";
+    document.documentElement.style.setProperty("--saber", saberColor(pct/100));
+    if(ignite){
+      barFill.classList.add("igniting");
+      barFill.style.width="0%";
+      requestAnimationFrame(function(){ requestAnimationFrame(function(){ barFill.style.width=pct+"%"; }); });
+      setTimeout(function(){ barFill.classList.remove("igniting"); }, 1100);
+    } else {
+      barFill.style.width=pct+"%";
+    }
+    var max=(pct===100);
+    document.body.classList.toggle("maxed", max);
+    if(max && !wasMax && ignited){ toast("★ ¡Canon completo! Que la Fuerza te acompañe."); }
+    wasMax=max;
+  }
+
+  // Filtros
+  var chips=[].slice.call(document.querySelectorAll(".chip"));
+  chips.forEach(function(ch){
+    ch.addEventListener("click", function(){
+      chips.forEach(function(x){x.classList.remove("active");});
+      ch.classList.add("active");
+      var f=ch.getAttribute("data-filter");
+      [].forEach.call(root.querySelectorAll(".era"), function(era){
+        var vis=0;
+        [].forEach.call(era.querySelectorAll(".card"), function(card){
+          var hide=f!=="all" && card.getAttribute("data-kind")!==f;
+          card.classList.toggle("hide", hide); if(!hide) vis++;
+        });
+        era.classList.toggle("hide", vis===0);
+      });
+    });
+  });
+
+  // Compactar
+  var mainEl=document.getElementById("root"), btnC=document.getElementById("btnCompact");
+  btnC.addEventListener("click", function(){
+    var on=mainEl.classList.toggle("compact");
+    btnC.textContent=on?"Expandir":"Compactar";
+  });
+
+  // Toast + JSON
+  var toastEl=document.getElementById("toast"), toastT;
+  function toast(msg){ toastEl.textContent=msg; toastEl.classList.add("show");
+    clearTimeout(toastT); toastT=setTimeout(function(){toastEl.classList.remove("show");},2200); }
+
+  function downloadJSON(){
+    var payload={ app:"sw-canon-explode", appVersion:APP_VERSION, version:1, updated:new Date().toISOString(),
+      watched:ALL.filter(function(id){return state[id];}) };
+    var blob=new Blob([JSON.stringify(payload,null,2)],{type:"application/json"});
+    var url=URL.createObjectURL(blob), a=document.createElement("a");
+    a.href=url; a.download="starwars-progreso.json";
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function(){URL.revokeObjectURL(url);},1000);
+    toast("Progreso descargado ✓");
+  }
+  document.getElementById("btnSave").addEventListener("click", downloadJSON);
+  var fileInput=document.getElementById("fileInput");
+  document.getElementById("btnLoad").addEventListener("click", function(){ fileInput.click(); });
+  fileInput.addEventListener("change", function(){
+    var f=fileInput.files[0]; if(!f) return;
+    var r=new FileReader();
+    r.onload=function(){
+      try{
+        var data=JSON.parse(r.result);
+        var list=Array.isArray(data)?data:(data.watched||[]);
+        if(!Array.isArray(list)) throw 0;
+        state={}; list.forEach(function(id){ if(ALL.indexOf(id)>-1) state[id]=true; });
+        save();
+        [].forEach.call(root.querySelectorAll(".card"), function(c){
+          var d=!!state[c.getAttribute("data-id")];
+          c.classList.toggle("done",d); c.setAttribute("aria-pressed",d);
+        });
+        refresh(); toast("Progreso cargado ✓");
+      }catch(err){ toast("Archivo no válido"); }
+      fileInput.value="";
+    };
+    r.readAsText(f);
+  });
+  // Modal de reinicio
+  var modal=document.getElementById("modal"), lastFocus=null;
+  function openModal(){ lastFocus=document.activeElement; modal.hidden=false; document.getElementById("mConfirm").focus(); }
+  function closeModal(){ modal.hidden=true; if(lastFocus&&lastFocus.focus) lastFocus.focus(); }
+  document.getElementById("btnReset").addEventListener("click", openModal);
+  document.getElementById("mCancel").addEventListener("click", closeModal);
+  document.getElementById("mSave").addEventListener("click", downloadJSON);
+  modal.addEventListener("click", function(e){ if(e.target===modal) closeModal(); });
+  document.addEventListener("keydown", function(e){ if(e.key==="Escape"&&!modal.hidden) closeModal(); });
+  document.getElementById("mConfirm").addEventListener("click", function(){
+    state={}; save();
+    [].forEach.call(root.querySelectorAll(".card"), function(c){ c.classList.remove("done"); c.setAttribute("aria-pressed","false"); });
+    refresh(); closeModal(); toast("Progreso reiniciado");
+  });
+
+  // Encendido del sable al cargar: extiende de 0 hasta el progreso guardado
+  setTimeout(function(){ ignited=true; refresh(true); }, 260);
+})();
+</script>
+</body>
+</html>
