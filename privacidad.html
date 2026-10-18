@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacidad · Orden del Canon</title>
+<meta name="description" content="Qué datos usa la guía Orden del Canon de Star Wars, dónde quedan y cómo funciona la sincronización opcional con Google Drive.">
+<link rel="canonical" href="https://andersondavi.github.io/star-wars-canon-timeline/privacidad.html">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🪐</text></svg>">
+<style>
+  :root{ --bg:#03040a; --panel:#0c0d15; --line:#20222f; --txt:#dfe2ec; --muted:#8b90a3; --accent:#ffe81f; --saber:#37b6ff;
+    --font:"Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif; }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--txt);font:16px/1.65 var(--font);-webkit-font-smoothing:antialiased}
+  main{max-width:720px;margin:0 auto;padding:40px 16px 64px}
+  header{margin-bottom:28px}
+  header a{display:inline-flex;align-items:center;gap:10px;color:var(--txt);text-decoration:none;
+    font-size:14px;font-weight:800;letter-spacing:.17em;text-transform:uppercase}
+  header a span{color:var(--accent)}
+  h1{font-size:30px;line-height:1.2;margin:0 0 6px;color:#fff}
+  h2{font-size:19px;margin:32px 0 8px;color:#fff}
+  p,li{color:var(--muted)}
+  b,strong{color:var(--txt)}
+  a{color:var(--saber);text-underline-offset:2px}
+  code{font-size:14px;color:var(--txt)}
+  .fecha{font-size:14px;margin:0 0 24px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:4px 20px}
+</style>
+</head>
+<body>
+<main>
+  <header><a href="./"><span>◆</span> Orden del Canon</a></header>
+
+  <h1>Política de privacidad</h1>
+  <p class="fecha">Última actualización: 18 de octubre de 2026</p>
+
+  <div class="card">
+    <p><b>En resumen:</b> la guía no tiene servidor ni cuentas. Lo que marcas se queda en tu navegador. Si conectas Google Drive, tu progreso va a tu propio Drive y nadie más lo ve.</p>
+  </div>
+
+  <h2>Qué datos usa</h2>
+  <p>Solo tu progreso: qué películas y series marcaste como vistas y cuándo las marcaste o desmarcaste.</p>
+
+  <h2>Dónde quedan</h2>
+  <p>En el almacenamiento local de tu navegador (<code>localStorage</code>), en tu equipo. No se envían a ningún servidor de la guía porque no existe uno. Si borras los datos del sitio en el navegador, se borran.</p>
+  <p>El archivo que descargas con <b>Guardar JSON</b> queda en tu equipo.</p>
+
+  <h2>Sincronización con Google Drive (opcional)</h2>
+  <p>Si eliges <b>Conectar Drive</b>, la guía te pide permiso de Google con el alcance <code>drive.file</code>. Ese permiso solo deja ver y modificar los archivos que la guía crea; no da acceso al resto de tu Drive.</p>
+  <ul>
+    <li>Se crea la carpeta <b>Guía Star Wars</b> con el archivo <b>star-wars-progreso.json</b>, que contiene tu progreso.</li>
+    <li>Ese archivo se actualiza cuando marcas algo y se lee para combinarlo con el progreso de tus otros equipos.</li>
+    <li>La comunicación es directa entre tu navegador y Google. El permiso dura una hora, vive solo en la memoria de la página y no se guarda.</li>
+    <li>No usamos los datos de Google para publicidad, no los vendemos, no los compartimos y no los usamos para entrenar modelos de inteligencia artificial.</li>
+    <li>Puedes desconectar desde <b>Drive → Desconectar</b> o quitar el acceso en <a href="https://myaccount.google.com/connections" rel="noopener">tu cuenta de Google</a>. El archivo sigue en tu Drive hasta que tú lo borres.</li>
+  </ul>
+  <p>El uso de la información recibida de las API de Google cumple la <a href="https://developers.google.com/terms/api-services-user-data-policy" rel="noopener">Política de datos de usuario de los servicios de API de Google</a>, incluidos los requisitos de uso limitado.</p>
+
+  <h2>Analítica y cookies</h2>
+  <p>La guía no usa cookies propias ni herramientas de analítica o publicidad. Las portadas vienen de este mismo sitio. El sitio se sirve desde GitHub Pages, que puede registrar datos técnicos de las visitas (como la dirección IP) según su propia política.</p>
+
+  <h2>Código abierto</h2>
+  <p>El código está publicado en <a href="https://github.com/AndersonDavi/star-wars-canon-timeline" rel="noopener">GitHub</a>; cualquiera puede revisar qué hace con los datos.</p>
+
+  <h2>Contacto</h2>
+  <p>Preguntas sobre esta política: abre un mensaje en <a href="https://github.com/AndersonDavi/star-wars-canon-timeline/issues" rel="noopener">GitHub</a> o escríbele al autor por <a href="https://www.linkedin.com/in/anderson-david-rueda-consuegra/" rel="noopener">LinkedIn</a>.</p>
+</main>
+</body>
+</html>

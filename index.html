@@ -54,7 +54,7 @@
 
   /* ===== TOPBAR ===== */
   .stick{position:sticky;top:0;z-index:20}
-  .topbar{backdrop-filter:blur(12px);
+  .topbar{position:relative;z-index:2;backdrop-filter:blur(12px);
     background:rgba(3,4,10,.9);border-bottom:1px solid var(--line)}
   .topbar-inner{max-width:1220px;margin:0 auto;padding:13px 22px;
     display:flex;align-items:center;gap:22px;flex-wrap:wrap}
@@ -104,25 +104,43 @@
     color:var(--txt);background:var(--panel-2);border:1px solid var(--line);
     padding:9px 13px;border-radius:9px;cursor:pointer;transition:.18s;white-space:nowrap;
     display:inline-flex;align-items:center;gap:7px}
-  .btn .ic{width:15px;height:15px;flex:0 0 auto;display:none}
   .btn:hover{border-color:var(--accent);color:var(--accent)}
   .btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
   .btn-ghost{background:transparent;color:var(--muted)}
   .btn-ghost:hover{border-color:var(--e-pre);color:var(--e-pre)}
+  .drive-logo{width:16px;height:16px;flex:0 0 auto}
+  .btn-more{padding:9px 10px}
+  .btn-more svg{width:16px;height:16px}
+  .btn-more[aria-expanded="true"]{border-color:var(--accent);color:var(--accent)}
+
+  /* ===== MENÚ "MÁS" ===== */
+  .menu-wrap{position:relative}
+  .menu{position:absolute;right:0;top:calc(100% + 8px);z-index:40;min-width:240px;padding:6px;border-radius:12px;
+    background:linear-gradient(180deg,var(--panel),#08090f);border:1px solid var(--line);box-shadow:var(--shadow);
+    animation:pop .16s cubic-bezier(.2,.9,.3,1.3)}
+  .menu[hidden]{display:none}
+  .menu button{display:flex;align-items:center;gap:11px;width:100%;text-align:left;font-family:inherit;
+    font-size:13px;font-weight:600;color:var(--txt);background:none;border:0;border-radius:8px;padding:9px 10px;cursor:pointer}
+  .menu button svg{width:17px;height:17px;flex:0 0 auto;color:var(--muted);transition:color .18s}
+  .menu button small{display:block;font-size:11px;font-weight:500;color:var(--muted-2)}
+  .menu button:hover,.menu button:focus-visible{background:var(--panel-2);outline:none}
+  .menu button:hover svg,.menu button:focus-visible svg{color:var(--accent)}
+  .menu .danger,.menu .danger svg,.menu .danger:hover svg,.menu .danger:focus-visible svg{color:#f07a6e}
+  .menu-sep{height:1px;background:var(--line);margin:5px 4px}
 
   /* ===== TOOLBAR ===== */
   .toolbar{backdrop-filter:blur(12px);
     background:rgba(3,4,10,.82);border-bottom:1px solid var(--line-soft)}
   .toolbar-inner{max-width:1220px;margin:0 auto;padding:10px 22px;
     display:flex;align-items:center;gap:14px;flex-wrap:wrap}
-  .filters{display:flex;gap:7px}
-  .chip{font-family:inherit;font-size:12px;font-weight:700;letter-spacing:.04em;
-    color:var(--muted);background:var(--panel-2);border:1px solid var(--line);
-    padding:7px 15px;border-radius:99px;cursor:pointer;transition:.18s}
+  /* Controles segmentados: Mostrar (Todos/Películas/Series) y Orden (Cronológico/Estreno) */
+  .seg{display:flex;gap:3px;padding:3px;border-radius:99px;background:var(--panel-2);border:1px solid var(--line);flex:0 0 auto}
+  .chip{font-family:inherit;font-size:12px;font-weight:700;letter-spacing:.04em;white-space:nowrap;
+    color:var(--muted);background:transparent;border:0;
+    padding:6px 14px;border-radius:99px;cursor:pointer;transition:.18s}
   .chip:hover{color:var(--txt)}
-  .chip.active{color:#08090d;background:var(--accent);border-color:var(--accent)}
+  .chip.active{color:#08090d;background:var(--accent)}
   .chip:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-  .tool-label{font-size:11px;color:var(--muted-2);letter-spacing:.1em;text-transform:uppercase}
   .toolbar .spacer{flex:1}
 
   /* ===== TIMELINE ===== */
@@ -193,20 +211,6 @@
   .card.hide{display:none}
   .era.hide{display:none}
 
-  /* ===== COMPACTO ===== */
-  main.compact .cards{grid-template-columns:1fr;gap:7px}
-  main.compact .card{flex-direction:row;align-items:center;gap:12px;
-    background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:7px 13px 7px 9px}
-  main.compact .card:hover{transform:none;border-color:color-mix(in srgb,var(--era) 55%,var(--line))}
-  main.compact .poster{width:36px;flex:0 0 36px;box-shadow:none;border-radius:5px}
-  main.compact .poster::after{display:none}
-  main.compact .seqnum{position:static;min-width:30px;height:auto;padding:0;background:none;border:none;
-    color:var(--era);font-size:13px;flex:0 0 30px;justify-content:center;backdrop-filter:none}
-  main.compact .cnum{order:-1}
-  main.compact .body{flex:1;padding:0}
-  main.compact .tick{position:static;margin-left:auto;flex:0 0 auto}
-  main.compact .eplist,main.compact .ep-toggle{display:none}
-
   /* ===== MODAL ===== */
   .modal-backdrop{position:fixed;inset:0;z-index:60;display:grid;place-items:center;padding:20px;
     background:rgba(2,3,8,.74);backdrop-filter:blur(6px)}
@@ -227,7 +231,31 @@
     color:#fff;background:linear-gradient(180deg,#e2493a,#b32a24);border:1px solid #e2493a;
     padding:10px 18px;border-radius:9px;cursor:pointer;transition:.18s;box-shadow:0 0 18px -5px var(--e-pre)}
   .mbtn-danger:hover{filter:brightness(1.12);box-shadow:0 0 24px -3px var(--e-pre)}
-  .mbtn-danger:focus-visible,.modal .btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .mbtn-danger:focus-visible,.mbtn-primary:focus-visible,.modal .btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .mbtn-primary{font-family:inherit;font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+    color:#fff;background:linear-gradient(180deg,#49a3e6,#2a6fb3);border:1px solid #49a3e6;
+    padding:10px 18px;border-radius:9px;cursor:pointer;transition:.18s;box-shadow:0 0 18px -5px var(--e-clone)}
+  .mbtn-primary:hover{filter:brightness(1.12);box-shadow:0 0 24px -3px var(--e-clone)}
+  .modal [aria-busy="true"]{opacity:.6;cursor:progress}
+  .modal.info{box-shadow:0 24px 60px rgba(0,0,0,.65),0 0 0 1px rgba(73,163,230,.16),0 0 40px -10px rgba(73,163,230,.45)}
+  .modal.info .modal-icon{color:var(--e-clone);background:rgba(73,163,230,.12);
+    border-color:rgba(73,163,230,.4);box-shadow:0 0 22px -4px var(--e-clone)}
+  .modal-icon svg{width:26px;height:26px}
+  .modal .drive-status{margin:-8px 0 20px;font-size:12.5px;color:var(--txt);background:var(--panel-2);
+    border:1px solid var(--line);border-radius:9px;padding:9px 12px}
+  .modal .modal-fine{margin:16px 0 0;font-size:11px;color:var(--muted-2)}
+  .modal-fine a{color:var(--saber);text-underline-offset:2px}
+
+  /* ===== DRIVE ===== */
+  .btn-drive{position:relative}
+  .btn-drive[hidden]{display:none}
+  .drive-dot{position:absolute;top:-4px;right:-4px;width:10px;height:10px;border-radius:50%;
+    border:2px solid var(--bg);background:var(--muted-2)}
+  .btn-drive[data-state="ok"] .drive-dot{background:var(--e-nr);box-shadow:0 0 8px var(--e-nr)}
+  .btn-drive[data-state="syncing"] .drive-dot{background:var(--saber);animation:dotPulse 1s ease-in-out infinite}
+  .btn-drive[data-state="pending"] .drive-dot{background:var(--e-reb);box-shadow:0 0 8px var(--e-reb)}
+  .btn-drive[data-state="paused"] .drive-dot{background:var(--accent);box-shadow:0 0 8px var(--accent)}
+  @keyframes dotPulse{50%{opacity:.35}}
 
   .foot{position:relative;z-index:1;max-width:840px;margin:0 auto;padding:6px 22px 60px;text-align:center}
   .foot p{font-size:12.5px;color:var(--muted);margin:8px 0}
@@ -235,6 +263,7 @@
   .foot-note{font-size:11px;color:var(--muted-2)}
   .foot-note a{color:var(--saber);text-underline-offset:2px}
   .version{font-size:11px;color:var(--muted-2);letter-spacing:.04em;margin-top:14px}
+  .version a{color:var(--muted);text-underline-offset:2px}
   .ver-tag{display:inline-block;font-weight:700;color:var(--saber);border:1px solid color-mix(in srgb,var(--saber) 45%,var(--line));
     background:color-mix(in srgb,var(--saber) 12%,transparent);border-radius:99px;padding:2px 9px;
     font-variant-numeric:tabular-nums}
@@ -245,18 +274,38 @@
     box-shadow:0 0 20px rgba(55,182,255,.3),var(--shadow);opacity:0;pointer-events:none;transition:.3s}
   .toast.show{opacity:1;transform:translate(-50%,0)}
 
+  /* Celular: barra superior compacta (marca + acciones arriba, sable abajo) y toolbar en una línea */
   @media (max-width:640px){
-    .btn .ic{display:block}
-    .btn .btxt{display:none}
-    .btn{padding:9px 11px}
-    .tool-label{display:none}
-    .brand{min-width:0;flex:1}
+    .topbar-inner{padding:10px 14px 11px;gap:8px 12px}
+    .brand{min-width:0;flex:1;gap:9px}
+    .brand-mark{font-size:16px}
+    .brand-txt h1{font-size:13px;letter-spacing:.14em}
+    .brand-txt p{display:none}
+    .actions{order:2;gap:6px}
     .progress{min-width:100%;order:3}
-    .actions{order:2}
+    .progress-meta{margin-bottom:4px}
+    #pct{font-size:18px}
+    .count{font-size:11px}
+    .btn-drive .btxt{display:none}
+    .btn-drive,.btn-more{padding:8px 10px}
+    .toolbar-inner{padding:8px 14px;gap:8px;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
+    .toolbar-inner::-webkit-scrollbar{display:none}
+    .chip{font-size:11.5px;padding:6px 10px}
+    main{padding:18px 14px 50px}
+    .foot{padding:6px 14px 50px}
+    /* Ancho completo bajo los botones (no fixed: el backdrop-filter de la barra lo encerraría) */
+    .topbar-inner{position:relative}
+    .menu-wrap{position:static}
+    .menu{left:14px;right:14px;top:52px;min-width:0;padding:8px}
+    .menu button{padding:12px}
   }
   @media (max-width:560px){
     .cards{grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:11px}
-    .era{padding-left:48px}.era::before{left:17px}.era-node{left:7px}
+    .era{padding-left:42px}.era::before{left:15px}.era-node{left:5px}
+  }
+  @media (max-width:380px){
+    .chip{padding:6px 8px;letter-spacing:.02em}
+    .seg{gap:1px}
   }
   @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}html{scroll-behavior:auto}}
 </style>
@@ -286,15 +335,25 @@
       </div>
     </div>
     <div class="actions">
-      <button type="button" id="btnSave" class="btn" title="Guardar JSON">
-        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
-        <span class="btxt">Guardar JSON</span></button>
-      <button type="button" id="btnLoad" class="btn" title="Cargar JSON">
-        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 9l5-5 5 5"/><path d="M12 4v12"/></svg>
-        <span class="btxt">Cargar JSON</span></button>
-      <button type="button" id="btnReset" class="btn btn-ghost" title="Reiniciar">
-        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>
-        <span class="btxt">Reiniciar</span></button>
+      <button type="button" id="btnDrive" class="btn btn-drive" data-state="off" title="Sincroniza tu progreso con Google Drive" hidden>
+        <svg class="drive-logo" viewBox="0 0 87.3 78" aria-hidden="true"><path fill="#0066da" d="m6.6 66.85 3.85 6.65c.8 1.4 1.95 2.5 3.3 3.3L27.5 53H0c0 1.55.4 3.1 1.2 4.5z"/><path fill="#00ac47" d="M43.65 25 29.9 1.2c-1.35.8-2.5 1.9-3.3 3.3l-25.4 44A9.06 9.06 0 0 0 0 53h27.5z"/><path fill="#ea4335" d="M73.55 76.8c1.35-.8 2.5-1.9 3.3-3.3l1.6-2.75L86.1 57.5c.8-1.4 1.2-2.95 1.2-4.5H59.798l5.852 11.5z"/><path fill="#00832d" d="M43.65 25 57.4 1.2C56.05.4 54.5 0 52.9 0H34.4c-1.6 0-3.15.45-4.5 1.2z"/><path fill="#2684fc" d="M59.8 53H27.5L13.75 76.8c1.35.8 2.9 1.2 4.5 1.2h50.8c1.6 0 3.15-.45 4.5-1.2z"/><path fill="#ffba00" d="m73.4 26.5-12.7-22c-.8-1.4-1.95-2.5-3.3-3.3L43.65 25 59.8 53h27.45c0-1.55-.4-3.1-1.2-4.5z"/></svg>
+        <span class="btxt">Drive</span><span class="drive-dot" aria-hidden="true"></span></button>
+      <div class="menu-wrap">
+        <button type="button" id="btnMore" class="btn btn-more" title="Más opciones" aria-label="Más opciones" aria-haspopup="menu" aria-expanded="false" aria-controls="moreMenu">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg></button>
+        <div class="menu" id="moreMenu" role="menu" aria-label="Más opciones" hidden>
+          <button type="button" role="menuitem" id="btnSave">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
+            <span>Descargar progreso<small>Archivo JSON</small></span></button>
+          <button type="button" role="menuitem" id="btnLoad">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 9l5-5 5 5"/><path d="M12 4v12"/></svg>
+            <span>Cargar progreso<small>Desde un archivo JSON</small></span></button>
+          <div class="menu-sep" role="separator"></div>
+          <button type="button" role="menuitem" id="btnReset" class="danger">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>
+            <span>Reiniciar progreso</span></button>
+        </div>
+      </div>
       <input type="file" id="fileInput" accept="application/json,.json" hidden>
     </div>
   </div>
@@ -302,16 +361,16 @@
 
 <div class="toolbar">
   <div class="toolbar-inner">
-    <span class="tool-label">Mostrar</span>
-    <div class="filters" role="group" aria-label="Filtrar">
-      <button type="button" class="chip active" data-filter="all">Todos</button>
-      <button type="button" class="chip" data-filter="film">Películas</button>
-      <button type="button" class="chip" data-filter="tv">Series</button>
+    <div class="seg" role="group" aria-label="Mostrar">
+      <button type="button" class="chip active" data-filter="all" aria-pressed="true">Todos</button>
+      <button type="button" class="chip" data-filter="film" aria-pressed="false">Películas</button>
+      <button type="button" class="chip" data-filter="tv" aria-pressed="false">Series</button>
     </div>
     <span class="spacer"></span>
-    <button type="button" id="btnCompact" class="btn btn-ghost" title="Compactar">
-      <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
-      <span class="btxt">Compactar</span></button>
+    <div class="seg" role="group" aria-label="Orden">
+      <button type="button" class="chip active" data-view="chrono" aria-pressed="true" title="Orden de la historia (in-universe)">Cronológico</button>
+      <button type="button" class="chip" data-view="release" aria-pressed="false" title="Orden en que se estrenaron">Estreno</button>
+    </div>
   </div>
 </div>
 </div>
@@ -321,7 +380,7 @@
 <footer class="foot">
   <p>Secuencia continua de visionado, numerada del 01 en adelante. Cada tramo de The Clone Wars con salto de orden es su propia tarjeta; márcalas todas a la vista.</p>
   <p class="foot-note">Portadas oficiales cortesía de TMDB. Orden contrastado con las guías de <a href="https://www.starwars.com/news/star-wars-movies-and-series-guide" target="_blank" rel="noopener noreferrer">películas y series</a> y de <a href="https://www.starwars.com/news/star-wars-the-clone-wars-chronological-episodeorder" target="_blank" rel="noopener noreferrer">The Clone Wars</a> publicadas por Lucasfilm. Las antologías y algunos finales abarcan fechas paralelas: en esos casos se prioriza una ruta de visionado continua, no una intercalación por minutos.</p>
-  <p class="version"><span class="ver-tag" id="verTag">v1.0.1</span> · actualizado <span id="verDate">2026-07-23</span></p>
+  <p class="version"><span class="ver-tag" id="verTag">v1.2.0</span> · actualizado <span id="verDate">2026-10-18</span> · <a href="privacidad.html">Privacidad</a></p>
 </footer>
 
 <div class="modal-backdrop" id="modal" hidden>
@@ -337,134 +396,184 @@
   </div>
 </div>
 
+<div class="modal-backdrop" id="driveModal" hidden>
+  <div class="modal info" role="dialog" aria-modal="true" aria-labelledby="dTitle">
+    <div class="modal-icon" aria-hidden="true"><svg class="drive-logo" viewBox="0 0 87.3 78"><path fill="#0066da" d="m6.6 66.85 3.85 6.65c.8 1.4 1.95 2.5 3.3 3.3L27.5 53H0c0 1.55.4 3.1 1.2 4.5z"/><path fill="#00ac47" d="M43.65 25 29.9 1.2c-1.35.8-2.5 1.9-3.3 3.3l-25.4 44A9.06 9.06 0 0 0 0 53h27.5z"/><path fill="#ea4335" d="M73.55 76.8c1.35-.8 2.5-1.9 3.3-3.3l1.6-2.75L86.1 57.5c.8-1.4 1.2-2.95 1.2-4.5H59.798l5.852 11.5z"/><path fill="#00832d" d="M43.65 25 57.4 1.2C56.05.4 54.5 0 52.9 0H34.4c-1.6 0-3.15.45-4.5 1.2z"/><path fill="#2684fc" d="M59.8 53H27.5L13.75 76.8c1.35.8 2.9 1.2 4.5 1.2h50.8c1.6 0 3.15-.45 4.5-1.2z"/><path fill="#ffba00" d="m73.4 26.5-12.7-22c-.8-1.4-1.95-2.5-3.3-3.3L43.65 25 59.8 53h27.45c0-1.55-.4-3.1-1.2-4.5z"/></svg></div>
+    <h3 id="dTitle">Sincronizar con Google Drive</h3>
+    <p>Tu progreso se guarda en tu propio Drive y lo retomas desde otro equipo o el celular. La página solo puede ver el archivo que ella misma crea, no el resto de tu Drive.</p>
+    <p class="drive-status" id="driveStatus" hidden></p>
+    <div class="modal-actions">
+      <button type="button" class="btn btn-ghost" id="dClose">Cerrar</button>
+      <button type="button" class="btn btn-ghost" id="dDisconnect" hidden>Desconectar</button>
+      <button type="button" class="mbtn-primary" id="dConnect">Conectar Drive</button>
+      <button type="button" class="mbtn-primary" id="dSync" hidden>Sincronizar ahora</button>
+    </div>
+    <p class="modal-fine"><a href="privacidad.html">Privacidad</a></p>
+  </div>
+</div>
+
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
 (function(){
   "use strict";
   var KEY="sw-canon-explode-v1";
-  var APP_VERSION="1.0.1", APP_UPDATED="2026-07-23";
+  var APP_VERSION="1.2.0", APP_UPDATED="2026-10-18";
   (function(){ var t=document.getElementById("verTag"), d=document.getElementById("verDate");
     if(t) t.textContent="v"+APP_VERSION; if(d) d.textContent=APP_UPDATED; })();
 
   // Épocas = paradas de la línea de tiempo. La numeración es global y continua.
   var ERAS=[
     { era:"Alta República", kicker:"Siglos antes de la saga", color:"var(--e-hr)", cards:[
-      {id:"yja",p:"yja",t:"Young Jedi Adventures",m:"Serie · público infantil",k:"tv"},
-      {id:"acolyte",p:"acolyte",t:"The Acolyte",m:"T1 · 8 episodios",k:"tv"},
+      {id:"yja",p:"yja",t:"Young Jedi Adventures",m:"Serie · público infantil",k:"tv",rel:"2023-05-04"},
+      {id:"acolyte",p:"acolyte",t:"The Acolyte",m:"T1 · 8 episodios",k:"tv",rel:"2024-06-04"},
     ]},
     { era:"Caída de los Jedi", kicker:"Precuelas", color:"var(--e-pre)", cards:[
-      {id:"toj-e2",p:"toj",t:"Tales of the Jedi · Justice",m:"T1 · E2 · joven Dooku",k:"tv"},
-      {id:"toj-e3",p:"toj",t:"Tales of the Jedi · Choices",m:"T1 · E3 · Dooku y Mace",k:"tv"},
-      {id:"underworld-bane",p:"underworld",t:"Tales of the Underworld · Cad Bane",m:"T1 · E4–6 · antes del Episodio I",k:"tv"},
-      {id:"toj-e1",p:"toj",t:"Tales of the Jedi · Life and Death",m:"T1 · E1 · nace Ahsoka",k:"tv"},
-      {id:"ep1",p:"ep1",t:"Episodio I: La amenaza fantasma",m:"Película · 1999",k:"film"},
-      {id:"toj-e4",p:"toj",t:"Tales of the Jedi · The Sith Lord",m:"T1 · E4 · empieza en paralelo al Episodio I",k:"tv"},
-      {id:"ep2",p:"ep2",t:"Episodio II: El ataque de los clones",m:"Película · 2002",k:"film"},
+      {id:"toj-e2",p:"toj",t:"Tales of the Jedi · Justice",m:"T1 · E2 · joven Dooku",k:"tv",rel:"2022-10-26"},
+      {id:"toj-e3",p:"toj",t:"Tales of the Jedi · Choices",m:"T1 · E3 · Dooku y Mace",k:"tv",rel:"2022-10-26"},
+      {id:"underworld-bane",p:"underworld",t:"Tales of the Underworld · Cad Bane",m:"T1 · E4–6 · antes del Episodio I",k:"tv",rel:"2025-05-04"},
+      {id:"toj-e1",p:"toj",t:"Tales of the Jedi · Life and Death",m:"T1 · E1 · nace Ahsoka",k:"tv",rel:"2022-10-26"},
+      {id:"ep1",p:"ep1",t:"Episodio I: La amenaza fantasma",m:"Película · 1999",k:"film",rel:"1999-05-19"},
+      {id:"toj-e4",p:"toj",t:"Tales of the Jedi · The Sith Lord",m:"T1 · E4 · empieza en paralelo al Episodio I",k:"tv",rel:"2022-10-26"},
+      {id:"ep2",p:"ep2",t:"Episodio II: El ataque de los clones",m:"Película · 2002",k:"film",rel:"2002-05-16"},
     ]},
     { era:"Las Guerras Clon", kicker:"Orden cronológico oficial", color:"var(--e-clone)", cards:[
-      {id:"cw-a",p:"tcw",t:"The Clone Wars",m:"T2 E16 · Cat and Mouse",k:"tv"},
-      {id:"cw-b",p:"tcw",t:"The Clone Wars",m:"T1 E16 · Hidden Enemy",k:"tv"},
-      {id:"cw-film",p:"cwfilm",t:"The Clone Wars · La Película",m:"Película · 2008",k:"film"},
-      {id:"cw-c",p:"tcw",t:"The Clone Wars",m:"T3 E1 · Clone Cadets",k:"tv"},
-      {id:"cw-d",p:"tcw",t:"The Clone Wars",m:"T3 E3 · Supply Lines",k:"tv"},
-      {id:"cw-e",p:"tcw",t:"The Clone Wars",m:"T1 E1–15 · Malevolence y Grievous",k:"tv",ep:[
+      {id:"cw-a",p:"tcw",t:"The Clone Wars",m:"T2 E16 · Cat and Mouse",k:"tv",rel:"2009-10-02"},
+      {id:"cw-b",p:"tcw",t:"The Clone Wars",m:"T1 E16 · Hidden Enemy",k:"tv",rel:"2008-10-03"},
+      {id:"cw-film",p:"cwfilm",t:"The Clone Wars · La Película",m:"Película · 2008",k:"film",rel:"2008-08-15"},
+      {id:"cw-c",p:"tcw",t:"The Clone Wars",m:"T3 E1 · Clone Cadets",k:"tv",rel:"2010-09-17"},
+      {id:"cw-d",p:"tcw",t:"The Clone Wars",m:"T3 E3 · Supply Lines",k:"tv",rel:"2010-09-17"},
+      {id:"cw-e",p:"tcw",t:"The Clone Wars",m:"T1 E1–15 · Malevolence y Grievous",k:"tv",rel:"2008-10-03",ep:[
         "E1 Ambush","E2 Rising Malevolence","E3 Shadow of Malevolence","E4 Destroy Malevolence","E5 Rookies",
         "E6 Downfall of a Droid","E7 Duel of the Droids","E8 Bombad Jedi","E9 Cloak of Darkness","E10 Lair of Grievous",
         "E11 Dooku Captured","E12 The Gungan General","E13 Jedi Crash","E14 Defenders of Peace","E15 Trespass"]},
-      {id:"cw-f",p:"tcw",t:"The Clone Wars",m:"T1 E17–21 · Virus y Ryloth",k:"tv",ep:[
+      {id:"cw-f",p:"tcw",t:"The Clone Wars",m:"T1 E17–21 · Virus y Ryloth",k:"tv",rel:"2008-10-03",ep:[
         "E17 Blue Shadow Virus","E18 Mystery of a Thousand Moons","E19 Storm Over Ryloth","E20 Innocents of Ryloth","E21 Liberty on Ryloth"]},
-      {id:"cw-g",p:"tcw",t:"The Clone Wars",m:"T2 E1–3 · Robo del holocrón",k:"tv",ep:[
+      {id:"cw-g",p:"tcw",t:"The Clone Wars",m:"T2 E1–3 · Robo del holocrón",k:"tv",rel:"2009-10-02",ep:[
         "E1 Holocron Heist","E2 Cargo of Doom","E3 Children of the Force"]},
-      {id:"cw-h",p:"tcw",t:"The Clone Wars",m:"T2 E17–19 · Bounty Hunters y el Zillo",k:"tv",ep:[
+      {id:"cw-h",p:"tcw",t:"The Clone Wars",m:"T2 E17–19 · Bounty Hunters y el Zillo",k:"tv",rel:"2009-10-02",ep:[
         "E17 Bounty Hunters","E18 The Zillo Beast","E19 The Zillo Beast Strikes Back"]},
-      {id:"cw-i",p:"tcw",t:"The Clone Wars",m:"T2 E4–14 · Geonosis y Mandalore",k:"tv",ep:[
+      {id:"cw-i",p:"tcw",t:"The Clone Wars",m:"T2 E4–14 · Geonosis y Mandalore",k:"tv",rel:"2009-10-02",ep:[
         "E4 Senate Spy","E5 Landing at Point Rain","E6 Weapons Factory","E7 Legacy of Terror","E8 Brain Invaders",
         "E9 Grievous Intrigue","E10 The Deserter","E11 Lightsaber Lost","E12 The Mandalore Plot","E13 Voyage of Temptation","E14 Duchess of Mandalore"]},
-      {id:"cw-j",p:"tcw",t:"The Clone Wars",m:"T2 E20–22 · Death Trap (Boba)",k:"tv",ep:[
+      {id:"cw-j",p:"tcw",t:"The Clone Wars",m:"T2 E20–22 · Death Trap (Boba)",k:"tv",rel:"2009-10-02",ep:[
         "E20 Death Trap","E21 R2 Come Home","E22 Lethal Trackdown"]},
-      {id:"cw-k",p:"tcw",t:"The Clone Wars",m:"T3 E5–7 · Corrupción en Mandalore",k:"tv",ep:[
+      {id:"cw-k",p:"tcw",t:"The Clone Wars",m:"T3 E5–7 · Corrupción en Mandalore",k:"tv",rel:"2010-09-17",ep:[
         "E5 Corruption","E6 The Academy","E7 Assassin"]},
-      {id:"cw-l",p:"tcw",t:"The Clone Wars",m:"T3 E2 · ARC Troopers (Kamino)",k:"tv"},
-      {id:"cw-m",p:"tcw",t:"The Clone Wars",m:"T3 E4 · Sphere of Influence",k:"tv"},
-      {id:"cw-n",p:"tcw",t:"The Clone Wars",m:"T3 E8 · Evil Plans",k:"tv"},
-      {id:"cw-o",p:"tcw",t:"The Clone Wars",m:"T1 E22 · Hostage Crisis (Cad Bane)",k:"tv"},
-      {id:"cw-p",p:"tcw",t:"The Clone Wars",m:"T3 E9–11 · Senado y política",k:"tv",ep:[
+      {id:"cw-l",p:"tcw",t:"The Clone Wars",m:"T3 E2 · ARC Troopers (Kamino)",k:"tv",rel:"2010-09-17"},
+      {id:"cw-m",p:"tcw",t:"The Clone Wars",m:"T3 E4 · Sphere of Influence",k:"tv",rel:"2010-09-17"},
+      {id:"cw-n",p:"tcw",t:"The Clone Wars",m:"T3 E8 · Evil Plans",k:"tv",rel:"2010-09-17"},
+      {id:"cw-o",p:"tcw",t:"The Clone Wars",m:"T1 E22 · Hostage Crisis (Cad Bane)",k:"tv",rel:"2008-10-03"},
+      {id:"cw-p",p:"tcw",t:"The Clone Wars",m:"T3 E9–11 · Senado y política",k:"tv",rel:"2010-09-17",ep:[
         "E9 Hunt for Ziro","E10 Heroes on Both Sides","E11 Pursuit of Peace"]},
-      {id:"cw-q",p:"tcw",t:"The Clone Wars",m:"T2 E15 · Senate Murders",k:"tv"},
-      {id:"cw-r",p:"tcw",t:"The Clone Wars",m:"T3 E12–22 · Hermanas · Mortis · Ciudadela",k:"tv",ep:[
+      {id:"cw-q",p:"tcw",t:"The Clone Wars",m:"T2 E15 · Senate Murders",k:"tv",rel:"2009-10-02"},
+      {id:"cw-r",p:"tcw",t:"The Clone Wars",m:"T3 E12–22 · Hermanas · Mortis · Ciudadela",k:"tv",rel:"2010-09-17",ep:[
         "E12 Nightsisters","E13 Monster","E14 Witches of the Mist","E15 Overlords","E16 Altar of Mortis","E17 Ghosts of Mortis",
         "E18 The Citadel","E19 Counterattack","E20 Citadel Rescue","E21 Padawan Lost","E22 Wookiee Hunt"]},
-      {id:"cw-s",p:"tcw",t:"The Clone Wars",m:"T4 E1–19 · Umbara, Maul y Dathomir",k:"tv",ep:[
+      {id:"cw-s",p:"tcw",t:"The Clone Wars",m:"T4 E1–19 · Umbara, Maul y Dathomir",k:"tv",rel:"2011-09-16",ep:[
         "E1 Water War","E2 Gungan Attack","E3 Prisoners","E4 Shadow Warrior","E5 Mercy Mission","E6 Nomad Droids",
         "E7 Darkness on Umbara","E8 The General","E9 Plan of Dissent","E10 Carnage of Krell","E11 Kidnapped",
         "E12 Slaves of the Republic","E13 Escape from Kadavo","E14 A Friend in Need","E15 Deception","E16 Friends and Enemies",
         "E17 The Box","E18 Crisis on Naboo","E19 Massacre"]},
-      {id:"toe-fear",p:"toe",t:"Tales of the Empire · The Path of Fear",m:"T1 · E1 · tras la masacre de Dathomir",k:"tv"},
-      {id:"cw-s2",p:"tcw",t:"The Clone Wars",m:"T4 E20–22 · Ventress y el regreso de Maul",k:"tv",ep:[
+      {id:"toe-fear",p:"toe",t:"Tales of the Empire · The Path of Fear",m:"T1 · E1 · tras la masacre de Dathomir",k:"tv",rel:"2024-05-04"},
+      {id:"cw-s2",p:"tcw",t:"The Clone Wars",m:"T4 E20–22 · Ventress y el regreso de Maul",k:"tv",rel:"2011-09-16",ep:[
         "E20 Bounty","E21 Brothers","E22 Revenge"]},
-      {id:"cw-t",p:"tcw",t:"The Clone Wars",m:"T5 E2–13 · Onderon y Younglings",k:"tv",ep:[
+      {id:"cw-t",p:"tcw",t:"The Clone Wars",m:"T5 E2–13 · Onderon y Younglings",k:"tv",rel:"2012-09-29",ep:[
         "E2 A War on Two Fronts","E3 Front Runners","E4 The Soft War","E5 Tipping Points","E6 The Gathering","E7 A Test of Strength",
         "E8 Bound for Rescue","E9 A Necessary Bond","E10 Secret Weapons","E11 A Sunny Day in the Void","E12 Missing in Action","E13 Point of No Return"]},
-      {id:"cw-u",p:"tcw",t:"The Clone Wars",m:"T5 E1 · Revival (Maul y Savage)",k:"tv"},
-      {id:"cw-v",p:"tcw",t:"The Clone Wars",m:"T5 E14–20 · Mandalore y juicio de Ahsoka",k:"tv",ep:[
+      {id:"cw-u",p:"tcw",t:"The Clone Wars",m:"T5 E1 · Revival (Maul y Savage)",k:"tv",rel:"2012-09-29"},
+      {id:"cw-v",p:"tcw",t:"The Clone Wars",m:"T5 E14–20 · Mandalore y juicio de Ahsoka",k:"tv",rel:"2012-09-29",ep:[
         "E14 Eminence","E15 Shades of Reason","E16 The Lawless","E17 Sabotage","E18 The Jedi Who Knew Too Much","E19 To Catch a Jedi","E20 The Wrong Jedi"]},
-      {id:"cw-w",p:"tcw",t:"The Clone Wars",m:"T6 E1–13 · Los chips y Yoda",k:"tv",ep:[
+      {id:"cw-w",p:"tcw",t:"The Clone Wars",m:"T6 E1–13 · Los chips y Yoda",k:"tv",rel:"2014-03-07",ep:[
         "E1 The Unknown","E2 Conspiracy","E3 Fugitive","E4 Orders","E5 An Old Friend","E6 The Rise of Clovis","E7 Crisis at the Heart",
         "E8 The Disappeared I","E9 The Disappeared II","E10 The Lost One","E11 Voices","E12 Destiny","E13 Sacrifice"]},
-      {id:"cw-x",p:"tcw",t:"The Clone Wars",m:"T7 E5–8 · Trace y Rafa",k:"tv",ep:[
+      {id:"cw-x",p:"tcw",t:"The Clone Wars",m:"T7 E5–8 · Trace y Rafa",k:"tv",rel:"2020-02-21",ep:[
         "E5 Gone with a Trace","E6 Deal No Deal","E7 Dangerous Debt","E8 Together Again"]},
-      {id:"cw-y",p:"tcw",t:"The Clone Wars",m:"T7 E1–4 · El regreso de Echo",k:"tv",ep:[
+      {id:"cw-y",p:"tcw",t:"The Clone Wars",m:"T7 E1–4 · El regreso de Echo",k:"tv",rel:"2020-02-21",ep:[
         "E1 The Bad Batch","E2 A Distant Echo","E3 On the Wings of Keeradaks","E4 Unfinished Business"]},
-      {id:"ep3",p:"ep3",t:"Episodio III: La venganza de los Sith",m:"Película · 2005 · Orden 66",k:"film"},
-      {id:"cw-z",p:"tcw",t:"The Clone Wars · Sitio de Mandalore",m:"T7 E9–12 · en paralelo al Ep. III",k:"tv",ep:[
+      {id:"ep3",p:"ep3",t:"Episodio III: La venganza de los Sith",m:"Película · 2005 · Orden 66",k:"film",rel:"2005-05-19"},
+      {id:"cw-z",p:"tcw",t:"The Clone Wars · Sitio de Mandalore",m:"T7 E9–12 · en paralelo al Ep. III",k:"tv",rel:"2020-02-21",ep:[
         "E9 Old Friends Not Forgotten","E10 The Phantom Apprentice","E11 Shattered","E12 Victory and Death"]},
-      {id:"toj-prac",p:"toj",t:"Tales of the Jedi · Practice",m:"T1 · E5 · Ahsoka",k:"tv"},
+      {id:"toj-prac",p:"toj",t:"Tales of the Jedi · Practice",m:"T1 · E5 · Ahsoka",k:"tv",rel:"2022-10-26"},
     ]},
     { era:"Nacimiento del Imperio", kicker:"Orden 66 y secuelas", color:"var(--e-imp)", cards:[
-      {id:"toe-dev",p:"toe",t:"Tales of the Empire · Devoted",m:"T1 · E4 · durante la Orden 66",k:"tv"},
-      {id:"toe-real",p:"toe",t:"Tales of the Empire · Realization",m:"T1 · E5 · primeros tiempos del Imperio",k:"tv"},
-      {id:"toj-res",p:"toj",t:"Tales of the Jedi · Resolve",m:"T1 · E6 · Ahsoka oculta",k:"tv"},
-      {id:"badbatch",p:"badbatch",t:"The Bad Batch",m:"T1–T2 completas",k:"tv"},
-      {id:"badbatch3a",p:"badbatch",t:"The Bad Batch · Temporada 3",m:"T3 · E1–8",k:"tv"},
-      {id:"underworld",p:"underworld",t:"Tales of the Underworld · Ventress",m:"T1 · E1–3 · antes de su encuentro con el Bad Batch",k:"tv"},
-      {id:"badbatch3b",p:"badbatch",t:"The Bad Batch · Temporada 3",m:"T3 · E9–15 · incluye The Harbinger",k:"tv"},
-      {id:"maul",p:"maul",t:"Maul: Shadow Lord",m:"T1 · 10 episodios · 2026",k:"tv"},
+      {id:"toe-dev",p:"toe",t:"Tales of the Empire · Devoted",m:"T1 · E4 · durante la Orden 66",k:"tv",rel:"2024-05-04"},
+      {id:"toe-real",p:"toe",t:"Tales of the Empire · Realization",m:"T1 · E5 · primeros tiempos del Imperio",k:"tv",rel:"2024-05-04"},
+      {id:"toj-res",p:"toj",t:"Tales of the Jedi · Resolve",m:"T1 · E6 · Ahsoka oculta",k:"tv",rel:"2022-10-26"},
+      {id:"badbatch",p:"badbatch",t:"The Bad Batch",m:"T1–T2 completas",k:"tv",rel:"2021-05-04"},
+      {id:"badbatch3a",p:"badbatch",t:"The Bad Batch · Temporada 3",m:"T3 · E1–8",k:"tv",rel:"2024-02-21"},
+      {id:"underworld",p:"underworld",t:"Tales of the Underworld · Ventress",m:"T1 · E1–3 · antes de su encuentro con el Bad Batch",k:"tv",rel:"2025-05-04"},
+      {id:"badbatch3b",p:"badbatch",t:"The Bad Batch · Temporada 3",m:"T3 · E9–15 · incluye The Harbinger",k:"tv",rel:"2024-02-21"},
+      {id:"maul",p:"maul",t:"Maul: Shadow Lord",m:"T1 · 10 episodios · 2026",k:"tv",rel:"2026-04-06"},
     ]},
     { era:"Era de la Rebelión", kicker:"Trilogía original", color:"var(--e-reb)", cards:[
-      {id:"solo",p:"solo",t:"Solo: Una historia de Star Wars",m:"Película · 2018",k:"film"},
-      {id:"kenobi",p:"kenobi",t:"Obi-Wan Kenobi",m:"T1 · 6 episodios",k:"tv"},
-      {id:"toe-anger",p:"toe",t:"Tales of the Empire · The Path of Anger",m:"T1 · E2 · entre 9 y 2 BBY",k:"tv"},
-      {id:"toe-wayout",p:"toe",t:"Tales of the Empire · The Way Out",m:"T1 · E6 · tras Obi-Wan Kenobi; fecha aproximada",k:"tv"},
-      {id:"andor1",p:"andor",t:"Andor — Temporada 1",m:"T1 · 5 BBY",k:"tv"},
-      {id:"rebels12",p:"rebels",t:"Rebels — T1 y T2",m:"5–3 BBY · en paralelo con Andor",k:"tv"},
-      {id:"andor2",p:"andor",t:"Andor — Temporada 2",m:"T2 · 4–1 BBY · en paralelo con Rebels",k:"tv"},
-      {id:"rebels34",p:"rebels",t:"Rebels — T3 y T4",m:"2–0 BBY · epílogo posterior",k:"tv"},
-      {id:"rogue",p:"rogue",t:"Rogue One",m:"Película · 2016 · pega con el IV",k:"film"},
-      {id:"ep4",p:"ep4",t:"Episodio IV: Una nueva esperanza",m:"Película · 1977",k:"film"},
-      {id:"ep5",p:"ep5",t:"Episodio V: El Imperio contraataca",m:"Película · 1980",k:"film"},
-      {id:"ep6",p:"ep6",t:"Episodio VI: El regreso del Jedi",m:"Película · 1983",k:"film"},
+      {id:"solo",p:"solo",t:"Solo: Una historia de Star Wars",m:"Película · 2018",k:"film",rel:"2018-05-25"},
+      {id:"kenobi",p:"kenobi",t:"Obi-Wan Kenobi",m:"T1 · 6 episodios",k:"tv",rel:"2022-05-27"},
+      {id:"toe-anger",p:"toe",t:"Tales of the Empire · The Path of Anger",m:"T1 · E2 · entre 9 y 2 BBY",k:"tv",rel:"2024-05-04"},
+      {id:"toe-wayout",p:"toe",t:"Tales of the Empire · The Way Out",m:"T1 · E6 · tras Obi-Wan Kenobi; fecha aproximada",k:"tv",rel:"2024-05-04"},
+      {id:"andor1",p:"andor",t:"Andor — Temporada 1",m:"T1 · 5 BBY",k:"tv",rel:"2022-09-21"},
+      {id:"rebels12",p:"rebels",t:"Rebels — T1 y T2",m:"5–3 BBY · en paralelo con Andor",k:"tv",rel:"2014-10-03"},
+      {id:"andor2",p:"andor",t:"Andor — Temporada 2",m:"T2 · 4–1 BBY · en paralelo con Rebels",k:"tv",rel:"2025-04-22"},
+      {id:"rebels34",p:"rebels",t:"Rebels — T3 y T4",m:"2–0 BBY · epílogo posterior",k:"tv",rel:"2016-09-24"},
+      {id:"rogue",p:"rogue",t:"Rogue One",m:"Película · 2016 · pega con el IV",k:"film",rel:"2016-12-16"},
+      {id:"ep4",p:"ep4",t:"Episodio IV: Una nueva esperanza",m:"Película · 1977",k:"film",rel:"1977-05-25"},
+      {id:"ep5",p:"ep5",t:"Episodio V: El Imperio contraataca",m:"Película · 1980",k:"film",rel:"1980-05-21"},
+      {id:"ep6",p:"ep6",t:"Episodio VI: El regreso del Jedi",m:"Película · 1983",k:"film",rel:"1983-05-25"},
     ]},
     { era:"Nueva República", kicker:"El Mandoverso", color:"var(--e-nr)", cards:[
-      {id:"mando1",p:"mando",t:"The Mandalorian — T1",m:"Temporada 1",k:"tv"},
-      {id:"toe-hate",p:"toe",t:"Tales of the Empire · The Path of Hate",m:"T1 · E3 · antes de The Mandalorian T2",k:"tv"},
-      {id:"mando2",p:"mando",t:"The Mandalorian — T2",m:"Temporada 2",k:"tv"},
-      {id:"boba",p:"boba",t:"The Book of Boba Fett",m:"T1 · caps 5–7 = Mando T2.5",k:"tv"},
-      {id:"mando3",p:"mando",t:"The Mandalorian — T3",m:"Temporada 3",k:"tv"},
-      {id:"ahsoka",p:"ahsoka",t:"Ahsoka",m:"T1 · secuela de Rebels",k:"tv"},
-      {id:"skeleton",p:"skeleton",t:"Skeleton Crew",m:"T1 · 8 episodios",k:"tv"},
-      {id:"mandogrogu",p:"mandogrogu",t:"The Mandalorian & Grogu",m:"Película · 2026 · tras Skeleton Crew",k:"film"},
+      {id:"mando1",p:"mando",t:"The Mandalorian — T1",m:"Temporada 1",k:"tv",rel:"2019-11-12"},
+      {id:"toe-hate",p:"toe",t:"Tales of the Empire · The Path of Hate",m:"T1 · E3 · antes de The Mandalorian T2",k:"tv",rel:"2024-05-04"},
+      {id:"mando2",p:"mando",t:"The Mandalorian — T2",m:"Temporada 2",k:"tv",rel:"2020-10-30"},
+      {id:"boba",p:"boba",t:"The Book of Boba Fett",m:"T1 · caps 5–7 = Mando T2.5",k:"tv",rel:"2021-12-29"},
+      {id:"mando3",p:"mando",t:"The Mandalorian — T3",m:"Temporada 3",k:"tv",rel:"2023-03-01"},
+      {id:"ahsoka",p:"ahsoka",t:"Ahsoka",m:"T1 · secuela de Rebels",k:"tv",rel:"2023-08-22"},
+      {id:"skeleton",p:"skeleton",t:"Skeleton Crew",m:"T1 · 8 episodios",k:"tv",rel:"2024-12-02"},
+      {id:"mandogrogu",p:"mandogrogu",t:"The Mandalorian & Grogu",m:"Película · 2026 · tras Skeleton Crew",k:"film",rel:"2026-05-22"},
     ]},
     { era:"Primera Orden", kicker:"Trilogía secuela", color:"var(--e-fo)", cards:[
-      {id:"res-a",p:"resistance",t:"Resistance — T1 E1–17",m:"Antes del Episodio VII",k:"tv"},
-      {id:"ep7",p:"ep7",t:"Episodio VII: El despertar de la Fuerza",m:"Película · 2015",k:"film"},
-      {id:"res-b",p:"resistance",t:"Resistance — T1 E18–21",m:"Se solapa con el Episodio VII",k:"tv"},
-      {id:"res-c",p:"resistance",t:"Resistance — T2 E1",m:"Puente hacia el Episodio VIII",k:"tv"},
-      {id:"ep8",p:"ep8",t:"Episodio VIII: Los últimos Jedi",m:"Película · 2017",k:"film"},
-      {id:"res-d",p:"resistance",t:"Resistance — T2 E2–19",m:"Continúa después del Episodio VIII",k:"tv"},
-      {id:"ep9",p:"ep9",t:"Episodio IX: El ascenso de Skywalker",m:"Película · 2019",k:"film"},
+      {id:"res-a",p:"resistance",t:"Resistance — T1 E1–17",m:"Antes del Episodio VII",k:"tv",rel:"2018-10-07"},
+      {id:"ep7",p:"ep7",t:"Episodio VII: El despertar de la Fuerza",m:"Película · 2015",k:"film",rel:"2015-12-18"},
+      {id:"res-b",p:"resistance",t:"Resistance — T1 E18–21",m:"Se solapa con el Episodio VII",k:"tv",rel:"2018-10-07"},
+      {id:"res-c",p:"resistance",t:"Resistance — T2 E1",m:"Puente hacia el Episodio VIII",k:"tv",rel:"2019-10-06"},
+      {id:"ep8",p:"ep8",t:"Episodio VIII: Los últimos Jedi",m:"Película · 2017",k:"film",rel:"2017-12-15"},
+      {id:"res-d",p:"resistance",t:"Resistance — T2 E2–19",m:"Continúa después del Episodio VIII",k:"tv",rel:"2019-10-06"},
+      {id:"ep9",p:"ep9",t:"Episodio IX: El ascenso de Skywalker",m:"Película · 2019",k:"film",rel:"2019-12-20"},
     ]},
   ];
+
+  // ===== Orden de emisión (fecha real de estreno) =====
+  // Cada carta ya trae `rel` (ISO). Se agrupan en "eras de estreno" por
+  // franquicia/etapa de lanzamiento (no por fecha in-universe) y dentro de
+  // cada una se ordenan por fecha real, de más antigua a más reciente.
+  var RELEASE_BUCKETS=[
+    { era:"Trilogía Original", kicker:"Estreno en cines · 1977–1983", color:"var(--e-reb)",
+      match:function(c){ return c.id==="ep4"||c.id==="ep5"||c.id==="ep6"; } },
+    { era:"Precuelas", kicker:"Estreno en cines · 1999–2005", color:"var(--e-pre)",
+      match:function(c){ return c.id==="ep1"||c.id==="ep2"||c.id==="ep3"; } },
+    { era:"The Clone Wars — película y serie", kicker:"Estreno · 2008–2020", color:"var(--e-clone)",
+      match:function(c){ return c.id==="cw-film"||c.id.indexOf("cw-")===0; } },
+    { era:"Rebels y la Trilogía Secuela", kicker:"Cines y TV en paralelo · 2014–2019", color:"var(--e-fo)",
+      match:function(c){ return ["rebels12","rebels34","ep7","rogue","ep8","solo","res-a","res-b","res-c","res-d","ep9"].indexOf(c.id)>-1; } },
+    { era:"Amanecer del Mandoverso", kicker:"Estreno · 2019–2021", color:"var(--e-nr)",
+      match:function(c){ return ["mando1","mando2","badbatch"].indexOf(c.id)>-1; } },
+    { era:"Edad dorada de Disney+", kicker:"Estreno · 2021–2023", color:"var(--e-imp)",
+      match:function(c){ return ["boba","kenobi","andor1","mando3","yja","ahsoka"].indexOf(c.id)>-1 || c.id.indexOf("toj")===0; } },
+    { era:"Era actual del streaming", kicker:"Estreno · 2024–2026", color:"var(--e-hr)",
+      match:function(){ return true; } },
+  ];
+
+  function buildReleaseSections(cards){
+    var buckets=RELEASE_BUCKETS.map(function(b){ return { era:b.era, kicker:b.kicker, color:b.color, cards:[] }; });
+    cards.forEach(function(c){
+      for(var i=0;i<RELEASE_BUCKETS.length;i++){
+        if(RELEASE_BUCKETS[i].match(c)){ buckets[i].cards.push(c); return; }
+      }
+    });
+    buckets.forEach(function(b){
+      b.cards.sort(function(a,z){ return (a.rel||"").localeCompare(z.rel||""); });
+    });
+    return buckets.filter(function(b){ return b.cards.length; });
+  }
 
   function expandLegacyProgress(list){
     var expanded=list.slice();
@@ -488,41 +597,77 @@
     delete state["toe-rest"];
     state.__schema101=true;
   }
-  var ALL=[]; ERAS.forEach(function(s){ s.cards.forEach(function(c){ ALL.push(c.id); }); });
+  var ALLCARDS=[]; ERAS.forEach(function(s){ s.cards.forEach(function(c){ ALLCARDS.push(c); }); });
+  var ALL=ALLCARDS.map(function(c){ return c.id; });
+  var RELEASE_SECTIONS=buildReleaseSections(ALLCARDS);
   function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
   save();
   var CHECK='<svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17 4 12"/></svg>';
 
   var root=document.getElementById("root");
-  var n=0, html="";
-  ERAS.forEach(function(sec){
-    var cardsHtml=sec.cards.map(function(c){
-      n++; var num=String(n).padStart(2,"0");
-      var done=!!state[c.id];
-      var eplist=c.ep?'<button type="button" class="ep-toggle" aria-expanded="false"><span class="caret">▸</span> '+c.ep.length+' capítulos</button><ul class="eplist">'+c.ep.map(function(x){return '<li>'+x+'</li>';}).join("")+'</ul>':'';
-      return '<article class="card '+(c.k==="film"?"film ":"")+(done?"done ":"")+'" data-id="'+c.id+'" data-kind="'+c.k+'" tabindex="0" role="button" aria-pressed="'+done+'" aria-label="'+num+'. '+c.t+'">'
-        + '<div class="poster" data-t="'+c.t+'">'
-        +   '<img src="posters/'+c.p+'.jpg" alt="Póster de '+c.t+'" loading="lazy" onerror="this.closest(\'.poster\').classList.add(\'noimg\')">'
-        +   '<span class="seqnum cnum">'+num+'</span>'
-        +   '<span class="tick">'+CHECK+'</span>'
-        + '</div>'
-        + '<div class="body"><div class="title">'+c.t+'</div><div class="meta">'+c.m+'</div>'+eplist+'</div>'
-        + '</article>';
-    }).join("");
-    html+='<section class="era" style="--era:'+sec.color+'">'
-      + '<span class="era-node"></span>'
-      + '<div class="era-head"><h2 class="era-title">'+sec.era+'</h2><span class="era-kicker">'+sec.kicker+'</span></div>'
-      + '<div class="cards">'+cardsHtml+'</div></section>';
-  });
-  root.innerHTML=html;
+
+  function renderSections(sections){
+    var n=0, html="";
+    sections.forEach(function(sec){
+      var cardsHtml=sec.cards.map(function(c){
+        n++; var num=String(n).padStart(2,"0");
+        var done=!!state[c.id];
+        var eplist=c.ep?'<button type="button" class="ep-toggle" aria-expanded="false"><span class="caret">▸</span> '+c.ep.length+' capítulos</button><ul class="eplist">'+c.ep.map(function(x){return '<li>'+x+'</li>';}).join("")+'</ul>':'';
+        return '<article class="card '+(c.k==="film"?"film ":"")+(done?"done ":"")+'" data-id="'+c.id+'" data-kind="'+c.k+'" tabindex="0" role="button" aria-pressed="'+done+'" aria-label="'+num+'. '+c.t+'">'
+          + '<div class="poster" data-t="'+c.t+'">'
+          +   '<img src="posters/'+c.p+'.jpg" alt="Póster de '+c.t+'" loading="lazy" onerror="this.closest(\'.poster\').classList.add(\'noimg\')">'
+          +   '<span class="seqnum cnum">'+num+'</span>'
+          +   '<span class="tick">'+CHECK+'</span>'
+          + '</div>'
+          + '<div class="body"><div class="title">'+c.t+'</div><div class="meta">'+c.m+'</div>'+eplist+'</div>'
+          + '</article>';
+      }).join("");
+      html+='<section class="era" style="--era:'+sec.color+'">'
+        + '<span class="era-node"></span>'
+        + '<div class="era-head"><h2 class="era-title">'+sec.era+'</h2><span class="era-kicker">'+sec.kicker+'</span></div>'
+        + '<div class="cards">'+cardsHtml+'</div></section>';
+    });
+    return html;
+  }
+
+  var viewMode="chrono";
+  var activeFilter="all";
+  function applyFilter(){
+    [].forEach.call(root.querySelectorAll(".era"), function(era){
+      var vis=0;
+      [].forEach.call(era.querySelectorAll(".card"), function(card){
+        var hide=activeFilter!=="all" && card.getAttribute("data-kind")!==activeFilter;
+        card.classList.toggle("hide", hide); if(!hide) vis++;
+      });
+      era.classList.toggle("hide", vis===0);
+    });
+  }
+  function render(){
+    root.innerHTML=renderSections(viewMode==="chrono"?ERAS:RELEASE_SECTIONS);
+    applyFilter();
+  }
+  render();
+
+  // `state.__t[id]` guarda cuándo se marcó o desmarcó cada carta por última vez: al combinar
+  // el progreso de dos equipos, gana el cambio más reciente de cada carta.
+  function stamp(id, when){ (state.__t||(state.__t={}))[id]=when; }
+  function stampAll(){ var now=new Date().toISOString(); ALL.forEach(function(id){ stamp(id, now); }); }
+
+  function paintCards(){
+    [].forEach.call(root.querySelectorAll(".card"), function(c){
+      var d=!!state[c.getAttribute("data-id")];
+      c.classList.toggle("done",d); c.setAttribute("aria-pressed",d);
+    });
+  }
 
   function toggle(card){
     var id=card.getAttribute("data-id");
     if(state[id]) delete state[id]; else state[id]=true;
+    stamp(id, new Date().toISOString());
     var done=!!state[id];
     card.classList.toggle("done", done);
     card.setAttribute("aria-pressed", done);
-    save(); refresh();
+    save(); refresh(); scheduleDrive();
   }
   root.addEventListener("click", function(e){
     var tog=e.target.closest(".ep-toggle");
@@ -583,29 +728,46 @@
     wasMax=max;
   }
 
-  // Filtros
-  var chips=[].slice.call(document.querySelectorAll(".chip"));
-  chips.forEach(function(ch){
-    ch.addEventListener("click", function(){
-      chips.forEach(function(x){x.classList.remove("active");});
-      ch.classList.add("active");
-      var f=ch.getAttribute("data-filter");
-      [].forEach.call(root.querySelectorAll(".era"), function(era){
-        var vis=0;
-        [].forEach.call(era.querySelectorAll(".card"), function(card){
-          var hide=f!=="all" && card.getAttribute("data-kind")!==f;
-          card.classList.toggle("hide", hide); if(!hide) vis++;
-        });
-        era.classList.toggle("hide", vis===0);
+  // Controles segmentados: activa el botón tocado dentro de su grupo
+  function segment(attr, onPick){
+    var btns=[].slice.call(document.querySelectorAll(".chip["+attr+"]"));
+    btns.forEach(function(ch){
+      ch.addEventListener("click", function(){
+        btns.forEach(function(x){ var on=x===ch; x.classList.toggle("active", on); x.setAttribute("aria-pressed", on); });
+        onPick(ch.getAttribute(attr));
       });
     });
+  }
+  segment("data-filter", function(v){ activeFilter=v; applyFilter(); });
+  // Orden cronológico ↔ orden de estreno
+  segment("data-view", function(v){
+    if(v===viewMode) return;
+    viewMode=v; render(); refresh();
   });
 
-  // Compactar
-  var mainEl=document.getElementById("root"), btnC=document.getElementById("btnCompact");
-  btnC.addEventListener("click", function(){
-    var on=mainEl.classList.toggle("compact");
-    btnC.textContent=on?"Expandir":"Compactar";
+  // Menú "Más"
+  var btnMore=document.getElementById("btnMore"), moreMenu=document.getElementById("moreMenu");
+  var menuItems=[].slice.call(moreMenu.querySelectorAll("[role=menuitem]"));
+  function setMenu(open, focusFirst){
+    moreMenu.hidden=!open; btnMore.setAttribute("aria-expanded", open);
+    if(open&&focusFirst) menuItems[0].focus();
+  }
+  btnMore.addEventListener("click", function(){ setMenu(moreMenu.hidden, false); });
+  btnMore.addEventListener("keydown", function(e){
+    if(e.key==="ArrowDown"){ e.preventDefault(); setMenu(true, true); }
+  });
+  moreMenu.addEventListener("click", function(e){ if(e.target.closest("[role=menuitem]")) setMenu(false); });
+  moreMenu.addEventListener("keydown", function(e){
+    var i=menuItems.indexOf(document.activeElement);
+    if(e.key==="ArrowDown"||e.key==="ArrowUp"){
+      e.preventDefault();
+      menuItems[(i+(e.key==="ArrowDown"?1:-1)+menuItems.length)%menuItems.length].focus();
+    } else if(e.key==="Escape"||e.key==="Tab"){
+      setMenu(false); if(e.key==="Escape") btnMore.focus();
+    }
+  });
+  document.addEventListener("click", function(e){
+    if(!moreMenu.hidden&&!e.target.closest(".menu-wrap")) setMenu(false);
   });
 
   // Toast + JSON
@@ -613,9 +775,46 @@
   function toast(msg){ toastEl.textContent=msg; toastEl.classList.add("show");
     clearTimeout(toastT); toastT=setTimeout(function(){toastEl.classList.remove("show");},2200); }
 
+  // El mismo formato sirve para el JSON descargado y para el archivo de Drive.
+  // `watched` mantiene la compatibilidad con versiones anteriores; `marks` trae las fechas.
+  function buildBackup(){
+    var t=state.__t||{}, marks={};
+    ALL.forEach(function(id){ if(state[id]||t[id]) marks[id]={ w:!!state[id], t:t[id]||"" }; });
+    return { app:"sw-canon-explode", appVersion:APP_VERSION, version:2, updated:new Date().toISOString(),
+      watched:ALL.filter(function(id){return state[id];}), marks:marks };
+  }
+  function progressKey(){ return JSON.stringify(buildBackup().marks); }
+
+  /** Lista de cartas vistas de un respaldo (JSON propio, de Drive o un arreglo suelto). */
+  function backupList(data){
+    var list=Array.isArray(data)?data:(data&&data.watched);
+    if(!Array.isArray(list)) return null;
+    if(Array.isArray(data)||!data.appVersion||data.appVersion==="1.0.0") list=expandLegacyProgress(list);
+    return list;
+  }
+
+  /**
+   * Combina un respaldo con el progreso local. Por carta gana el cambio más reciente;
+   * si ninguno de los dos tiene fecha (progreso anterior a v1.2.0), queda marcada si lo
+   * está en alguno. Devuelve cuántas cartas cambiaron.
+   */
+  function mergeBackup(data){
+    var list=backupList(data); if(!list) return 0;
+    var marks=(!Array.isArray(data)&&data.marks)||{}, t=state.__t||(state.__t={}), changed=0;
+    ALL.forEach(function(id){
+      var r=marks[id]||(list.indexOf(id)>-1?{ w:true, t:"" }:null);
+      if(!r) return;
+      var lt=t[id]||"", rt=r.t||"", local=!!state[id], w=local;
+      if(rt>lt){ w=!!r.w; t[id]=rt; }
+      else if(!rt&&!lt) w=local||!!r.w;
+      if(w!==local){ if(w) state[id]=true; else delete state[id]; changed++; }
+    });
+    save(); paintCards(); refresh();
+    return changed;
+  }
+
   function downloadJSON(){
-    var payload={ app:"sw-canon-explode", appVersion:APP_VERSION, version:1, updated:new Date().toISOString(),
-      watched:ALL.filter(function(id){return state[id];}) };
+    var payload=buildBackup();
     var blob=new Blob([JSON.stringify(payload,null,2)],{type:"application/json"});
     var url=URL.createObjectURL(blob), a=document.createElement("a");
     a.href=url; a.download="starwars-progreso.json";
@@ -631,38 +830,324 @@
     var r=new FileReader();
     r.onload=function(){
       try{
-        var data=JSON.parse(r.result);
-        var list=Array.isArray(data)?data:(data.watched||[]);
-        if(!Array.isArray(list)) throw 0;
-        if(Array.isArray(data)||!data.appVersion||data.appVersion==="1.0.0"){
-          list=expandLegacyProgress(list);
-        }
+        var list=backupList(JSON.parse(r.result));
+        if(!list) throw 0;
+        // Cargar un archivo reemplaza el progreso: queda como el cambio más reciente en todos lados
         state={__schema101:true}; list.forEach(function(id){ if(ALL.indexOf(id)>-1) state[id]=true; });
-        save();
-        [].forEach.call(root.querySelectorAll(".card"), function(c){
-          var d=!!state[c.getAttribute("data-id")];
-          c.classList.toggle("done",d); c.setAttribute("aria-pressed",d);
-        });
-        refresh(); toast("Progreso cargado ✓");
+        stampAll(); save(); paintCards();
+        refresh(); scheduleDrive(); toast("Progreso cargado ✓");
       }catch(err){ toast("Archivo no válido"); }
       fileInput.value="";
     };
     r.readAsText(f);
   });
-  // Modal de reinicio
-  var modal=document.getElementById("modal"), lastFocus=null;
-  function openModal(){ lastFocus=document.activeElement; modal.hidden=false; document.getElementById("mConfirm").focus(); }
-  function closeModal(){ modal.hidden=true; if(lastFocus&&lastFocus.focus) lastFocus.focus(); }
-  document.getElementById("btnReset").addEventListener("click", openModal);
-  document.getElementById("mCancel").addEventListener("click", closeModal);
-  document.getElementById("mSave").addEventListener("click", downloadJSON);
-  modal.addEventListener("click", function(e){ if(e.target===modal) closeModal(); });
-  document.addEventListener("keydown", function(e){ if(e.key==="Escape"&&!modal.hidden) closeModal(); });
-  document.getElementById("mConfirm").addEventListener("click", function(){
-    state={}; save();
-    [].forEach.call(root.querySelectorAll(".card"), function(c){ c.classList.remove("done"); c.setAttribute("aria-pressed","false"); });
-    refresh(); closeModal(); toast("Progreso reiniciado");
+  // Modales
+  var lastFocus=null;
+  function openModal(m, focusEl){
+    lastFocus=document.activeElement;
+    if(lastFocus&&lastFocus.closest&&lastFocus.closest(".menu")) lastFocus=btnMore;   // el menú ya se cerró
+    m.hidden=false; focusEl.focus();
+  }
+  function closeModal(m){ m.hidden=true; if(lastFocus&&lastFocus.focus) lastFocus.focus(); }
+  [].forEach.call(document.querySelectorAll(".modal-backdrop"), function(m){
+    m.addEventListener("click", function(e){ if(e.target===m) closeModal(m); });
   });
+  document.addEventListener("keydown", function(e){
+    if(e.key!=="Escape") return;
+    [].forEach.call(document.querySelectorAll(".modal-backdrop:not([hidden])"), closeModal);
+  });
+
+  // Reinicio
+  var modal=document.getElementById("modal");
+  document.getElementById("btnReset").addEventListener("click", function(){ openModal(modal, document.getElementById("mConfirm")); });
+  document.getElementById("mCancel").addEventListener("click", function(){ closeModal(modal); });
+  document.getElementById("mSave").addEventListener("click", downloadJSON);
+  document.getElementById("mConfirm").addEventListener("click", function(){
+    state={__schema101:true}; stampAll(); save(); paintCards();
+    refresh(); scheduleDrive(); closeModal(modal); toast("Progreso reiniciado");
+  });
+
+  // ===== Sincronización con Google Drive =====
+  // Sin servidor: Google Identity Services entrega un token (dura 1 hora y vive solo en
+  // memoria) con el permiso drive.file, que solo deja ver y editar los archivos que crea
+  // esta página. El progreso va como JSON en la carpeta "Guía Star Wars" del Drive de la
+  // persona, y Drive guarda las versiones anteriores por su cuenta.
+  // El ID de cliente no es secreto: Google solo lo acepta desde los orígenes autorizados
+  // en su consola (DRIVE_HOSTS). Vacío, el botón de Drive no aparece.
+  var DRIVE_CLIENT_ID="182009577597-k2cal67hu6hi2th4t3fgjps1q4i4uqfp.apps.googleusercontent.com";
+  var DRIVE_HOSTS=["andersondavi.github.io","localhost"];
+  var DRIVE_ON=!!DRIVE_CLIENT_ID && DRIVE_HOSTS.indexOf(location.hostname)>-1;
+  var DRIVE_KEY=KEY+":drive", DRIVE_FOLDER="Guía Star Wars", DRIVE_FILE="star-wars-progreso.json";
+  var DRIVE_API="https://www.googleapis.com/drive/v3", DRIVE_UPLOAD="https://www.googleapis.com/upload/drive/v3";
+  var DRIVE_DELAY=20000;   // espera tras el último cambio antes de subir
+
+  // Estado de la conexión en localStorage, sin tokens: { conectado, folderId, fileId, ultimo }
+  function driveInfo(){
+    try{ var i=JSON.parse(localStorage.getItem(DRIVE_KEY)||"{}"); return i&&typeof i==="object"?i:{}; }catch(e){ return {}; }
+  }
+  function setDriveInfo(patch){
+    try{
+      if(patch===null) localStorage.removeItem(DRIVE_KEY);
+      else localStorage.setItem(DRIVE_KEY, JSON.stringify(Object.assign(driveInfo(), patch)));
+    }catch(e){}
+  }
+  function authError(msg){ var e=new Error(msg); e.auth=true; return e; }
+
+  var drive={ token:null, exp:0, client:null, load:null, waiting:null, busy:null, again:false, sent:"", merged:0 };
+
+  /** Carga Google Identity Services. Conviene llamarla antes del clic que pide permiso. */
+  function prepareDrive(){
+    if(!drive.load) drive.load=new Promise(function(resolve, reject){
+      function init(){
+        drive.client=window.google.accounts.oauth2.initTokenClient({
+          client_id:DRIVE_CLIENT_ID,
+          scope:"https://www.googleapis.com/auth/drive.file",
+          callback:function(r){
+            var w=drive.waiting; drive.waiting=null;
+            if(r.error||!r.access_token){ if(w) w.reject(authError(r.error_description||r.error||"Permiso denegado")); return; }
+            drive.token=r.access_token; drive.exp=Date.now()+(Number(r.expires_in)||3600)*1000;
+            if(w) w.resolve(r.access_token);
+          },
+          error_callback:function(e){
+            var w=drive.waiting; drive.waiting=null;
+            if(w) w.reject(authError(e&&e.type==="popup_closed"?"Se cerró la ventana de Google":(e&&e.message)||"No se pudo conectar con Google"));
+          }
+        });
+        resolve();
+      }
+      if(window.google&&window.google.accounts&&window.google.accounts.oauth2){ init(); return; }
+      var s=document.createElement("script");
+      s.src="https://accounts.google.com/gsi/client"; s.async=true;
+      s.onload=init;
+      s.onerror=function(){ drive.load=null; reject(new Error("No se pudo cargar Google (¿sin conexión?)")); };
+      document.head.appendChild(s);
+    });
+    return drive.load;
+  }
+
+  function tokenOk(){ return !!drive.token && drive.exp-Date.now()>60000; }
+
+  /**
+   * Devuelve un token. Si hay que pedirlo y `interactive` es true, abre la ventana de Google:
+   * debe llamarse dentro de un clic para que el navegador no la bloquee.
+   */
+  function getToken(interactive){
+    if(tokenOk()) return Promise.resolve(drive.token);
+    if(!interactive||!drive.client) return Promise.reject(authError("Hay que volver a conectar Drive"));
+    if(drive.waiting) drive.waiting.reject(authError("Cancelado"));
+    return new Promise(function(resolve, reject){
+      drive.waiting={ resolve:resolve, reject:reject };
+      // Si ya dio permiso antes, la ventana se abre y se cierra sola
+      drive.client.requestAccessToken({ prompt:driveInfo().conectado?"":"consent" });
+    });
+  }
+
+  function driveFetch(t, url, init){
+    init=init||{};
+    init.headers=Object.assign({ Authorization:"Bearer "+t }, init.headers||{});
+    return fetch(url, init).then(function(res){
+      if(res.status===401){ drive.token=null; throw authError("El permiso de Drive venció"); }
+      return res;
+    });
+  }
+  function driveJSON(res){ if(!res.ok) throw new Error("Drive respondió "+res.status); return res.json(); }
+  function driveSearch(t, q){
+    return driveFetch(t, DRIVE_API+"/files?q="+encodeURIComponent(q)+"&orderBy="+encodeURIComponent("modifiedTime desc")+"&pageSize=5&fields="+encodeURIComponent("files(id,modifiedTime)")+"&spaces=drive")
+      .then(driveJSON).then(function(d){ return d.files||[]; });
+  }
+  function driveFolder(t){
+    var info=driveInfo();
+    if(info.folderId) return Promise.resolve(info.folderId);
+    return driveSearch(t, "name='"+DRIVE_FOLDER+"' and mimeType='application/vnd.google-apps.folder' and trashed=false").then(function(found){
+      if(found[0]) return found[0].id;
+      return driveFetch(t, DRIVE_API+"/files?fields=id", { method:"POST", headers:{ "Content-Type":"application/json" },
+        body:JSON.stringify({ name:DRIVE_FOLDER, mimeType:"application/vnd.google-apps.folder" }) })
+        .then(driveJSON).then(function(d){ return d.id; });
+    }).then(function(id){ setDriveInfo({ folderId:id }); return id; });
+  }
+  /** El archivo de progreso en Drive ({ id, modifiedTime }) o null si todavía no existe. */
+  function driveFile(t){
+    var id=driveInfo().fileId;
+    var known=id
+      ? driveFetch(t, DRIVE_API+"/files/"+id+"?fields=id,modifiedTime,trashed")
+          .then(function(res){ return res.ok?res.json():null; })
+          .then(function(f){ return f&&!f.trashed?f:null; })
+      : Promise.resolve(null);
+    return known.then(function(f){
+      if(f) return f;
+      return driveSearch(t, "name='"+DRIVE_FILE+"' and trashed=false").then(function(found){
+        setDriveInfo({ fileId:found[0]?found[0].id:undefined });
+        return found[0]||null;
+      });
+    });
+  }
+
+  /**
+   * Sube el progreso. Si el archivo de Drive cambió desde la última vez que este equipo lo
+   * vio (otro equipo subió algo), primero lo baja y lo combina; después sube el resultado.
+   * Si ya hay una subida en curso, sube una vez más al terminar.
+   */
+  function driveUpload(interactive){
+    if(drive.busy){ drive.again=true; return drive.busy; }
+    function run(interactive){
+      var t, sent;
+      return getToken(interactive).then(function(tok){ t=tok; return driveFile(t); }).then(function(f){
+        var seen=driveInfo().ultimo;
+        var pull=f&&(!seen||Date.parse(f.modifiedTime)>Date.parse(seen)+1000)
+          ? driveFetch(t, DRIVE_API+"/files/"+f.id+"?alt=media")
+              .then(function(res){ return res.ok?res.json():null; })
+              .then(function(remote){ if(remote) drive.merged+=mergeBackup(remote); })
+          : Promise.resolve();
+        return pull.then(function(){
+          sent=progressKey();
+          var body=JSON.stringify(buildBackup(), null, 2);
+          if(f) return driveFetch(t, DRIVE_UPLOAD+"/files/"+f.id+"?uploadType=media&fields=id,modifiedTime",
+            { method:"PATCH", headers:{ "Content-Type":"application/json" }, body:body });
+          return driveFolder(t).then(function(folder){
+            var form=new FormData();
+            form.append("metadata", new Blob([JSON.stringify({ name:DRIVE_FILE, mimeType:"application/json", parents:[folder] })], { type:"application/json" }));
+            form.append("file", new Blob([body], { type:"application/json" }));
+            return driveFetch(t, DRIVE_UPLOAD+"/files?uploadType=multipart&fields=id,modifiedTime", { method:"POST", body:form });
+          });
+        });
+      }).then(driveJSON).then(function(out){
+        drive.sent=sent;
+        setDriveInfo({ conectado:true, fileId:out.id, ultimo:out.modifiedTime||new Date().toISOString() });
+      });
+    }
+    function loop(){ if(!drive.again) return; drive.again=false; return run(false).then(loop); }
+    function done(){ drive.busy=null; drive.again=false; }
+    drive.busy=run(interactive).then(loop).then(done, function(e){ done(); throw e; });
+    return drive.busy;
+  }
+
+  function disconnectDrive(){
+    var g=window.google;
+    if(drive.token&&g&&g.accounts&&g.accounts.oauth2) g.accounts.oauth2.revoke(drive.token, function(){});
+    drive.token=null; drive.sent="";
+    setDriveInfo(null);
+  }
+
+  // ----- Interfaz de Drive -----
+  var btnDrive=document.getElementById("btnDrive"), btnDriveTxt=btnDrive.querySelector(".btxt");
+  var driveModal=document.getElementById("driveModal"), driveStatus=document.getElementById("driveStatus");
+  var dConnect=document.getElementById("dConnect"), dSync=document.getElementById("dSync"), dDisconnect=document.getElementById("dDisconnect");
+  var driveState="off", driveTimer=0;
+  var DRIVE_LABEL={ off:"Drive", ok:"En Drive", syncing:"Sincronizando…", pending:"Sin sincronizar", paused:"Sincronizar" };
+
+  function ago(iso){
+    var ms=Date.now()-Date.parse(iso||"");
+    if(isNaN(ms)) return "";
+    var min=Math.round(ms/60000);
+    if(min<1) return "hace un momento";   // incluye relojes un poco adelantados respecto a Google
+    if(min<60) return "hace "+min+" min";
+    if(min<60*24) return "hace "+Math.round(min/60)+" h";
+    return "el "+new Date(iso).toLocaleDateString("es", { day:"numeric", month:"short" });
+  }
+
+  function setDriveState(s){ driveState=s; renderDrive(); }
+  function renderDrive(){
+    if(!DRIVE_ON) return;
+    var info=driveInfo();
+    if(!info.conectado) driveState="off";
+    else if(driveState==="off") driveState="ok";
+    btnDrive.setAttribute("data-state", driveState);
+    btnDriveTxt.textContent=DRIVE_LABEL[driveState];
+    btnDrive.title={
+      off:"Sincroniza tu progreso con Google Drive",
+      ok:"Sincronizado con Google Drive "+ago(info.ultimo),
+      syncing:"Sincronizando con Google Drive…",
+      pending:"Hay cambios sin subir a Google Drive. Toca para reintentar",
+      paused:"El permiso de Google venció. Toca para sincronizar"
+    }[driveState];
+    btnDrive.setAttribute("aria-label", "Google Drive: "+DRIVE_LABEL[driveState]);
+    driveStatus.hidden=!info.conectado;
+    driveStatus.textContent=info.conectado
+      ? "Conectado. "+(info.ultimo?"Última sincronización "+ago(info.ultimo)+".":"Todavía no se ha sincronizado.")
+        +(driveState==="pending"?" Hay cambios sin subir.":driveState==="paused"?" El permiso de Google venció: sincroniza para renovarlo.":"")
+      : "";
+    dConnect.hidden=!!info.conectado;
+    dSync.hidden=dDisconnect.hidden=!info.conectado;
+  }
+
+  function driveFail(e){
+    if(driveInfo().conectado) driveState="pending";
+    renderDrive();
+    toast(e&&e.message?e.message:"Algo falló con Google Drive");
+  }
+
+  /** Sincroniza ahora. `interactive`: dentro de un clic puede renovar el permiso de Google. */
+  function driveSync(interactive){
+    if(!DRIVE_ON||!driveInfo().conectado){ renderDrive(); return Promise.resolve(false); }
+    if(!interactive&&!tokenOk()){ setDriveState("paused"); return Promise.resolve(false); }
+    setDriveState("syncing");
+    drive.merged=0;
+    return driveUpload(interactive).then(function(){
+      setDriveState("ok");
+      if(drive.merged) toast("Se trajeron "+drive.merged+" cambios de otro equipo");
+      return true;
+    }, function(e){ driveFail(e); return false; });
+  }
+
+  // Tras un cambio espera DRIVE_DELAY y sube si algo cambió; también al salir de la página.
+  function scheduleDrive(){
+    if(!DRIVE_ON||!driveInfo().conectado) return;
+    if(!tokenOk()){ setDriveState("paused"); return; }
+    if(driveTimer) return;
+    driveTimer=setTimeout(function(){
+      driveTimer=0;
+      if(progressKey()!==drive.sent) driveSync(false);
+    }, DRIVE_DELAY);
+  }
+
+  function busyButton(btn, work){
+    btn.setAttribute("aria-busy","true"); btn.disabled=true;
+    return work().then(function(){}, driveFail).then(function(){
+      btn.removeAttribute("aria-busy"); btn.disabled=false; renderDrive();
+    });
+  }
+
+  if(DRIVE_ON){
+    btnDrive.hidden=false;
+    btnDrive.addEventListener("click", function(){
+      // Con cambios pendientes o el permiso vencido sincroniza de una vez; si no, abre la ventana
+      if(driveState==="pending"||driveState==="paused"){ driveSync(true); return; }
+      prepareDrive().catch(function(e){ toast(e.message); });
+      renderDrive();
+      openModal(driveModal, driveInfo().conectado?dSync:dConnect);
+    });
+    document.getElementById("dClose").addEventListener("click", function(){ closeModal(driveModal); });
+    dConnect.addEventListener("click", function(){
+      busyButton(dConnect, function(){
+        return prepareDrive().then(function(){ return getToken(true); }).then(function(){
+          setDriveInfo({ conectado:true });
+          return driveSync(false);
+        }).then(function(ok){
+          if(!ok) return;
+          closeModal(driveModal);
+          if(!drive.merged) toast("Drive conectado: tu progreso se sincroniza solo");
+        });
+      });
+    });
+    dSync.addEventListener("click", function(){
+      busyButton(dSync, function(){
+        return driveSync(true).then(function(ok){ if(ok&&!drive.merged) toast("Progreso sincronizado ✓"); });
+      });
+    });
+    dDisconnect.addEventListener("click", function(){
+      disconnectDrive(); renderDrive(); closeModal(driveModal);
+      toast("Drive desconectado. Tu progreso sigue guardado en tu Drive");
+    });
+    document.addEventListener("visibilitychange", function(){
+      if(document.visibilityState!=="hidden"||!driveInfo().conectado||!tokenOk()) return;
+      if(progressKey()!==drive.sent) driveSync(false);
+    });
+    // El indicador avisa cuando vence el permiso (dura 1 hora) y mantiene al día el "hace X min"
+    setInterval(function(){ if(driveState==="ok"&&!tokenOk()) setDriveState("paused"); else if(driveState==="ok") renderDrive(); }, 30000);
+    // Al abrir no hay permiso todavía (vive solo en memoria): el indicador lo muestra
+    if(driveInfo().conectado){ prepareDrive().catch(function(){}); setDriveState("paused"); }
+    else renderDrive();
+  }
 
   // Encendido del sable al cargar: extiende de 0 hasta el progreso guardado
   setTimeout(function(){ ignited=true; refresh(true); }, 260);

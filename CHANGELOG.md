@@ -3,6 +3,34 @@
 Todas las versiones notables de esta guía interactiva de visionado.
 Formato basado en [Keep a Changelog](https://keepachangelog.com/). Versionado [SemVer](https://semver.org/).
 
+## [1.2.0] — 2026-10-18
+
+### Añadido
+- Sincronización opcional con Google Drive, sin servidor: el progreso se guarda en `Guía Star Wars/star-wars-progreso.json` del Drive de cada persona (permiso `drive.file`, que solo da acceso a ese archivo). Se sube sola unos segundos después de marcar algo y al salir de la página; el botón de Drive muestra el estado (En Drive, Sincronizando, Sin sincronizar, Sincronizar cuando venció el permiso de una hora).
+- Combinación entre equipos: cada carta guarda cuándo se marcó o desmarcó, y al sincronizar gana el cambio más reciente de cada una. El JSON descargado usa el mismo formato (`marks`) y sigue trayendo `watched` para versiones anteriores.
+- Página de privacidad (`privacidad.html`), enlazada desde el pie y desde la ventana de Drive.
+
+### Cambiado
+- Descargar/Cargar progreso (JSON) y Reiniciar pasan a un menú "⋯" en la barra superior.
+- Los filtros y el orden son controles segmentados: Todos / Películas / Series y Cronológico / Estreno (el botón anterior mostraba el orden contrario al activo).
+- En celular la barra superior ocupa la mitad del alto (marca y acciones en una línea, sable debajo, filtros en una sola fila) y los márgenes son más estrechos.
+
+### Corregido
+- Reiniciar el progreso ya no vuelve a ejecutar la migración de v1.0.0 al recargar.
+
+## [1.1.0] — 2026-07-23
+
+### Añadido
+- Toggle "Orden cronológico ↔ Orden de emisión" en la barra de herramientas, en reemplazo del botón "Compactar".
+- Orden de emisión: las mismas tarjetas reordenadas por fecha real de estreno (investigada y verificada por título/temporada), agrupadas en nuevas "eras de estreno" — Trilogía Original, Precuelas, The Clone Wars (película y serie), Rebels y la Trilogía Secuela, Amanecer del Mandoverso, Edad dorada de Disney+ y Era actual del streaming.
+- Cada tarjeta incorpora un campo de fecha de estreno real (`rel`) usado para ordenar y agrupar la nueva vista.
+
+### Eliminado
+- Vista "Compactar" (botón, CSS y JS): sustituida por el nuevo alternador de orden, más útil para comparar cronología interna vs. orden real de lanzamiento.
+
+### Corregido
+- Los filtros Todos/Películas/Series, el guardado local, el export/import de JSON, el modal de reinicio y el despliegue de episodios funcionan igual en ambas vistas.
+
 ## [1.0.1] — 2026-07-23
 
 ### Corregido
@@ -29,5 +57,7 @@ Primera versión completa.
 - Guardado automático en el navegador (localStorage) + exportar/importar progreso en JSON.
 - Modal estilizado para reiniciar el progreso.
 
+[1.2.0]: #
+[1.1.0]: #
 [1.0.1]: #
 [1.0.0]: #
