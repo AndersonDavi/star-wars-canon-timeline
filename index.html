@@ -552,7 +552,7 @@
   <p>Secuencia continua de visionado, numerada del 01 en adelante. Cada tramo de The Clone Wars con salto de orden es su propia tarjeta; márcalas todas a la vista.</p>
   <p class="foot-note">Portadas oficiales cortesía de TMDB. Orden contrastado con las guías de <a href="https://www.starwars.com/news/star-wars-movies-and-series-guide" target="_blank" rel="noopener noreferrer">películas y series</a> y de <a href="https://www.starwars.com/news/star-wars-the-clone-wars-chronological-episodeorder" target="_blank" rel="noopener noreferrer">The Clone Wars</a> publicadas por Lucasfilm. Las antologías y algunos finales abarcan fechas paralelas: en esos casos se prioriza una ruta de visionado continua, no una intercalación por minutos.</p>
   <p class="foot-note">Guía hecha por fans, sin relación con Lucasfilm ni Disney. Star Wars y sus logotipos son marcas de Lucasfilm Ltd.</p>
-  <p class="version"><span class="ver-tag" id="verTag">v1.4.0</span> · actualizado <span id="verDate">2026-10-18</span> · <a href="privacidad.html">Privacidad</a></p>
+  <p class="version"><span class="ver-tag" id="verTag">v1.4.1</span> · actualizado <span id="verDate">2026-10-18</span> · <a href="privacidad.html">Privacidad</a></p>
 </footer>
 
 <div class="modal-backdrop" id="modal" hidden>
@@ -602,7 +602,7 @@
 (function(){
   "use strict";
   var KEY="sw-canon-explode-v1";
-  var APP_VERSION="1.4.0", APP_UPDATED="2026-10-18";
+  var APP_VERSION="1.4.1", APP_UPDATED="2026-10-18";
   (function(){ var t=document.getElementById("verTag"), d=document.getElementById("verDate");
     if(t) t.textContent="v"+APP_VERSION; if(d) d.textContent=APP_UPDATED; })();
 
@@ -1536,18 +1536,18 @@
 
   // ===== Flota de fondo (easter egg) =====
   // Muy de vez en cuando cruza una nave o flota un droide detrás del contenido. Al tocarlo,
-  // la nave salta al hiperespacio y el droide se va girando; encontrar los seis tiene premio.
+  // la nave salta al hiperespacio y el droide se va girando; encontrarlos todos tiene premio.
   // x/y van en fracciones de la pantalla; `dir` 1 = la imagen mira hacia donde viaja.
   var FLEET=[
-    { id:"falcon",   w:150, kind:"ship",  from:[-.2,.22], to:[1.2,.42], dur:17, msg:"Halcón Milenario: «¡Hizo el recorrido de Kessel en menos de doce pársecs!»" },
-    { id:"xwing",    w:110, kind:"ship",  from:[-.15,.05], to:[1.15,.72], dur:12, msg:"X-wing: «Rojo Cinco, en posición.»" },
     { id:"tie",      w:90,  kind:"ship",  from:[1.15,.62], to:[-.15,.28], dur:10, msg:"Caza TIE: el Imperio sigue buscándote…" },
     { id:"scimitar", w:105, kind:"ship",  from:[-.15,.12], to:[1.15,.8], dur:14, msg:"Scimitar: «Por fin nos revelaremos a los Jedi.»" },
-    { id:"r2",       w:66,  kind:"droid", dur:40, msg:"R2-D2: ¡Bip-bup-biiip! 🔵" },
     { id:"c3po",     w:52,  kind:"droid", dur:46, msg:"C-3PO: «¡Estamos perdidos!»" }
   ];
   var FLEET_KEY=KEY+":flota", fleetEl=document.getElementById("fleet"), sailing=null;
-  function fleetFound(){ try{ var a=JSON.parse(localStorage.getItem(FLEET_KEY)||"[]"); return Array.isArray(a)?a:[]; }catch(e){ return []; } }
+  function fleetFound(){
+    try{ var a=JSON.parse(localStorage.getItem(FLEET_KEY)||"[]"); }catch(e){ a=[]; }
+    return (Array.isArray(a)?a:[]).filter(function(id){ return FLEET.some(function(f){ return f.id===id; }); });
+  }
   function rnd(a,b){ return a+Math.random()*(b-a); }
 
   function launch(kind){

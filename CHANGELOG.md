@@ -3,6 +3,11 @@
 Todas las versiones notables de esta guía interactiva de visionado.
 Formato basado en [Keep a Changelog](https://keepachangelog.com/). Versionado [SemVer](https://semver.org/).
 
+## [1.4.1] — 2026-10-18
+
+### Eliminado
+- Del easter egg salen el X-wing, R2-D2 y el Halcón Milenario: sus imágenes venían de fuentes con licencia (pngtree, Fathead). Quedan el caza TIE, el Scimitar y C-3PO, y el premio se da al encontrar los tres.
+
 ## [1.4.0] — 2026-10-18
 
 ### Añadido
@@ -82,6 +87,7 @@ Primera versión completa.
 - Guardado automático en el navegador (localStorage) + exportar/importar progreso en JSON.
 - Modal estilizado para reiniciar el progreso.
 
+[1.4.1]: #
 [1.4.0]: #
 [1.3.0]: #
 [1.2.0]: #
