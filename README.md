@@ -38,12 +38,13 @@ Para activarla en otro despliegue:
 |---|---|
 | `index.html` | Toda la app: estilos, datos (`ERAS`) y script |
 | `privacidad.html` | Política de privacidad (la pide Google para Drive) |
-| `sw.js`, `manifest.webmanifest`, `icons/` | App instalable y sin conexión |
+| `sw.js`, `manifest.webmanifest`, `icons/` | App instalable y sin conexión; favicon e íconos con el casco de clone trooper |
+| `og-image.jpg` | Imagen de vista previa al compartir el enlace (1200×630) |
 | `posters/` | Portadas en WebP |
 | `CHANGELOG.md` | Historial de versiones |
 
 ## Créditos
 
-Portadas oficiales cortesía de [TMDB](https://www.themoviedb.org/). Orden contrastado con las guías publicadas por Lucasfilm en starwars.com. Íconos de Boba Fett y de la Alianza Rebelde de [SVG Repo](https://www.svgrepo.com/).
+Portadas oficiales cortesía de [TMDB](https://www.themoviedb.org/). Orden contrastado con las guías publicadas por Lucasfilm en starwars.com. Ícono de Boba Fett de [SVG Repo](https://www.svgrepo.com/); el casco de clone trooper del ícono está dibujado para esta guía.
 
 Guía hecha por fans, sin relación con Lucasfilm ni Disney. Star Wars y sus logotipos son marcas de Lucasfilm Ltd.

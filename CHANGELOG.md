@@ -10,7 +10,9 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/). Versionado [S
 - Progreso por época (`3/8`) con **Marcar todo / Desmarcar** y aviso para deshacer.
 - Búsqueda por título, descripción o nombre de capítulo, sin importar tildes; si coincide un capítulo, abre la lista y lo resalta. En celular se abre con la lupa.
 - Capítulos de The Clone Wars marcables uno por uno: la tarjeta muestra "3 de 15 capítulos" y una barra parcial, y queda vista al marcar el último. También se sincronizan con Drive y van en el JSON.
-- App instalable y sin conexión (manifest, service worker e íconos con la insignia rebelde); "Instalar app" aparece en el menú ⋯ cuando el navegador lo permite.
+- App instalable y sin conexión (manifest y service worker); "Instalar app" aparece en el menú ⋯ cuando el navegador lo permite.
+- Favicon e íconos de la app con un casco de clone trooper de la 501.
+- Vista previa al compartir el enlace (Open Graph y tarjeta de X) con una imagen de 1200×630.
 - Logo de Star Wars en la barra superior, aviso de marcas en el pie y README.
 
 ### Cambiado

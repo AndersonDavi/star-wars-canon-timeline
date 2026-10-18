@@ -8,7 +8,8 @@ A single-page, interactive Star Wars canon watch-order guide. It is plain static
 
 - `index.html`: everything in one file (inline `<style>`, markup, and one inline IIFE `<script>` in ES5 style with `var` and `function`).
 - `posters/<p>.webp`: one poster per franchise/title (500 px wide), referenced by each card's `p` field. The `.jpg` files are the originals and are no longer loaded.
-- `sw.js`, `manifest.webmanifest`, `icons/`: installable PWA that works offline. `sw.js` serves pages network-first and posters/icons cache-first, and only handles same-origin requests.
+- `icons/`: the clone trooper helmet. `icon.svg` is the source (app icon), `favicon.svg` is a tighter crop and `icon-maskable.svg` has more padding. The PNGs are rendered from them with `sharp` (global `sharp-cli`). `og-image.jpg` is the 1200×630 link preview used by the Open Graph tags.
+- `sw.js`, `manifest.webmanifest`: installable PWA that works offline. `sw.js` serves pages network-first and posters/icons cache-first, and only handles same-origin requests.
 - `privacidad.html`: privacy policy. The Google OAuth consent screen points to it.
 - `CHANGELOG.md`: release notes.
 
