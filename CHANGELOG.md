@@ -3,6 +3,11 @@
 Todas las versiones notables de esta guía interactiva de visionado.
 Formato basado en [Keep a Changelog](https://keepachangelog.com/). Versionado [SemVer](https://semver.org/).
 
+## [1.5.1] — 2026-10-18
+
+### Corregido
+- En el orden de estreno, las entradas de una misma temporada salían en orden cronológico (en The Clone Wars, T1 E16 antes que T1 E1–15). Ahora van por temporada y episodio, en el orden en que salieron al aire. Lo mismo vale para Tales of the Jedi, Tales of the Empire y Tales of the Underworld.
+
 ## [1.5.0] — 2026-10-18
 
 ### Añadido
@@ -97,6 +102,7 @@ Primera versión completa.
 - Guardado automático en el navegador (localStorage) + exportar/importar progreso en JSON.
 - Modal estilizado para reiniciar el progreso.
 
+[1.5.1]: #
 [1.5.0]: #
 [1.4.1]: #
 [1.4.0]: #

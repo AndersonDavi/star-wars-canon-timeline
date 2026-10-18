@@ -564,7 +564,7 @@
   <p>Secuencia continua de visionado, numerada del 01 en adelante. Cada tramo de The Clone Wars con salto de orden es su propia tarjeta; márcalas todas a la vista.</p>
   <p class="foot-note">Portadas oficiales cortesía de TMDB. Orden contrastado con las guías de <a href="https://www.starwars.com/news/star-wars-movies-and-series-guide" target="_blank" rel="noopener noreferrer">películas y series</a> y de <a href="https://www.starwars.com/news/star-wars-the-clone-wars-chronological-episodeorder" target="_blank" rel="noopener noreferrer">The Clone Wars</a> publicadas por Lucasfilm. Las antologías y algunos finales abarcan fechas paralelas: en esos casos se prioriza una ruta de visionado continua, no una intercalación por minutos.</p>
   <p class="foot-note">Guía hecha por fans, sin relación con Lucasfilm ni Disney. Star Wars y sus logotipos son marcas de Lucasfilm Ltd.</p>
-  <p class="version"><span class="ver-tag" id="verTag">v1.5.0</span> · actualizado <span id="verDate">2026-10-18</span> · <a href="privacidad.html">Privacidad</a></p>
+  <p class="version"><span class="ver-tag" id="verTag">v1.5.1</span> · actualizado <span id="verDate">2026-10-18</span> · <a href="privacidad.html">Privacidad</a></p>
 </footer>
 
 <div class="modal-backdrop" id="modal" hidden>
@@ -615,7 +615,7 @@
 (function(){
   "use strict";
   var KEY="sw-canon-explode-v1";
-  var APP_VERSION="1.5.0", APP_UPDATED="2026-10-18";
+  var APP_VERSION="1.5.1", APP_UPDATED="2026-10-18";
   (function(){ var t=document.getElementById("verTag"), d=document.getElementById("verDate");
     if(t) t.textContent="v"+APP_VERSION; if(d) d.textContent=APP_UPDATED; })();
 
@@ -766,8 +766,18 @@
         if(RELEASE_BUCKETS[i].match(c)){ buckets[i].cards.push(c); return; }
       }
     });
+    // Las cartas de una misma temporada comparten `rel` (su estreno): desempata la temporada y
+    // el primer episodio ("T2 E17–19"), así quedan en el orden en que salieron al aire.
+    function airKey(c){
+      var s=/\bT(\d+)/.exec(c.t+" "+c.m), e=/\bE(\d+)/.exec(c.t+" "+c.m);
+      return [s?+s[1]:0, e?+e[1]:0];
+    }
     buckets.forEach(function(b){
-      b.cards.sort(function(a,z){ return (a.rel||"").localeCompare(z.rel||""); });
+      b.cards.sort(function(a,z){
+        var r=(a.rel||"").localeCompare(z.rel||""); if(r) return r;
+        var x=airKey(a), y=airKey(z);
+        return x[0]-y[0]||x[1]-y[1];
+      });
     });
     return buckets.filter(function(b){ return b.cards.length; });
   }
