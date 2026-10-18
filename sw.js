@@ -3,7 +3,7 @@
 // - Portadas e íconos: caché primero; se guardan la primera vez que se ven.
 // - Google (Drive, inicio de sesión) nunca pasa por aquí: solo se atienden pedidos del mismo origen.
 // Al publicar una versión, sube CACHE para que se descarte la caché anterior.
-var CACHE = "orden-canon-v1.3.0";
+var CACHE = "orden-canon-v1.4.0";
 var CORE = ["./", "index.html", "privacidad.html", "manifest.webmanifest", "icons/favicon.svg", "icons/icon-192.png"];
 
 self.addEventListener("install", function (e) {

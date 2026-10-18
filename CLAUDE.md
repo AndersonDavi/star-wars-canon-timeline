@@ -9,6 +9,7 @@ A single-page, interactive Star Wars canon watch-order guide. It is plain static
 - `index.html`: everything in one file (inline `<style>`, markup, and one inline IIFE `<script>` in ES5 style with `var` and `function`).
 - `posters/<p>.webp`: one poster per franchise/title (500 px wide), referenced by each card's `p` field. The `.jpg` files are the originals and are no longer loaded.
 - `icons/`: the clone trooper helmet. `icon.svg` is the source (app icon), `favicon.svg` is a tighter crop and `icon-maskable.svg` has more padding. The PNGs are rendered from them with `sharp` (global `sharp-cli`). `og-image.jpg` is the 1200×630 link preview used by the Open Graph tags.
+- `sprites/`: ships and droids for the background easter egg (`FLEET` in the script), cut out on transparent backgrounds. To add one, put a WebP of about 360 px here and add an entry to `FLEET` (`kind` ship or droid, size, path, duration, message).
 - `sw.js`, `manifest.webmanifest`: installable PWA that works offline. `sw.js` serves pages network-first and posters/icons cache-first, and only handles same-origin requests.
 - `privacidad.html`: privacy policy. The Google OAuth consent screen points to it.
 - `CHANGELOG.md`: release notes.
@@ -43,6 +44,8 @@ To run it, open `index.html` in a browser (works from `file://`). To serve the f
   - on imported JSON whose `appVersion` is missing or `1.0.0`.
 
   A future migration may need a new flag or version check of the same shape.
+- **Click-through background**: `main`, `.era`, `.cards`, `.era-head` and `.foot` have `pointer-events:none`, and only their interactive children re-enable it. That lets the `.fleet` sprites behind the content be clicked in the gaps. Anything new and clickable inside `main` must be inside `.card` or set `pointer-events:auto`.
+- **Episodes UI**: the card only shows a "N capítulos" button. The list lives in the `#epModal` sheet (`openSheet`/`paintSheet`); `changed()` repaints it.
 - **UI refresh**: `refresh()` updates the saber, the per-era counts (`paintEras`) and the "Seguir viendo" target (`updateNext`). `applyFilter()` combines the Películas/Series filter with the search `query`. Both work on the cards currently visible, so they follow the active view.
 - **Lightsaber progress bar**: `refresh()` sets the `--saber` CSS variable by interpolating HSL across `SABER_STOPS`. `refresh(true)` plays the ignite animation on load.
 

@@ -11,6 +11,7 @@ Guía interactiva para ver todo el canon audiovisual de Star Wars (películas y 
 - Filtros Todos / Películas / Series.
 - El progreso se guarda en el navegador. Se puede descargar o cargar como JSON y, si quieres, **sincronizar con tu Google Drive** para seguir desde otro equipo o el celular.
 - Se puede instalar como app y funciona sin conexión.
+- Un easter egg: de vez en cuando pasa una nave o un droide por el fondo. Atrápalos todos.
 
 ## Cómo correrla
 

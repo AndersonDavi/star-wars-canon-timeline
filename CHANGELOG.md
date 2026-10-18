@@ -3,6 +3,15 @@
 Todas las versiones notables de esta guía interactiva de visionado.
 Formato basado en [Keep a Changelog](https://keepachangelog.com/). Versionado [SemVer](https://semver.org/).
 
+## [1.4.0] — 2026-10-18
+
+### Añadido
+- Easter egg: muy de vez en cuando cruza una nave por el fondo (Halcón Milenario, X-wing, caza TIE, Scimitar) y, más raro aún, flota un droide (R2-D2, C-3PO). Al tocarlos, la nave salta al hiperespacio y el droide se va girando, con una frase; encontrar los seis tiene premio. Pasan detrás del contenido y se atrapan en los huecos entre tarjetas, con mouse o con el dedo. No aparecen con movimiento reducido.
+
+### Cambiado
+- Los capítulos de The Clone Wars se abren en una hoja propia (desde abajo en celular, centrada en escritorio) con filas grandes, número de episodio, barra de progreso y "Marcar todos", en vez de la lista apretada dentro de la tarjeta.
+- Si la búsqueda coincide con un capítulo, la tarjeta lo muestra debajo del título y la hoja lo resalta.
+
 ## [1.3.0] — 2026-10-18
 
 ### Añadido
@@ -73,6 +82,7 @@ Primera versión completa.
 - Guardado automático en el navegador (localStorage) + exportar/importar progreso en JSON.
 - Modal estilizado para reiniciar el progreso.
 
+[1.4.0]: #
 [1.3.0]: #
 [1.2.0]: #
 [1.1.0]: #

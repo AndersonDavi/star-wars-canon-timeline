@@ -273,23 +273,41 @@
     border:1px solid color-mix(in srgb,var(--era) 35%,transparent);border-radius:99px;padding:4px 10px 4px 8px;cursor:pointer;text-align:left}
   .ep-toggle:hover{filter:brightness(1.25)}
   .ep-toggle:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
-  .ep-toggle .caret{display:inline-block;transition:transform .2s}
-  .ep-toggle[aria-expanded="true"] .caret{transform:rotate(90deg)}
-  .eplist{list-style:none;margin:6px 0 0;padding:6px 0 0;border-top:1px solid var(--line-soft);
-    display:none;flex-direction:column;gap:1px}
-  .eplist.open{display:flex}
-  .eplist li{min-width:0}
-  /* Cada capítulo se marca por separado; la carta queda vista con el último */
-  .ep{display:flex;align-items:center;gap:6px;width:100%;font-family:inherit;font-size:10.5px;line-height:1.3;text-align:left;
-    color:var(--muted-2);background:none;border:0;border-radius:5px;padding:3px 2px;cursor:pointer}
-  .ep span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .ep::before{content:"";flex:0 0 auto;width:10px;height:10px;border-radius:50%;box-sizing:border-box;
-    border:1.5px solid color-mix(in srgb,var(--era) 75%,transparent);transition:.15s}
-  .ep:hover{color:var(--txt)}
-  .ep:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
-  .ep[aria-pressed="true"]{color:var(--muted)}
-  .ep[aria-pressed="true"]::before{background:var(--era);border-color:var(--era);box-shadow:0 0 6px -1px var(--era)}
-  .ep.hit span{color:var(--accent)}
+  .ep-toggle .caret{display:inline-block;margin-right:2px}
+  .ep-hit{margin-top:6px;font-size:10.5px;color:var(--accent);line-height:1.3;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .ep-hit[hidden]{display:none}
+
+  /* ===== CAPÍTULOS (hoja: abajo en celular, ventana centrada en escritorio) ===== */
+  .modal.sheet{max-width:460px;padding:0;text-align:left;display:flex;flex-direction:column;max-height:min(720px,86vh);
+    box-shadow:0 24px 60px rgba(0,0,0,.65),0 0 0 1px color-mix(in srgb,var(--era) 22%,transparent),0 0 44px -12px var(--era)}
+  .sheet-head{display:flex;align-items:flex-start;gap:12px;padding:20px 20px 14px}
+  .sheet-head div{flex:1;min-width:0}
+  .sheet-kicker{margin:0 0 3px!important;font-size:10.5px!important;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--era)!important}
+  .modal.sheet h3{margin:0;font-size:19px;text-align:left}
+  .sheet-meta{margin:3px 0 0!important;font-size:12.5px!important}
+  .sheet-x{flex:0 0 auto;width:34px;height:34px;border-radius:50%;font:inherit;font-size:14px;color:var(--muted);
+    background:var(--panel-2);border:1px solid var(--line);cursor:pointer}
+  .sheet-x:hover{color:var(--txt);border-color:var(--muted-2)}
+  .sheet-progress{display:flex;align-items:center;gap:12px;padding:0 20px 14px;font-size:12px;font-weight:700;color:var(--muted);
+    font-variant-numeric:tabular-nums;border-bottom:1px solid var(--line)}
+  .sheet-bar{flex:1;height:6px;border-radius:99px;background:rgba(255,255,255,.06);overflow:hidden}
+  .sheet-bar i{display:block;height:100%;width:0;border-radius:99px;background:var(--era);box-shadow:0 0 10px var(--era);transition:width .35s ease}
+  .sheet-list{list-style:none;margin:0;padding:6px 8px;overflow-y:auto;overscroll-behavior:contain;flex:1}
+  .ep-row{display:flex;align-items:center;gap:12px;width:100%;min-height:46px;padding:8px 12px;font-family:inherit;text-align:left;
+    color:var(--txt);background:none;border:0;border-radius:10px;cursor:pointer;transition:background .15s}
+  .ep-row:hover{background:var(--panel-2)}
+  .ep-row:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+  .ep-num{flex:0 0 38px;font-size:11px;font-weight:800;letter-spacing:.04em;color:var(--era);font-variant-numeric:tabular-nums}
+  .ep-name{flex:1;min-width:0;font-size:14px;font-weight:600;line-height:1.3}
+  .ep-check{flex:0 0 auto;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;
+    border:1.5px solid color-mix(in srgb,var(--era) 60%,var(--line));transition:.18s}
+  .ep-check svg{width:13px;height:13px;stroke:transparent}
+  .ep-row[aria-pressed="true"] .ep-name{color:var(--muted)}
+  .ep-row[aria-pressed="true"] .ep-check{background:var(--era);border-color:var(--era);box-shadow:0 0 10px -2px var(--era)}
+  .ep-row[aria-pressed="true"] .ep-check svg{stroke:#08090d}
+  .ep-row.hit .ep-name{color:var(--accent)}
+  .sheet-actions{display:flex;justify-content:flex-end;gap:9px;padding:12px 16px 16px;border-top:1px solid var(--line)}
   .epbar{position:absolute;left:0;right:0;bottom:0;height:4px;z-index:2;background:rgba(0,0,0,.6);display:none}
   .epbar i{display:block;height:100%;width:var(--ep,0%);background:var(--era);box-shadow:0 0 8px var(--era)}
   .card.partial .epbar{display:block}
@@ -317,6 +335,7 @@
     box-shadow:0 24px 60px rgba(0,0,0,.65),0 0 0 1px rgba(226,73,58,.14),0 0 40px -10px rgba(226,73,58,.4);
     animation:pop .22s cubic-bezier(.2,.9,.3,1.3)}
   @keyframes pop{from{opacity:0;transform:translateY(10px) scale(.96)}to{opacity:1;transform:none}}
+  @keyframes sheetUp{from{transform:translateY(100%)}to{transform:none}}
   .modal-icon{width:54px;height:54px;margin:0 auto 15px;border-radius:50%;display:grid;place-items:center;
     font-size:26px;color:var(--e-pre);background:rgba(226,73,58,.12);
     border:1px solid rgba(226,73,58,.4);box-shadow:0 0 22px -4px var(--e-pre)}
@@ -374,6 +393,16 @@
   .toast button{font:inherit;font-size:12px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;
     color:var(--accent);background:none;border:0;padding:2px 0;cursor:pointer;white-space:nowrap}
 
+  /* ===== FLOTA DE FONDO (easter egg) =====
+     Naves y droides pasan muy de vez en cuando detrás del contenido; los huecos entre
+     tarjetas dejan pasar el clic para poder atraparlos. */
+  .fleet{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+  .sprite{position:absolute;left:0;top:0;pointer-events:auto;cursor:pointer;opacity:.5;user-select:none;-webkit-user-drag:none;
+    filter:drop-shadow(0 0 10px rgba(120,180,255,.18)) brightness(.9);transition:opacity .3s,filter .3s;will-change:transform}
+  .sprite:hover{opacity:.95;filter:drop-shadow(0 0 14px rgba(255,232,31,.5)) brightness(1.05)}
+  main,.era,.cards,.era-head,.foot{pointer-events:none}
+  .card,.era-head>*,.foot>*,.no-results{pointer-events:auto}
+
   /* ===== SEGUIR VIENDO ===== */
   .next-fab{position:fixed;right:22px;bottom:22px;z-index:30;display:flex;align-items:center;gap:11px;max-width:min(360px,calc(100vw - 28px));
     font-family:inherit;color:#08090d;background:var(--accent);border:0;border-radius:99px;padding:10px 18px 10px 14px;cursor:pointer;
@@ -415,6 +444,9 @@
     .no-results{padding:0 14px}
     .next-fab{right:14px;bottom:14px;left:14px;max-width:none}
     .era-head{gap:4px 10px}
+    .modal-backdrop:has(.sheet){place-items:end stretch;padding:0}
+    .modal.sheet{max-width:none;max-height:88vh;border-radius:18px 18px 0 0;animation:sheetUp .28s cubic-bezier(.2,.8,.3,1)}
+    .sheet-actions{padding-bottom:max(16px,env(safe-area-inset-bottom))}
     main{padding:18px 14px 50px}
     .foot{padding:6px 14px 50px}
     /* Ancho completo bajo los botones (no fixed: el backdrop-filter de la barra lo encerraría) */
@@ -437,6 +469,7 @@
 <body>
 
 <div class="space" aria-hidden="true"><i class="shoot"></i><i class="shoot s2"></i><i class="shoot s3"></i></div>
+<div class="fleet" id="fleet"></div>
 
 <div class="stick">
 <header class="topbar">
@@ -519,7 +552,7 @@
   <p>Secuencia continua de visionado, numerada del 01 en adelante. Cada tramo de The Clone Wars con salto de orden es su propia tarjeta; márcalas todas a la vista.</p>
   <p class="foot-note">Portadas oficiales cortesía de TMDB. Orden contrastado con las guías de <a href="https://www.starwars.com/news/star-wars-movies-and-series-guide" target="_blank" rel="noopener noreferrer">películas y series</a> y de <a href="https://www.starwars.com/news/star-wars-the-clone-wars-chronological-episodeorder" target="_blank" rel="noopener noreferrer">The Clone Wars</a> publicadas por Lucasfilm. Las antologías y algunos finales abarcan fechas paralelas: en esos casos se prioriza una ruta de visionado continua, no una intercalación por minutos.</p>
   <p class="foot-note">Guía hecha por fans, sin relación con Lucasfilm ni Disney. Star Wars y sus logotipos son marcas de Lucasfilm Ltd.</p>
-  <p class="version"><span class="ver-tag" id="verTag">v1.3.0</span> · actualizado <span id="verDate">2026-10-18</span> · <a href="privacidad.html">Privacidad</a></p>
+  <p class="version"><span class="ver-tag" id="verTag">v1.4.0</span> · actualizado <span id="verDate">2026-10-18</span> · <a href="privacidad.html">Privacidad</a></p>
 </footer>
 
 <div class="modal-backdrop" id="modal" hidden>
@@ -551,13 +584,25 @@
   </div>
 </div>
 
+<div class="modal-backdrop" id="epModal" hidden>
+  <div class="modal sheet" role="dialog" aria-modal="true" aria-labelledby="epTitle">
+    <div class="sheet-head">
+      <div><p class="sheet-kicker" id="epKicker"></p><h3 id="epTitle"></h3><p class="sheet-meta" id="epMeta"></p></div>
+      <button type="button" class="sheet-x" id="epClose" aria-label="Cerrar">✕</button>
+    </div>
+    <div class="sheet-progress"><span id="epProgress"></span><div class="sheet-bar"><i id="epBar"></i></div></div>
+    <ol class="sheet-list" id="epList"></ol>
+    <div class="sheet-actions"><button type="button" class="mbtn-primary" id="epAll"></button></div>
+  </div>
+</div>
+
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
 (function(){
   "use strict";
   var KEY="sw-canon-explode-v1";
-  var APP_VERSION="1.3.0", APP_UPDATED="2026-10-18";
+  var APP_VERSION="1.4.0", APP_UPDATED="2026-10-18";
   (function(){ var t=document.getElementById("verTag"), d=document.getElementById("verDate");
     if(t) t.textContent="v"+APP_VERSION; if(d) d.textContent=APP_UPDATED; })();
 
@@ -759,8 +804,8 @@
       var cardsHtml=sec.cards.map(function(c){
         n++; var num=String(n).padStart(2,"0");
         var done=!!state[c.id];
-        var eplist=c.ep?'<button type="button" class="ep-toggle" aria-expanded="false"><span class="caret">▸</span> <span class="ep-count">'+c.ep.length+' capítulos</span></button>'
-          +'<ul class="eplist">'+c.ep.map(function(x,i){ return '<li><button type="button" class="ep" data-ep="'+i+'" aria-pressed="false"><span>'+x+'</span></button></li>'; }).join("")+'</ul>':'';
+        var eplist=c.ep?'<button type="button" class="ep-toggle" aria-haspopup="dialog"><span class="caret">☰</span> <span class="ep-count">'+c.ep.length+' capítulos</span></button>'
+          +'<div class="ep-hit" hidden></div>':'';
         return '<article class="card '+(c.k==="film"?"film ":"")+(done?"done ":"")+'" data-id="'+c.id+'" data-kind="'+c.k+'" tabindex="0" role="button" aria-pressed="'+done+'" aria-label="'+num+'. '+c.t+'">'
           + '<div class="poster" data-t="'+c.t+'">'
           +   '<img src="posters/'+c.p+'.webp" alt="Póster de '+c.t+'" loading="lazy" onerror="this.closest(\'.poster\').classList.add(\'noimg\')">'
@@ -797,8 +842,12 @@
           epHit=sx.ep.some(function(e){ return e.indexOf(q)>-1; });
           hide=!epHit;
         }
-        [].forEach.call(card.querySelectorAll(".ep"), function(b,i){ b.classList.toggle("hit", epHit&&sx.ep[i].indexOf(q)>-1); });
-        if(epHit) openEpisodes(card, true);
+        var hitBox=card.querySelector(".ep-hit");
+        if(hitBox){
+          var hitAt=epHit?sx.ep.findIndex(function(e){ return e.indexOf(q)>-1; }):-1;
+          hitBox.hidden=hitAt<0;
+          hitBox.textContent=hitAt<0?"":"↳ "+BYID[card.getAttribute("data-id")].ep[hitAt];
+        }
         card.classList.toggle("hide", hide); if(!hide) vis++;
       });
       era.classList.toggle("hide", vis===0);
@@ -812,11 +861,6 @@
     paintEras(); updateNext();
   }
   function esc(x){ return String(x).replace(/[&<>"]/g, function(ch){ return { "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;" }[ch]; }); }
-  function openEpisodes(card, open){
-    var tog=card.querySelector(".ep-toggle"); if(!tog) return;
-    card.querySelector(".eplist").classList.toggle("open", open);
-    tog.setAttribute("aria-expanded", open);
-  }
   // Las cartas aparecen suavemente al entrar en pantalla (no con movimiento reducido)
   var revealIO=("IntersectionObserver" in window)&&!matchMedia("(prefers-reduced-motion: reduce)").matches
     ? new IntersectionObserver(function(entries){
@@ -852,8 +896,7 @@
     var c=BYID[el.getAttribute("data-id")], d=!!state[c.id];
     el.classList.toggle("done",d); el.setAttribute("aria-pressed",d);
     if(!c.ep) return;
-    var keys=epKeys(c), seen=0;
-    [].forEach.call(el.querySelectorAll(".ep"), function(b,i){ var on=d||!!state[keys[i]]; if(on) seen++; b.setAttribute("aria-pressed",on); });
+    var keys=epKeys(c), seen=d?keys.length:keys.filter(function(k){ return state[k]; }).length;
     var partial=!d&&seen>0;
     el.querySelector(".ep-count").textContent=partial?seen+" de "+keys.length+" capítulos":keys.length+" capítulos";
     el.style.setProperty("--ep", Math.round(seen/keys.length*100)+"%");
@@ -873,7 +916,7 @@
     });
   }
 
-  function changed(){ save(); refresh(); scheduleDrive(); }
+  function changed(){ save(); refresh(); scheduleDrive(); if(typeof paintSheet==="function") paintSheet(); }
 
   function toggle(card){
     var c=BYID[card.getAttribute("data-id")], now=new Date().toISOString();
@@ -924,11 +967,52 @@
     });
   }
 
+  // ----- Hoja de capítulos -----
+  var epModal=document.getElementById("epModal"), epList=document.getElementById("epList"), epAll=document.getElementById("epAll"), epCard=null;
+  var CHECK_SM='<svg viewBox="0 0 24 24" fill="none" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17 4 12"/></svg>';
+  function openSheet(card){
+    var c=BYID[card.getAttribute("data-id")];
+    epCard=card;
+    epModal.querySelector(".sheet").style.setProperty("--era", getComputedStyle(card).getPropertyValue("--era"));
+    document.getElementById("epKicker").textContent=card.querySelector(".cnum").textContent+" · "+card.closest(".era").querySelector(".era-title").textContent;
+    document.getElementById("epTitle").textContent=c.t;
+    document.getElementById("epMeta").textContent=c.m;
+    var q=norm(query.trim());
+    epList.innerHTML=c.ep.map(function(x,i){
+      var m=/^(E\d+)\s+(.*)$/.exec(x)||[x,"",x];
+      var hit=q&&norm(x).indexOf(q)>-1;
+      return '<li><button type="button" class="ep-row'+(hit?" hit":"")+'" data-ep="'+i+'" aria-pressed="false">'
+        +'<span class="ep-num">'+m[1]+'</span><span class="ep-name">'+esc(m[2])+'</span><span class="ep-check">'+CHECK_SM+'</span></button></li>';
+    }).join("");
+    paintSheet();
+    openModal(epModal, epList.querySelector(".hit")||epList.querySelector(".ep-row"));
+  }
+  function paintSheet(){
+    if(!epCard) return;
+    var c=BYID[epCard.getAttribute("data-id")], keys=epKeys(c), d=!!state[c.id], seen=0;
+    [].forEach.call(epList.querySelectorAll(".ep-row"), function(b,i){ var on=d||!!state[keys[i]]; if(on) seen++; b.setAttribute("aria-pressed", on); });
+    document.getElementById("epProgress").textContent=seen+" de "+keys.length;
+    document.getElementById("epBar").style.width=Math.round(seen/keys.length*100)+"%";
+    epAll.textContent=d?"Desmarcar todos":"Marcar todos";
+  }
+  epList.addEventListener("click", function(e){
+    var row=e.target.closest(".ep-row"); if(!row||!epCard) return;
+    toggleEpisode(epCard, +row.getAttribute("data-ep")); paintSheet();
+  });
+  epAll.addEventListener("click", function(){
+    if(!epCard) return;
+    var c=BYID[epCard.getAttribute("data-id")], on=!state[c.id], now=new Date().toISOString();
+    setKey(c.id, on, now);
+    epKeys(c).forEach(function(k){ if(state[k]) setKey(k, false, now); });
+    paintCard(epCard);
+    if(on){ epCard.classList.remove("pop"); void epCard.offsetWidth; epCard.classList.add("pop"); }
+    changed(); paintSheet();
+  });
+  document.getElementById("epClose").addEventListener("click", function(){ closeModal(epModal); });
+
   root.addEventListener("click", function(e){
-    var ep=e.target.closest(".ep");
-    if(ep){ toggleEpisode(ep.closest(".card"), +ep.getAttribute("data-ep")); return; }
     var tog=e.target.closest(".ep-toggle");
-    if(tog){ openEpisodes(tog.closest(".card"), tog.getAttribute("aria-expanded")!=="true"); return; }
+    if(tog){ openSheet(tog.closest(".card")); return; }
     var all=e.target.closest(".era-all");
     if(all){ markEra(all.closest(".era")); return; }
     var card=e.target.closest(".card"); if(card) toggle(card);
@@ -1448,6 +1532,78 @@
     // Al abrir no hay permiso todavía (vive solo en memoria): el indicador lo muestra
     if(driveInfo().conectado){ prepareDrive().catch(function(){}); setDriveState("paused"); }
     else renderDrive();
+  }
+
+  // ===== Flota de fondo (easter egg) =====
+  // Muy de vez en cuando cruza una nave o flota un droide detrás del contenido. Al tocarlo,
+  // la nave salta al hiperespacio y el droide se va girando; encontrar los seis tiene premio.
+  // x/y van en fracciones de la pantalla; `dir` 1 = la imagen mira hacia donde viaja.
+  var FLEET=[
+    { id:"falcon",   w:150, kind:"ship",  from:[-.2,.22], to:[1.2,.42], dur:17, msg:"Halcón Milenario: «¡Hizo el recorrido de Kessel en menos de doce pársecs!»" },
+    { id:"xwing",    w:110, kind:"ship",  from:[-.15,.05], to:[1.15,.72], dur:12, msg:"X-wing: «Rojo Cinco, en posición.»" },
+    { id:"tie",      w:90,  kind:"ship",  from:[1.15,.62], to:[-.15,.28], dur:10, msg:"Caza TIE: el Imperio sigue buscándote…" },
+    { id:"scimitar", w:105, kind:"ship",  from:[-.15,.12], to:[1.15,.8], dur:14, msg:"Scimitar: «Por fin nos revelaremos a los Jedi.»" },
+    { id:"r2",       w:66,  kind:"droid", dur:40, msg:"R2-D2: ¡Bip-bup-biiip! 🔵" },
+    { id:"c3po",     w:52,  kind:"droid", dur:46, msg:"C-3PO: «¡Estamos perdidos!»" }
+  ];
+  var FLEET_KEY=KEY+":flota", fleetEl=document.getElementById("fleet"), sailing=null;
+  function fleetFound(){ try{ var a=JSON.parse(localStorage.getItem(FLEET_KEY)||"[]"); return Array.isArray(a)?a:[]; }catch(e){ return []; } }
+  function rnd(a,b){ return a+Math.random()*(b-a); }
+
+  function launch(kind){
+    if(sailing||document.hidden) return;
+    var pool=FLEET.filter(function(f){ return f.kind===kind; }), f=pool[Math.floor(Math.random()*pool.length)];
+    var W=innerWidth, H=innerHeight, small=W<640?.7:1, size=f.w*small;
+    var img=document.createElement("img");
+    img.src="sprites/"+f.id+".webp"; img.alt=""; img.className="sprite"; img.draggable=false;
+    img.style.width=size+"px";
+    var a, b, r0, r1;
+    if(f.kind==="ship"){
+      var jitter=rnd(-.12,.12);
+      a=[f.from[0]*W, (f.from[1]+jitter)*H]; b=[f.to[0]*W, (f.to[1]+jitter)*H]; r0=r1=0;
+    } else {
+      // Los droides entran por un costado y cruzan despacio, girando un poco
+      var left=Math.random()<.5;
+      a=[left?-size*1.2:W+size*.2, rnd(.15,.75)*H]; b=[left?W+size*.2:-size*1.2, rnd(.15,.75)*H];
+      r0=rnd(-25,25); r1=r0+rnd(-60,60);
+    }
+    var t=function(p,r){ return "translate("+p[0]+"px,"+p[1]+"px) rotate("+r+"deg)"; };
+    img._anim=img.animate([{ transform:t(a,r0) }, { transform:t(b,r1) }], { duration:f.dur*1000, easing:"linear" });
+    img._anim.onfinish=function(){ img.remove(); sailing=null; };
+    img.addEventListener("click", function(){ catchSprite(img, f, a, b); });
+    fleetEl.appendChild(img);
+    sailing=img;
+  }
+
+  function catchSprite(img, f, a, b){
+    if(img._caught) return;
+    img._caught=true;
+    var m=new DOMMatrixReadOnly(getComputedStyle(img).transform), x=m.m41, y=m.m42;
+    img._anim.cancel();
+    var dx=b[0]-a[0], dy=b[1]-a[1], len=Math.hypot(dx,dy)||1;
+    var end=f.kind==="ship"
+      ? "translate("+(x+dx/len*2200)+"px,"+(y+dy/len*2200)+"px) scale(1.6,.7)"
+      : "translate("+(x+rnd(-80,80))+"px,"+(y-240)+"px) rotate(720deg) scale(.2)";
+    img.style.opacity="1";
+    img.animate([
+      { transform:"translate("+x+"px,"+y+"px)", filter:"brightness(1)", opacity:1 },
+      { transform:"translate("+x+"px,"+y+"px) scale(.9)", filter:"brightness(1.6)", opacity:1, offset:.18 },
+      { transform:end, filter:f.kind==="ship"?"blur(3px) brightness(3)":"brightness(1)", opacity:0 }
+    ], { duration:f.kind==="ship"?650:1100, easing:"cubic-bezier(.6,0,.9,.6)" }).onfinish=function(){ img.remove(); sailing=null; };
+    var found=fleetFound();
+    if(found.indexOf(f.id)<0){ found.push(f.id); try{ localStorage.setItem(FLEET_KEY, JSON.stringify(found)); }catch(e){} }
+    toast(found.length===FLEET.length
+      ? "★ ¡Encontraste toda la flota! Que la Fuerza te acompañe."
+      : f.msg+"  ·  "+found.length+"/"+FLEET.length);
+  }
+
+  // Ritmo bajo a propósito: una nave cada 40–80 s y un droide cada 90–160 s
+  function every(kind, min, max, first){
+    setTimeout(function tick(){ launch(kind); setTimeout(tick, rnd(min,max)*1000); }, first*1000);
+  }
+  if(!matchMedia("(prefers-reduced-motion: reduce)").matches&&fleetEl.animate){
+    every("ship", 40, 80, rnd(10,18));
+    every("droid", 90, 160, rnd(45,70));
   }
 
   // App instalable y sin conexión
