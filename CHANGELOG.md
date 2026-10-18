@@ -3,6 +3,16 @@
 Todas las versiones notables de esta guía interactiva de visionado.
 Formato basado en [Keep a Changelog](https://keepachangelog.com/). Versionado [SemVer](https://semver.org/).
 
+## [1.5.0] — 2026-10-18
+
+### Añadido
+- Duración de cada entrada: las películas muestran su duración en cines y las series la suma de sus capítulos. En la hoja de capítulos cada episodio lleva sus minutos y arriba se ve cuánto falta. La barra superior dice cuántas horas quedan para terminar el canon (unas 235 h en total).
+- El póster de las tarjetas con capítulos se va coloreando de izquierda a derecha según el porcentaje visto, con un filo de luz en el borde. El avance se anima al cerrar la hoja, y el póster pequeño de la hoja se colorea en vivo al marcar.
+
+### Cambiado
+- Al tocar una tarjeta en el celular ya no se pinta de azul la tarjeta entera con el texto: solo se resalta el póster. El foco con teclado también marca solo el póster.
+- Las tarjetas sueltas pasan de gris a color con el mismo barrido horizontal al marcarlas.
+
 ## [1.4.1] — 2026-10-18
 
 ### Eliminado
@@ -87,6 +97,7 @@ Primera versión completa.
 - Guardado automático en el navegador (localStorage) + exportar/importar progreso en JSON.
 - Modal estilizado para reiniciar el progreso.
 
+[1.5.0]: #
 [1.4.1]: #
 [1.4.0]: #
 [1.3.0]: #

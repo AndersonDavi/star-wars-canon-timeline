@@ -25,6 +25,7 @@ To run it, open `index.html` in a browser (works from `file://`). To serve the f
   - `k` is `"film"` or `"tv"` (drives the filters).
   - `rel` is the real release date (ISO).
   - `ep` (optional) lists episode names; when present, the card shows an expandable list of episodes that can each be checked.
+  - `d` is the runtime in minutes: a number, or, on cards with `ep`, a list of per-episode minutes in the same order. Films use the theatrical cut; episode lengths came from TheTVDB/TVmaze (October 2026). `cardMins`/`minsLeft` derive the card total and the time left, which the card, the episodes sheet and the header show.
 - **Release-order view**: `RELEASE_BUCKETS` regroups the same cards by real release era. Each bucket has a `match(c)` predicate that checks ids or id prefixes (`cw-`, `toj`), and the first match wins. Inside a bucket, cards sort by `rel`. The last bucket is a catch-all, so a new card lands there unless an earlier bucket's `match` is updated.
 - **Numbering** (01, 02, …) is computed while rendering (`renderSections`) and is continuous across sections. It therefore differs between the chronological and release views. Never hardcode it.
 - **State**: `localStorage` key `sw-canon-explode-v1` stores `{ <key>: true, __schema101: true, __t: { <key>: ISO } }`.
@@ -45,6 +46,7 @@ To run it, open `index.html` in a browser (works from `file://`). To serve the f
 
   A future migration may need a new flag or version check of the same shape.
 - **Click-through background**: `main`, `.era`, `.cards`, `.era-head` and `.foot` have `pointer-events:none`, and only their interactive children re-enable it. That lets the `.fleet` sprites behind the content be clicked in the gaps. Anything new and clickable inside `main` must be inside `.card` or set `pointer-events:auto`.
+- **Poster color fill**: each poster has a grayscale base `img` and a color copy (`img.tint`) clipped by `--fill` (0–100 %), set by `setFill()`. Cards with `ep` fill by the share of episodes seen, with a light `.edge` on the boundary; other cards go 0 → 100 %. While the episodes sheet is open over a card, its fill is held in `data-fill` and plays when the sheet closes (`closeModal`), and the sheet's own small poster fills live.
 - **Episodes UI**: the card only shows a "N capítulos" button. The list lives in the `#epModal` sheet (`openSheet`/`paintSheet`); `changed()` repaints it.
 - **UI refresh**: `refresh()` updates the saber, the per-era counts (`paintEras`) and the "Seguir viendo" target (`updateNext`). `applyFilter()` combines the Películas/Series filter with the search `query`. Both work on the cards currently visible, so they follow the active view.
 - **Lightsaber progress bar**: `refresh()` sets the `--saber` CSS variable by interpolating HSL across `SABER_STOPS`. `refresh(true)` plays the ignite animation on load.

@@ -221,7 +221,8 @@
 
   /* ===== CARD ===== */
   .card{position:relative;text-align:left;font-family:inherit;color:inherit;cursor:pointer;
-    background:transparent;border:none;padding:0;display:flex;flex-direction:column;gap:8px;transition:transform .18s}
+    background:transparent;border:none;padding:0;display:flex;flex-direction:column;gap:8px;transition:transform .18s;
+    -webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none;outline:none}
   @media (hover:hover){
     .card:hover{transform:translateY(-6px)}
     .card:hover .poster{border-color:color-mix(in srgb,var(--era) 60%,var(--line));
@@ -242,7 +243,7 @@
     .card.reveal{opacity:0;transform:translateY(16px)}
     .card.reveal.in{opacity:1;transform:none;transition:opacity .5s ease var(--d,0s),transform .5s cubic-bezier(.2,.8,.3,1) var(--d,0s)}
   }
-  .card:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:12px}
+  .card:focus-visible .poster{outline:2px solid var(--accent);outline-offset:3px}
   .card{scroll-margin:190px 0 110px}
   .card.spot .poster{animation:spot 1.8s ease-out}
   @keyframes spot{0%,40%{box-shadow:0 0 0 3px var(--accent),0 0 34px 4px var(--accent)}100%{box-shadow:var(--shadow)}}
@@ -250,6 +251,13 @@
     border:1px solid var(--line);box-shadow:var(--shadow);aspect-ratio:2/3}
   .poster img{width:100%;height:100%;object-fit:cover;display:block;
     filter:grayscale(1) brightness(.58) contrast(.95);transition:filter .4s}
+  /* La copia a color se descubre desde la izquierda según lo visto (--fill) */
+  .card .poster img.tint,.sheet-poster img.tint{position:absolute;inset:0;filter:none;
+    clip-path:inset(0 calc(100% - var(--fill,0%)) 0 0);transition:clip-path .8s cubic-bezier(.3,.7,.2,1)}
+  .poster .edge{position:absolute;top:0;bottom:0;left:var(--fill,0%);z-index:1;width:2px;margin-left:-1px;pointer-events:none;
+    background:#fff;box-shadow:0 0 8px 1px var(--era),0 0 18px 3px color-mix(in srgb,var(--era) 60%,transparent);
+    opacity:0;transition:left .8s cubic-bezier(.3,.7,.2,1),opacity .3s}
+  .card.partial .poster .edge,.sheet-poster.partial .edge{opacity:.85}
   .poster.noimg img{display:none}
   .poster.noimg::after{content:attr(data-t);position:absolute;inset:0;display:grid;place-items:center;
     padding:10px;text-align:center;font-size:12px;font-weight:700;color:#aeb4c2;
@@ -268,6 +276,9 @@
   .title{font-size:13.5px;font-weight:700;line-height:1.25;color:#cfd3de;transition:color .18s;
     display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
   .meta{font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums;line-height:1.35}
+  .dur{display:flex;align-items:center;gap:4px;margin-top:2px;font-size:10.5px;font-weight:600;color:color-mix(in srgb,var(--muted) 80%,var(--muted-2));font-variant-numeric:tabular-nums}
+  .dur svg{width:11px;height:11px;flex:0 0 auto;opacity:.8}
+  .card.done .dur{color:color-mix(in srgb,var(--era) 70%,var(--muted))}
   .ep-toggle{align-self:flex-start;margin-top:7px;font-family:inherit;font-size:10px;font-weight:700;letter-spacing:.06em;
     text-transform:uppercase;color:var(--era);background:color-mix(in srgb,var(--era) 10%,transparent);
     border:1px solid color-mix(in srgb,var(--era) 35%,transparent);border-radius:99px;padding:4px 10px 4px 8px;cursor:pointer;text-align:left}
@@ -283,6 +294,8 @@
     box-shadow:0 24px 60px rgba(0,0,0,.65),0 0 0 1px color-mix(in srgb,var(--era) 22%,transparent),0 0 44px -12px var(--era)}
   .sheet-head{display:flex;align-items:flex-start;gap:12px;padding:20px 20px 14px}
   .sheet-head div{flex:1;min-width:0}
+  .sheet-head .sheet-poster{flex:0 0 54px;border-radius:7px}
+  .sheet-poster img{filter:grayscale(1) brightness(.58) contrast(.95)}
   .sheet-kicker{margin:0 0 3px!important;font-size:10.5px!important;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--era)!important}
   .modal.sheet h3{margin:0;font-size:19px;text-align:left}
   .sheet-meta{margin:3px 0 0!important;font-size:12.5px!important}
@@ -300,6 +313,7 @@
   .ep-row:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
   .ep-num{flex:0 0 38px;font-size:11px;font-weight:800;letter-spacing:.04em;color:var(--era);font-variant-numeric:tabular-nums}
   .ep-name{flex:1;min-width:0;font-size:14px;font-weight:600;line-height:1.3}
+  .ep-min{flex:0 0 auto;font-size:11px;font-weight:600;color:var(--muted-2);font-variant-numeric:tabular-nums}
   .ep-check{flex:0 0 auto;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;
     border:1.5px solid color-mix(in srgb,var(--era) 60%,var(--line));transition:.18s}
   .ep-check svg{width:13px;height:13px;stroke:transparent}
@@ -311,9 +325,7 @@
   .epbar{position:absolute;left:0;right:0;bottom:0;height:4px;z-index:2;background:rgba(0,0,0,.6);display:none}
   .epbar i{display:block;height:100%;width:var(--ep,0%);background:var(--era);box-shadow:0 0 8px var(--era)}
   .card.partial .epbar{display:block}
-  .card.partial .poster img{filter:grayscale(.6) brightness(.7)}
 
-  .card.done .poster img{filter:none}
   .card.done .poster{border-color:color-mix(in srgb,var(--era) 70%,transparent);
     box-shadow:0 0 0 1px color-mix(in srgb,var(--era) 40%,transparent),0 12px 30px -8px color-mix(in srgb,var(--era) 60%,transparent)}
   .card.done .tick{background:var(--era);border-color:var(--era);box-shadow:0 0 12px -1px var(--era)}
@@ -552,7 +564,7 @@
   <p>Secuencia continua de visionado, numerada del 01 en adelante. Cada tramo de The Clone Wars con salto de orden es su propia tarjeta; márcalas todas a la vista.</p>
   <p class="foot-note">Portadas oficiales cortesía de TMDB. Orden contrastado con las guías de <a href="https://www.starwars.com/news/star-wars-movies-and-series-guide" target="_blank" rel="noopener noreferrer">películas y series</a> y de <a href="https://www.starwars.com/news/star-wars-the-clone-wars-chronological-episodeorder" target="_blank" rel="noopener noreferrer">The Clone Wars</a> publicadas por Lucasfilm. Las antologías y algunos finales abarcan fechas paralelas: en esos casos se prioriza una ruta de visionado continua, no una intercalación por minutos.</p>
   <p class="foot-note">Guía hecha por fans, sin relación con Lucasfilm ni Disney. Star Wars y sus logotipos son marcas de Lucasfilm Ltd.</p>
-  <p class="version"><span class="ver-tag" id="verTag">v1.4.1</span> · actualizado <span id="verDate">2026-10-18</span> · <a href="privacidad.html">Privacidad</a></p>
+  <p class="version"><span class="ver-tag" id="verTag">v1.5.0</span> · actualizado <span id="verDate">2026-10-18</span> · <a href="privacidad.html">Privacidad</a></p>
 </footer>
 
 <div class="modal-backdrop" id="modal" hidden>
@@ -587,6 +599,7 @@
 <div class="modal-backdrop" id="epModal" hidden>
   <div class="modal sheet" role="dialog" aria-modal="true" aria-labelledby="epTitle">
     <div class="sheet-head">
+      <div class="poster sheet-poster" id="epPoster" aria-hidden="true"><img alt=""><img class="tint" alt=""><span class="edge"></span></div>
       <div><p class="sheet-kicker" id="epKicker"></p><h3 id="epTitle"></h3><p class="sheet-meta" id="epMeta"></p></div>
       <button type="button" class="sheet-x" id="epClose" aria-label="Cerrar">✕</button>
     </div>
@@ -602,126 +615,126 @@
 (function(){
   "use strict";
   var KEY="sw-canon-explode-v1";
-  var APP_VERSION="1.4.1", APP_UPDATED="2026-10-18";
+  var APP_VERSION="1.5.0", APP_UPDATED="2026-10-18";
   (function(){ var t=document.getElementById("verTag"), d=document.getElementById("verDate");
     if(t) t.textContent="v"+APP_VERSION; if(d) d.textContent=APP_UPDATED; })();
 
   // Épocas = paradas de la línea de tiempo. La numeración es global y continua.
   var ERAS=[
     { era:"Alta República", kicker:"Siglos antes de la saga", color:"var(--e-hr)", cards:[
-      {id:"yja",p:"yja",t:"Young Jedi Adventures",m:"Serie · público infantil",k:"tv",rel:"2023-05-04"},
-      {id:"acolyte",p:"acolyte",t:"The Acolyte",m:"T1 · 8 episodios",k:"tv",rel:"2024-06-04"},
+      {id:"yja",p:"yja",t:"Young Jedi Adventures",m:"Serie · público infantil",k:"tv",rel:"2023-05-04",d:1320},
+      {id:"acolyte",p:"acolyte",t:"The Acolyte",m:"T1 · 8 episodios",k:"tv",rel:"2024-06-04",d:321},
     ]},
     { era:"Caída de los Jedi", kicker:"Precuelas", color:"var(--e-pre)", cards:[
-      {id:"toj-e2",p:"toj",t:"Tales of the Jedi · Justice",m:"T1 · E2 · joven Dooku",k:"tv",rel:"2022-10-26"},
-      {id:"toj-e3",p:"toj",t:"Tales of the Jedi · Choices",m:"T1 · E3 · Dooku y Mace",k:"tv",rel:"2022-10-26"},
-      {id:"underworld-bane",p:"underworld",t:"Tales of the Underworld · Cad Bane",m:"T1 · E4–6 · antes del Episodio I",k:"tv",rel:"2025-05-04"},
-      {id:"toj-e1",p:"toj",t:"Tales of the Jedi · Life and Death",m:"T1 · E1 · nace Ahsoka",k:"tv",rel:"2022-10-26"},
-      {id:"ep1",p:"ep1",t:"Episodio I: La amenaza fantasma",m:"Película · 1999",k:"film",rel:"1999-05-19"},
-      {id:"toj-e4",p:"toj",t:"Tales of the Jedi · The Sith Lord",m:"T1 · E4 · empieza en paralelo al Episodio I",k:"tv",rel:"2022-10-26"},
-      {id:"ep2",p:"ep2",t:"Episodio II: El ataque de los clones",m:"Película · 2002",k:"film",rel:"2002-05-16"},
+      {id:"toj-e2",p:"toj",t:"Tales of the Jedi · Justice",m:"T1 · E2 · joven Dooku",k:"tv",rel:"2022-10-26",d:14},
+      {id:"toj-e3",p:"toj",t:"Tales of the Jedi · Choices",m:"T1 · E3 · Dooku y Mace",k:"tv",rel:"2022-10-26",d:14},
+      {id:"underworld-bane",p:"underworld",t:"Tales of the Underworld · Cad Bane",m:"T1 · E4–6 · antes del Episodio I",k:"tv",rel:"2025-05-04",d:44},
+      {id:"toj-e1",p:"toj",t:"Tales of the Jedi · Life and Death",m:"T1 · E1 · nace Ahsoka",k:"tv",rel:"2022-10-26",d:17},
+      {id:"ep1",p:"ep1",t:"Episodio I: La amenaza fantasma",m:"Película · 1999",k:"film",rel:"1999-05-19",d:136},
+      {id:"toj-e4",p:"toj",t:"Tales of the Jedi · The Sith Lord",m:"T1 · E4 · empieza en paralelo al Episodio I",k:"tv",rel:"2022-10-26",d:16},
+      {id:"ep2",p:"ep2",t:"Episodio II: El ataque de los clones",m:"Película · 2002",k:"film",rel:"2002-05-16",d:142},
     ]},
     { era:"Las Guerras Clon", kicker:"Orden cronológico oficial", color:"var(--e-clone)", cards:[
-      {id:"cw-a",p:"tcw",t:"The Clone Wars",m:"T2 E16 · Cat and Mouse",k:"tv",rel:"2009-10-02"},
-      {id:"cw-b",p:"tcw",t:"The Clone Wars",m:"T1 E16 · Hidden Enemy",k:"tv",rel:"2008-10-03"},
-      {id:"cw-film",p:"cwfilm",t:"The Clone Wars · La Película",m:"Película · 2008",k:"film",rel:"2008-08-15"},
-      {id:"cw-c",p:"tcw",t:"The Clone Wars",m:"T3 E1 · Clone Cadets",k:"tv",rel:"2010-09-17"},
-      {id:"cw-d",p:"tcw",t:"The Clone Wars",m:"T3 E3 · Supply Lines",k:"tv",rel:"2010-09-17"},
-      {id:"cw-e",p:"tcw",t:"The Clone Wars",m:"T1 E1–15 · Malevolence y Grievous",k:"tv",rel:"2008-10-03",ep:[
+      {id:"cw-a",p:"tcw",t:"The Clone Wars",m:"T2 E16 · Cat and Mouse",k:"tv",rel:"2009-10-02",d:22},
+      {id:"cw-b",p:"tcw",t:"The Clone Wars",m:"T1 E16 · Hidden Enemy",k:"tv",rel:"2008-10-03",d:22},
+      {id:"cw-film",p:"cwfilm",t:"The Clone Wars · La Película",m:"Película · 2008",k:"film",rel:"2008-08-15",d:98},
+      {id:"cw-c",p:"tcw",t:"The Clone Wars",m:"T3 E1 · Clone Cadets",k:"tv",rel:"2010-09-17",d:23},
+      {id:"cw-d",p:"tcw",t:"The Clone Wars",m:"T3 E3 · Supply Lines",k:"tv",rel:"2010-09-17",d:22},
+      {id:"cw-e",p:"tcw",t:"The Clone Wars",m:"T1 E1–15 · Malevolence y Grievous",k:"tv",rel:"2008-10-03",d:[23,24,23,23,24,21,22,22,22,23,23,23,23,22,23],ep:[
         "E1 Ambush","E2 Rising Malevolence","E3 Shadow of Malevolence","E4 Destroy Malevolence","E5 Rookies",
         "E6 Downfall of a Droid","E7 Duel of the Droids","E8 Bombad Jedi","E9 Cloak of Darkness","E10 Lair of Grievous",
         "E11 Dooku Captured","E12 The Gungan General","E13 Jedi Crash","E14 Defenders of Peace","E15 Trespass"]},
-      {id:"cw-f",p:"tcw",t:"The Clone Wars",m:"T1 E17–21 · Virus y Ryloth",k:"tv",rel:"2008-10-03",ep:[
+      {id:"cw-f",p:"tcw",t:"The Clone Wars",m:"T1 E17–21 · Virus y Ryloth",k:"tv",rel:"2008-10-03",d:[23,23,24,24,24],ep:[
         "E17 Blue Shadow Virus","E18 Mystery of a Thousand Moons","E19 Storm Over Ryloth","E20 Innocents of Ryloth","E21 Liberty on Ryloth"]},
-      {id:"cw-g",p:"tcw",t:"The Clone Wars",m:"T2 E1–3 · Robo del holocrón",k:"tv",rel:"2009-10-02",ep:[
+      {id:"cw-g",p:"tcw",t:"The Clone Wars",m:"T2 E1–3 · Robo del holocrón",k:"tv",rel:"2009-10-02",d:[22,22,23],ep:[
         "E1 Holocron Heist","E2 Cargo of Doom","E3 Children of the Force"]},
-      {id:"cw-h",p:"tcw",t:"The Clone Wars",m:"T2 E17–19 · Bounty Hunters y el Zillo",k:"tv",rel:"2009-10-02",ep:[
+      {id:"cw-h",p:"tcw",t:"The Clone Wars",m:"T2 E17–19 · Bounty Hunters y el Zillo",k:"tv",rel:"2009-10-02",d:[23,22,23],ep:[
         "E17 Bounty Hunters","E18 The Zillo Beast","E19 The Zillo Beast Strikes Back"]},
-      {id:"cw-i",p:"tcw",t:"The Clone Wars",m:"T2 E4–14 · Geonosis y Mandalore",k:"tv",rel:"2009-10-02",ep:[
+      {id:"cw-i",p:"tcw",t:"The Clone Wars",m:"T2 E4–14 · Geonosis y Mandalore",k:"tv",rel:"2009-10-02",d:[23,22,23,23,22,22,23,23,23,23,22],ep:[
         "E4 Senate Spy","E5 Landing at Point Rain","E6 Weapons Factory","E7 Legacy of Terror","E8 Brain Invaders",
         "E9 Grievous Intrigue","E10 The Deserter","E11 Lightsaber Lost","E12 The Mandalore Plot","E13 Voyage of Temptation","E14 Duchess of Mandalore"]},
-      {id:"cw-j",p:"tcw",t:"The Clone Wars",m:"T2 E20–22 · Death Trap (Boba)",k:"tv",rel:"2009-10-02",ep:[
+      {id:"cw-j",p:"tcw",t:"The Clone Wars",m:"T2 E20–22 · Death Trap (Boba)",k:"tv",rel:"2009-10-02",d:[22,22,22],ep:[
         "E20 Death Trap","E21 R2 Come Home","E22 Lethal Trackdown"]},
-      {id:"cw-k",p:"tcw",t:"The Clone Wars",m:"T3 E5–7 · Corrupción en Mandalore",k:"tv",rel:"2010-09-17",ep:[
+      {id:"cw-k",p:"tcw",t:"The Clone Wars",m:"T3 E5–7 · Corrupción en Mandalore",k:"tv",rel:"2010-09-17",d:[22,23,23],ep:[
         "E5 Corruption","E6 The Academy","E7 Assassin"]},
-      {id:"cw-l",p:"tcw",t:"The Clone Wars",m:"T3 E2 · ARC Troopers (Kamino)",k:"tv",rel:"2010-09-17"},
-      {id:"cw-m",p:"tcw",t:"The Clone Wars",m:"T3 E4 · Sphere of Influence",k:"tv",rel:"2010-09-17"},
-      {id:"cw-n",p:"tcw",t:"The Clone Wars",m:"T3 E8 · Evil Plans",k:"tv",rel:"2010-09-17"},
-      {id:"cw-o",p:"tcw",t:"The Clone Wars",m:"T1 E22 · Hostage Crisis (Cad Bane)",k:"tv",rel:"2008-10-03"},
-      {id:"cw-p",p:"tcw",t:"The Clone Wars",m:"T3 E9–11 · Senado y política",k:"tv",rel:"2010-09-17",ep:[
+      {id:"cw-l",p:"tcw",t:"The Clone Wars",m:"T3 E2 · ARC Troopers (Kamino)",k:"tv",rel:"2010-09-17",d:21},
+      {id:"cw-m",p:"tcw",t:"The Clone Wars",m:"T3 E4 · Sphere of Influence",k:"tv",rel:"2010-09-17",d:22},
+      {id:"cw-n",p:"tcw",t:"The Clone Wars",m:"T3 E8 · Evil Plans",k:"tv",rel:"2010-09-17",d:22},
+      {id:"cw-o",p:"tcw",t:"The Clone Wars",m:"T1 E22 · Hostage Crisis (Cad Bane)",k:"tv",rel:"2008-10-03",d:22},
+      {id:"cw-p",p:"tcw",t:"The Clone Wars",m:"T3 E9–11 · Senado y política",k:"tv",rel:"2010-09-17",d:[21,22,22],ep:[
         "E9 Hunt for Ziro","E10 Heroes on Both Sides","E11 Pursuit of Peace"]},
-      {id:"cw-q",p:"tcw",t:"The Clone Wars",m:"T2 E15 · Senate Murders",k:"tv",rel:"2009-10-02"},
-      {id:"cw-r",p:"tcw",t:"The Clone Wars",m:"T3 E12–22 · Hermanas · Mortis · Ciudadela",k:"tv",rel:"2010-09-17",ep:[
+      {id:"cw-q",p:"tcw",t:"The Clone Wars",m:"T2 E15 · Senate Murders",k:"tv",rel:"2009-10-02",d:22},
+      {id:"cw-r",p:"tcw",t:"The Clone Wars",m:"T3 E12–22 · Hermanas · Mortis · Ciudadela",k:"tv",rel:"2010-09-17",d:[23,23,22,23,22,22,22,22,22,23,23],ep:[
         "E12 Nightsisters","E13 Monster","E14 Witches of the Mist","E15 Overlords","E16 Altar of Mortis","E17 Ghosts of Mortis",
         "E18 The Citadel","E19 Counterattack","E20 Citadel Rescue","E21 Padawan Lost","E22 Wookiee Hunt"]},
-      {id:"cw-s",p:"tcw",t:"The Clone Wars",m:"T4 E1–19 · Umbara, Maul y Dathomir",k:"tv",rel:"2011-09-16",ep:[
+      {id:"cw-s",p:"tcw",t:"The Clone Wars",m:"T4 E1–19 · Umbara, Maul y Dathomir",k:"tv",rel:"2011-09-16",d:[21,23,22,23,23,23,22,23,23,23,22,21,22,22,23,23,22,22,23],ep:[
         "E1 Water War","E2 Gungan Attack","E3 Prisoners","E4 Shadow Warrior","E5 Mercy Mission","E6 Nomad Droids",
         "E7 Darkness on Umbara","E8 The General","E9 Plan of Dissent","E10 Carnage of Krell","E11 Kidnapped",
         "E12 Slaves of the Republic","E13 Escape from Kadavo","E14 A Friend in Need","E15 Deception","E16 Friends and Enemies",
         "E17 The Box","E18 Crisis on Naboo","E19 Massacre"]},
-      {id:"toe-fear",p:"toe",t:"Tales of the Empire · The Path of Fear",m:"T1 · E1 · tras la masacre de Dathomir",k:"tv",rel:"2024-05-04"},
-      {id:"cw-s2",p:"tcw",t:"The Clone Wars",m:"T4 E20–22 · Ventress y el regreso de Maul",k:"tv",rel:"2011-09-16",ep:[
+      {id:"toe-fear",p:"toe",t:"Tales of the Empire · The Path of Fear",m:"T1 · E1 · tras la masacre de Dathomir",k:"tv",rel:"2024-05-04",d:15},
+      {id:"cw-s2",p:"tcw",t:"The Clone Wars",m:"T4 E20–22 · Ventress y el regreso de Maul",k:"tv",rel:"2011-09-16",d:[22,21,23],ep:[
         "E20 Bounty","E21 Brothers","E22 Revenge"]},
-      {id:"cw-t",p:"tcw",t:"The Clone Wars",m:"T5 E2–13 · Onderon y Younglings",k:"tv",rel:"2012-09-29",ep:[
+      {id:"cw-t",p:"tcw",t:"The Clone Wars",m:"T5 E2–13 · Onderon y Younglings",k:"tv",rel:"2012-09-29",d:[22,22,22,22,22,22,22,22,22,22,22,22],ep:[
         "E2 A War on Two Fronts","E3 Front Runners","E4 The Soft War","E5 Tipping Points","E6 The Gathering","E7 A Test of Strength",
         "E8 Bound for Rescue","E9 A Necessary Bond","E10 Secret Weapons","E11 A Sunny Day in the Void","E12 Missing in Action","E13 Point of No Return"]},
-      {id:"cw-u",p:"tcw",t:"The Clone Wars",m:"T5 E1 · Revival (Maul y Savage)",k:"tv",rel:"2012-09-29"},
-      {id:"cw-v",p:"tcw",t:"The Clone Wars",m:"T5 E14–20 · Mandalore y juicio de Ahsoka",k:"tv",rel:"2012-09-29",ep:[
+      {id:"cw-u",p:"tcw",t:"The Clone Wars",m:"T5 E1 · Revival (Maul y Savage)",k:"tv",rel:"2012-09-29",d:22},
+      {id:"cw-v",p:"tcw",t:"The Clone Wars",m:"T5 E14–20 · Mandalore y juicio de Ahsoka",k:"tv",rel:"2012-09-29",d:[22,23,23,22,22,22,23],ep:[
         "E14 Eminence","E15 Shades of Reason","E16 The Lawless","E17 Sabotage","E18 The Jedi Who Knew Too Much","E19 To Catch a Jedi","E20 The Wrong Jedi"]},
-      {id:"cw-w",p:"tcw",t:"The Clone Wars",m:"T6 E1–13 · Los chips y Yoda",k:"tv",rel:"2014-03-07",ep:[
+      {id:"cw-w",p:"tcw",t:"The Clone Wars",m:"T6 E1–13 · Los chips y Yoda",k:"tv",rel:"2014-03-07",d:[22,23,22,23,22,22,22,22,20,23,22,22,22],ep:[
         "E1 The Unknown","E2 Conspiracy","E3 Fugitive","E4 Orders","E5 An Old Friend","E6 The Rise of Clovis","E7 Crisis at the Heart",
         "E8 The Disappeared I","E9 The Disappeared II","E10 The Lost One","E11 Voices","E12 Destiny","E13 Sacrifice"]},
-      {id:"cw-x",p:"tcw",t:"The Clone Wars",m:"T7 E5–8 · Trace y Rafa",k:"tv",rel:"2020-02-21",ep:[
+      {id:"cw-x",p:"tcw",t:"The Clone Wars",m:"T7 E5–8 · Trace y Rafa",k:"tv",rel:"2020-02-21",d:[22,24,21,23],ep:[
         "E5 Gone with a Trace","E6 Deal No Deal","E7 Dangerous Debt","E8 Together Again"]},
-      {id:"cw-y",p:"tcw",t:"The Clone Wars",m:"T7 E1–4 · El regreso de Echo",k:"tv",rel:"2020-02-21",ep:[
+      {id:"cw-y",p:"tcw",t:"The Clone Wars",m:"T7 E1–4 · El regreso de Echo",k:"tv",rel:"2020-02-21",d:[24,24,18,23],ep:[
         "E1 The Bad Batch","E2 A Distant Echo","E3 On the Wings of Keeradaks","E4 Unfinished Business"]},
-      {id:"ep3",p:"ep3",t:"Episodio III: La venganza de los Sith",m:"Película · 2005 · Orden 66",k:"film",rel:"2005-05-19"},
-      {id:"cw-z",p:"tcw",t:"The Clone Wars · Sitio de Mandalore",m:"T7 E9–12 · en paralelo al Ep. III",k:"tv",rel:"2020-02-21",ep:[
+      {id:"ep3",p:"ep3",t:"Episodio III: La venganza de los Sith",m:"Película · 2005 · Orden 66",k:"film",rel:"2005-05-19",d:140},
+      {id:"cw-z",p:"tcw",t:"The Clone Wars · Sitio de Mandalore",m:"T7 E9–12 · en paralelo al Ep. III",k:"tv",rel:"2020-02-21",d:[27,25,24,22],ep:[
         "E9 Old Friends Not Forgotten","E10 The Phantom Apprentice","E11 Shattered","E12 Victory and Death"]},
-      {id:"toj-prac",p:"toj",t:"Tales of the Jedi · Practice",m:"T1 · E5 · Ahsoka",k:"tv",rel:"2022-10-26"},
+      {id:"toj-prac",p:"toj",t:"Tales of the Jedi · Practice",m:"T1 · E5 · Ahsoka",k:"tv",rel:"2022-10-26",d:10},
     ]},
     { era:"Nacimiento del Imperio", kicker:"Orden 66 y secuelas", color:"var(--e-imp)", cards:[
-      {id:"toe-dev",p:"toe",t:"Tales of the Empire · Devoted",m:"T1 · E4 · durante la Orden 66",k:"tv",rel:"2024-05-04"},
-      {id:"toe-real",p:"toe",t:"Tales of the Empire · Realization",m:"T1 · E5 · primeros tiempos del Imperio",k:"tv",rel:"2024-05-04"},
-      {id:"toj-res",p:"toj",t:"Tales of the Jedi · Resolve",m:"T1 · E6 · Ahsoka oculta",k:"tv",rel:"2022-10-26"},
-      {id:"badbatch",p:"badbatch",t:"The Bad Batch",m:"T1–T2 completas",k:"tv",rel:"2021-05-04"},
-      {id:"badbatch3a",p:"badbatch",t:"The Bad Batch · Temporada 3",m:"T3 · E1–8",k:"tv",rel:"2024-02-21"},
-      {id:"underworld",p:"underworld",t:"Tales of the Underworld · Ventress",m:"T1 · E1–3 · antes de su encuentro con el Bad Batch",k:"tv",rel:"2025-05-04"},
-      {id:"badbatch3b",p:"badbatch",t:"The Bad Batch · Temporada 3",m:"T3 · E9–15 · incluye The Harbinger",k:"tv",rel:"2024-02-21"},
-      {id:"maul",p:"maul",t:"Maul: Shadow Lord",m:"T1 · 10 episodios · 2026",k:"tv",rel:"2026-04-06"},
+      {id:"toe-dev",p:"toe",t:"Tales of the Empire · Devoted",m:"T1 · E4 · durante la Orden 66",k:"tv",rel:"2024-05-04",d:15},
+      {id:"toe-real",p:"toe",t:"Tales of the Empire · Realization",m:"T1 · E5 · primeros tiempos del Imperio",k:"tv",rel:"2024-05-04",d:12},
+      {id:"toj-res",p:"toj",t:"Tales of the Jedi · Resolve",m:"T1 · E6 · Ahsoka oculta",k:"tv",rel:"2022-10-26",d:14},
+      {id:"badbatch",p:"badbatch",t:"The Bad Batch",m:"T1–T2 completas",k:"tv",rel:"2021-05-04",d:919},
+      {id:"badbatch3a",p:"badbatch",t:"The Bad Batch · Temporada 3",m:"T3 · E1–8",k:"tv",rel:"2024-02-21",d:214},
+      {id:"underworld",p:"underworld",t:"Tales of the Underworld · Ventress",m:"T1 · E1–3 · antes de su encuentro con el Bad Batch",k:"tv",rel:"2025-05-04",d:48},
+      {id:"badbatch3b",p:"badbatch",t:"The Bad Batch · Temporada 3",m:"T3 · E9–15 · incluye The Harbinger",k:"tv",rel:"2024-02-21",d:197},
+      {id:"maul",p:"maul",t:"Maul: Shadow Lord",m:"T1 · 10 episodios · 2026",k:"tv",rel:"2026-04-06",d:236},
     ]},
     { era:"Era de la Rebelión", kicker:"Trilogía original", color:"var(--e-reb)", cards:[
-      {id:"solo",p:"solo",t:"Solo: Una historia de Star Wars",m:"Película · 2018",k:"film",rel:"2018-05-25"},
-      {id:"kenobi",p:"kenobi",t:"Obi-Wan Kenobi",m:"T1 · 6 episodios",k:"tv",rel:"2022-05-27"},
-      {id:"toe-anger",p:"toe",t:"Tales of the Empire · The Path of Anger",m:"T1 · E2 · entre 9 y 2 BBY",k:"tv",rel:"2024-05-04"},
-      {id:"toe-wayout",p:"toe",t:"Tales of the Empire · The Way Out",m:"T1 · E6 · tras Obi-Wan Kenobi; fecha aproximada",k:"tv",rel:"2024-05-04"},
-      {id:"andor1",p:"andor",t:"Andor — Temporada 1",m:"T1 · 5 BBY",k:"tv",rel:"2022-09-21"},
-      {id:"rebels12",p:"rebels",t:"Rebels — T1 y T2",m:"5–3 BBY · en paralelo con Andor",k:"tv",rel:"2014-10-03"},
-      {id:"andor2",p:"andor",t:"Andor — Temporada 2",m:"T2 · 4–1 BBY · en paralelo con Rebels",k:"tv",rel:"2025-04-22"},
-      {id:"rebels34",p:"rebels",t:"Rebels — T3 y T4",m:"2–0 BBY · epílogo posterior",k:"tv",rel:"2016-09-24"},
-      {id:"rogue",p:"rogue",t:"Rogue One",m:"Película · 2016 · pega con el IV",k:"film",rel:"2016-12-16"},
-      {id:"ep4",p:"ep4",t:"Episodio IV: Una nueva esperanza",m:"Película · 1977",k:"film",rel:"1977-05-25"},
-      {id:"ep5",p:"ep5",t:"Episodio V: El Imperio contraataca",m:"Película · 1980",k:"film",rel:"1980-05-21"},
-      {id:"ep6",p:"ep6",t:"Episodio VI: El regreso del Jedi",m:"Película · 1983",k:"film",rel:"1983-05-25"},
+      {id:"solo",p:"solo",t:"Solo: Una historia de Star Wars",m:"Película · 2018",k:"film",rel:"2018-05-25",d:135},
+      {id:"kenobi",p:"kenobi",t:"Obi-Wan Kenobi",m:"T1 · 6 episodios",k:"tv",rel:"2022-05-27",d:271},
+      {id:"toe-anger",p:"toe",t:"Tales of the Empire · The Path of Anger",m:"T1 · E2 · entre 9 y 2 BBY",k:"tv",rel:"2024-05-04",d:13},
+      {id:"toe-wayout",p:"toe",t:"Tales of the Empire · The Way Out",m:"T1 · E6 · tras Obi-Wan Kenobi; fecha aproximada",k:"tv",rel:"2024-05-04",d:15},
+      {id:"andor1",p:"andor",t:"Andor — Temporada 1",m:"T1 · 5 BBY",k:"tv",rel:"2022-09-21",d:546},
+      {id:"rebels12",p:"rebels",t:"Rebels — T1 y T2",m:"5–3 BBY · en paralelo con Andor",k:"tv",rel:"2014-10-03",d:815},
+      {id:"andor2",p:"andor",t:"Andor — Temporada 2",m:"T2 · 4–1 BBY · en paralelo con Rebels",k:"tv",rel:"2025-04-22",d:611},
+      {id:"rebels34",p:"rebels",t:"Rebels — T3 y T4",m:"2–0 BBY · epílogo posterior",k:"tv",rel:"2016-09-24",d:844},
+      {id:"rogue",p:"rogue",t:"Rogue One",m:"Película · 2016 · pega con el IV",k:"film",rel:"2016-12-16",d:133},
+      {id:"ep4",p:"ep4",t:"Episodio IV: Una nueva esperanza",m:"Película · 1977",k:"film",rel:"1977-05-25",d:121},
+      {id:"ep5",p:"ep5",t:"Episodio V: El Imperio contraataca",m:"Película · 1980",k:"film",rel:"1980-05-21",d:124},
+      {id:"ep6",p:"ep6",t:"Episodio VI: El regreso del Jedi",m:"Película · 1983",k:"film",rel:"1983-05-25",d:131},
     ]},
     { era:"Nueva República", kicker:"El Mandoverso", color:"var(--e-nr)", cards:[
-      {id:"mando1",p:"mando",t:"The Mandalorian — T1",m:"Temporada 1",k:"tv",rel:"2019-11-12"},
-      {id:"toe-hate",p:"toe",t:"Tales of the Empire · The Path of Hate",m:"T1 · E3 · antes de The Mandalorian T2",k:"tv",rel:"2024-05-04"},
-      {id:"mando2",p:"mando",t:"The Mandalorian — T2",m:"Temporada 2",k:"tv",rel:"2020-10-30"},
-      {id:"boba",p:"boba",t:"The Book of Boba Fett",m:"T1 · caps 5–7 = Mando T2.5",k:"tv",rel:"2021-12-29"},
-      {id:"mando3",p:"mando",t:"The Mandalorian — T3",m:"Temporada 3",k:"tv",rel:"2023-03-01"},
-      {id:"ahsoka",p:"ahsoka",t:"Ahsoka",m:"T1 · secuela de Rebels",k:"tv",rel:"2023-08-22"},
-      {id:"skeleton",p:"skeleton",t:"Skeleton Crew",m:"T1 · 8 episodios",k:"tv",rel:"2024-12-02"},
-      {id:"mandogrogu",p:"mandogrogu",t:"The Mandalorian & Grogu",m:"Película · 2026 · tras Skeleton Crew",k:"film",rel:"2026-05-22"},
+      {id:"mando1",p:"mando",t:"The Mandalorian — T1",m:"Temporada 1",k:"tv",rel:"2019-11-12",d:312},
+      {id:"toe-hate",p:"toe",t:"Tales of the Empire · The Path of Hate",m:"T1 · E3 · antes de The Mandalorian T2",k:"tv",rel:"2024-05-04",d:12},
+      {id:"mando2",p:"mando",t:"The Mandalorian — T2",m:"Temporada 2",k:"tv",rel:"2020-10-30",d:319},
+      {id:"boba",p:"boba",t:"The Book of Boba Fett",m:"T1 · caps 5–7 = Mando T2.5",k:"tv",rel:"2021-12-29",d:339},
+      {id:"mando3",p:"mando",t:"The Mandalorian — T3",m:"Temporada 3",k:"tv",rel:"2023-03-01",d:339},
+      {id:"ahsoka",p:"ahsoka",t:"Ahsoka",m:"T1 · secuela de Rebels",k:"tv",rel:"2023-08-22",d:359},
+      {id:"skeleton",p:"skeleton",t:"Skeleton Crew",m:"T1 · 8 episodios",k:"tv",rel:"2024-12-02",d:318},
+      {id:"mandogrogu",p:"mandogrogu",t:"The Mandalorian & Grogu",m:"Película · 2026 · tras Skeleton Crew",k:"film",rel:"2026-05-22",d:132},
     ]},
     { era:"Primera Orden", kicker:"Trilogía secuela", color:"var(--e-fo)", cards:[
-      {id:"res-a",p:"resistance",t:"Resistance — T1 E1–17",m:"Antes del Episodio VII",k:"tv",rel:"2018-10-07"},
-      {id:"ep7",p:"ep7",t:"Episodio VII: El despertar de la Fuerza",m:"Película · 2015",k:"film",rel:"2015-12-18"},
-      {id:"res-b",p:"resistance",t:"Resistance — T1 E18–21",m:"Se solapa con el Episodio VII",k:"tv",rel:"2018-10-07"},
-      {id:"res-c",p:"resistance",t:"Resistance — T2 E1",m:"Puente hacia el Episodio VIII",k:"tv",rel:"2019-10-06"},
-      {id:"ep8",p:"ep8",t:"Episodio VIII: Los últimos Jedi",m:"Película · 2017",k:"film",rel:"2017-12-15"},
-      {id:"res-d",p:"resistance",t:"Resistance — T2 E2–19",m:"Continúa después del Episodio VIII",k:"tv",rel:"2019-10-06"},
-      {id:"ep9",p:"ep9",t:"Episodio IX: El ascenso de Skywalker",m:"Película · 2019",k:"film",rel:"2019-12-20"},
+      {id:"res-a",p:"resistance",t:"Resistance — T1 E1–17",m:"Antes del Episodio VII",k:"tv",rel:"2018-10-07",d:374},
+      {id:"ep7",p:"ep7",t:"Episodio VII: El despertar de la Fuerza",m:"Película · 2015",k:"film",rel:"2015-12-18",d:138},
+      {id:"res-b",p:"resistance",t:"Resistance — T1 E18–21",m:"Se solapa con el Episodio VII",k:"tv",rel:"2018-10-07",d:88},
+      {id:"res-c",p:"resistance",t:"Resistance — T2 E1",m:"Puente hacia el Episodio VIII",k:"tv",rel:"2019-10-06",d:22},
+      {id:"ep8",p:"ep8",t:"Episodio VIII: Los últimos Jedi",m:"Película · 2017",k:"film",rel:"2017-12-15",d:152},
+      {id:"res-d",p:"resistance",t:"Resistance — T2 E2–19",m:"Continúa después del Episodio VIII",k:"tv",rel:"2019-10-06",d:396},
+      {id:"ep9",p:"ep9",t:"Episodio IX: El ascenso de Skywalker",m:"Película · 2019",k:"film",rel:"2019-12-20",d:142},
     ]},
   ];
 
@@ -788,6 +801,16 @@
   function epKeys(c){ return c.ep?c.ep.map(function(x,i){ return c.id+"/"+(i+1); }):[]; }
   var EPKEYS=[]; ALLCARDS.forEach(function(c){ EPKEYS=EPKEYS.concat(epKeys(c)); });
   var KEYS=ALL.concat(EPKEYS);
+  // Duración en minutos: `d` es un número, o una lista por capítulo en las cartas con `ep`
+  function epMins(c){ return Array.isArray(c.d)?c.d:null; }
+  function cardMins(c){ var e=epMins(c); return e?e.reduce(function(a,b){ return a+b; },0):(c.d||0); }
+  function minsLeft(c){
+    if(state[c.id]) return 0;
+    var e=epMins(c); if(!e) return cardMins(c);
+    return e.reduce(function(a,m,i){ return a+(state[c.id+"/"+(i+1)]?0:m); },0);
+  }
+  function fmtMins(m){ var h=Math.floor(m/60), r=m%60; return h?h+" h"+(r?" "+r+" min":""):r+" min"; }   // sin cortar "5 h"
+  var CLOCK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>';
   var RELEASE_SECTIONS=buildReleaseSections(ALLCARDS);
   function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
   save();
@@ -809,11 +832,14 @@
         return '<article class="card '+(c.k==="film"?"film ":"")+(done?"done ":"")+'" data-id="'+c.id+'" data-kind="'+c.k+'" tabindex="0" role="button" aria-pressed="'+done+'" aria-label="'+num+'. '+c.t+'">'
           + '<div class="poster" data-t="'+c.t+'">'
           +   '<img src="posters/'+c.p+'.webp" alt="Póster de '+c.t+'" loading="lazy" onerror="this.closest(\'.poster\').classList.add(\'noimg\')">'
+          +   '<img class="tint" src="posters/'+c.p+'.webp" alt="" loading="lazy">'
+          +   '<span class="edge"></span>'
           +   '<span class="seqnum cnum">'+num+'</span>'
           +   '<span class="tick">'+CHECK+'</span>'
           +   (c.ep?'<span class="epbar"><i></i></span>':'')
           + '</div>'
-          + '<div class="body"><div class="title">'+c.t+'</div><div class="meta">'+c.m+'</div>'+eplist+'</div>'
+          + '<div class="body"><div class="title">'+c.t+'</div><div class="meta">'+c.m+'</div>'
+          +   (c.d?'<div class="dur">'+CLOCK+'<span>'+fmtMins(cardMins(c))+'</span></div>':'')+eplist+'</div>'
           + '</article>';
       }).join("");
       html+='<section class="era" style="--era:'+sec.color+'">'
@@ -895,12 +921,21 @@
   function paintCard(el){
     var c=BYID[el.getAttribute("data-id")], d=!!state[c.id];
     el.classList.toggle("done",d); el.setAttribute("aria-pressed",d);
-    if(!c.ep) return;
+    if(!c.ep){ setFill(el, d?100:0); return; }
     var keys=epKeys(c), seen=d?keys.length:keys.filter(function(k){ return state[k]; }).length;
-    var partial=!d&&seen>0;
+    var partial=!d&&seen>0, pct=Math.round(seen/keys.length*100);
     el.querySelector(".ep-count").textContent=partial?seen+" de "+keys.length+" capítulos":keys.length+" capítulos";
-    el.style.setProperty("--ep", Math.round(seen/keys.length*100)+"%");
-    el.classList.toggle("partial", partial);
+    el.style.setProperty("--ep", pct+"%");
+    var du=el.querySelector(".dur span");
+    if(du) du.textContent=partial?"quedan "+fmtMins(minsLeft(c)):fmtMins(cardMins(c));
+    // Con la hoja abierta encima, el color de la carta avanza al cerrarla, para que se vea
+    if(epModal&&!epModal.hidden&&el===epCard){ el.setAttribute("data-fill", pct); return; }
+    setFill(el, pct);
+  }
+  function setFill(el, pct){
+    el.removeAttribute("data-fill");
+    el.style.setProperty("--fill", pct+"%");
+    el.classList.toggle("partial", pct>0&&pct<100);
   }
   function paintCards(){ [].forEach.call(root.querySelectorAll(".card"), paintCard); }
 
@@ -968,7 +1003,8 @@
   }
 
   // ----- Hoja de capítulos -----
-  var epModal=document.getElementById("epModal"), epList=document.getElementById("epList"), epAll=document.getElementById("epAll"), epCard=null;
+  var epModal=document.getElementById("epModal"), epList=document.getElementById("epList"), epAll=document.getElementById("epAll"), epCard=null,
+    epPoster=document.getElementById("epPoster");
   var CHECK_SM='<svg viewBox="0 0 24 24" fill="none" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17 4 12"/></svg>';
   function openSheet(card){
     var c=BYID[card.getAttribute("data-id")];
@@ -976,13 +1012,16 @@
     epModal.querySelector(".sheet").style.setProperty("--era", getComputedStyle(card).getPropertyValue("--era"));
     document.getElementById("epKicker").textContent=card.querySelector(".cnum").textContent+" · "+card.closest(".era").querySelector(".era-title").textContent;
     document.getElementById("epTitle").textContent=c.t;
-    document.getElementById("epMeta").textContent=c.m;
+    document.getElementById("epMeta").textContent=c.m+(c.d?" · "+fmtMins(cardMins(c)):"");
+    var src=card.querySelector(".poster img").getAttribute("src");
+    [].forEach.call(epPoster.querySelectorAll("img"), function(im){ im.src=src; });
     var q=norm(query.trim());
     epList.innerHTML=c.ep.map(function(x,i){
       var m=/^(E\d+)\s+(.*)$/.exec(x)||[x,"",x];
       var hit=q&&norm(x).indexOf(q)>-1;
       return '<li><button type="button" class="ep-row'+(hit?" hit":"")+'" data-ep="'+i+'" aria-pressed="false">'
-        +'<span class="ep-num">'+m[1]+'</span><span class="ep-name">'+esc(m[2])+'</span><span class="ep-check">'+CHECK_SM+'</span></button></li>';
+        +'<span class="ep-num">'+m[1]+'</span><span class="ep-name">'+esc(m[2])+'</span>'
+        +(epMins(c)?'<span class="ep-min">'+epMins(c)[i]+' min</span>':'')+'<span class="ep-check">'+CHECK_SM+'</span></button></li>';
     }).join("");
     paintSheet();
     openModal(epModal, epList.querySelector(".hit")||epList.querySelector(".ep-row"));
@@ -991,8 +1030,12 @@
     if(!epCard) return;
     var c=BYID[epCard.getAttribute("data-id")], keys=epKeys(c), d=!!state[c.id], seen=0;
     [].forEach.call(epList.querySelectorAll(".ep-row"), function(b,i){ var on=d||!!state[keys[i]]; if(on) seen++; b.setAttribute("aria-pressed", on); });
-    document.getElementById("epProgress").textContent=seen+" de "+keys.length;
-    document.getElementById("epBar").style.width=Math.round(seen/keys.length*100)+"%";
+    var left=minsLeft(c);
+    document.getElementById("epProgress").textContent=seen+" de "+keys.length+(epMins(c)?" · "+(left?"quedan "+fmtMins(left):fmtMins(cardMins(c))):"");
+    var pct=Math.round(seen/keys.length*100);
+    document.getElementById("epBar").style.width=pct+"%";
+    epPoster.style.setProperty("--fill", pct+"%");
+    epPoster.classList.toggle("partial", pct>0&&pct<100);
     epAll.textContent=d?"Desmarcar todos":"Marcar todos";
   }
   epList.addEventListener("click", function(e){
@@ -1050,7 +1093,8 @@
     var done=ALL.filter(function(id){return state[id];}).length, total=ALL.length;
     var pct=total?Math.round(done/total*100):0;
     document.getElementById("pct").textContent=pct+"%";
-    document.getElementById("count").textContent=done+" / "+total+" vistos";
+    var left=ALLCARDS.reduce(function(a,c){ return a+minsLeft(c); },0);
+    document.getElementById("count").textContent=done+" / "+total+" vistos"+(left?" · faltan "+(left>=600?Math.round(left/60)+" h":fmtMins(left)):"");
     document.documentElement.style.setProperty("--saber", saberColor(pct/100));
     if(ignite){
       barFill.classList.add("igniting");
@@ -1233,7 +1277,13 @@
     if(lastFocus&&lastFocus.closest&&lastFocus.closest(".menu")) lastFocus=btnMore;   // el menú ya se cerró
     m.hidden=false; focusEl.focus();
   }
-  function closeModal(m){ m.hidden=true; if(lastFocus&&lastFocus.focus) lastFocus.focus(); }
+  function closeModal(m){
+    m.hidden=true; if(lastFocus&&lastFocus.focus) lastFocus.focus();
+    if(m===epModal&&epCard&&epCard.hasAttribute("data-fill")){
+      var el=epCard, pct=+el.getAttribute("data-fill");
+      setTimeout(function(){ setFill(el, pct); }, 120);   // tras el cierre, el color avanza a la vista
+    }
+  }
   [].forEach.call(document.querySelectorAll(".modal-backdrop"), function(m){
     m.addEventListener("click", function(e){ if(e.target===m) closeModal(m); });
   });
