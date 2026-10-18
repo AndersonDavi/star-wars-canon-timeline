@@ -564,7 +564,7 @@
   <p>Secuencia continua de visionado, numerada del 01 en adelante. Cada tramo de The Clone Wars con salto de orden es su propia tarjeta; márcalas todas a la vista.</p>
   <p class="foot-note">Portadas oficiales cortesía de TMDB. Orden contrastado con las guías de <a href="https://www.starwars.com/news/star-wars-movies-and-series-guide" target="_blank" rel="noopener noreferrer">películas y series</a> y de <a href="https://www.starwars.com/news/star-wars-the-clone-wars-chronological-episodeorder" target="_blank" rel="noopener noreferrer">The Clone Wars</a> publicadas por Lucasfilm. Las antologías y algunos finales abarcan fechas paralelas: en esos casos se prioriza una ruta de visionado continua, no una intercalación por minutos.</p>
   <p class="foot-note">Guía hecha por fans, sin relación con Lucasfilm ni Disney. Star Wars y sus logotipos son marcas de Lucasfilm Ltd.</p>
-  <p class="version"><span class="ver-tag" id="verTag">v1.5.1</span> · actualizado <span id="verDate">2026-10-18</span> · <a href="privacidad.html">Privacidad</a></p>
+  <p class="version"><span class="ver-tag" id="verTag">v1.5.2</span> · actualizado <span id="verDate">2026-10-18</span> · <a href="privacidad.html">Privacidad</a></p>
 </footer>
 
 <div class="modal-backdrop" id="modal" hidden>
@@ -615,7 +615,7 @@
 (function(){
   "use strict";
   var KEY="sw-canon-explode-v1";
-  var APP_VERSION="1.5.1", APP_UPDATED="2026-10-18";
+  var APP_VERSION="1.5.2", APP_UPDATED="2026-10-18";
   (function(){ var t=document.getElementById("verTag"), d=document.getElementById("verDate");
     if(t) t.textContent="v"+APP_VERSION; if(d) d.textContent=APP_UPDATED; })();
 
@@ -1668,7 +1668,18 @@
 
   // App instalable y sin conexión
   if("serviceWorker" in navigator && /^https?:$/.test(location.protocol)){
-    window.addEventListener("load", function(){ navigator.serviceWorker.register("sw.js").catch(function(){}); });
+    window.addEventListener("load", function(){
+      navigator.serviceWorker.register("sw.js", { updateViaCache:"none" }).then(function(reg){
+        // La app instalada vuelve del fondo sin recargar: al volver, busca versión nueva
+        document.addEventListener("visibilitychange", function(){ if(!document.hidden) reg.update().catch(function(){}); });
+      }).catch(function(){});
+    });
+    // Cuando toma el control una versión nueva, recarga una vez (el progreso ya está guardado)
+    var hadSW=!!navigator.serviceWorker.controller, swReloaded=false;
+    navigator.serviceWorker.addEventListener("controllerchange", function(){
+      if(!hadSW||swReloaded) return;
+      swReloaded=true; location.reload();
+    });
   }
   var installPrompt=null, btnInstall=document.getElementById("btnInstall");
   window.addEventListener("beforeinstallprompt", function(e){ e.preventDefault(); installPrompt=e; btnInstall.hidden=false; });

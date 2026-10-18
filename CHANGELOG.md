@@ -3,6 +3,11 @@
 Todas las versiones notables de esta guía interactiva de visionado.
 Formato basado en [Keep a Changelog](https://keepachangelog.com/). Versionado [SemVer](https://semver.org/).
 
+## [1.5.2] — 2026-10-18
+
+### Corregido
+- La app instalada no recibía las versiones nuevas: la página se pedía a través de la caché de 10 minutos de GitHub Pages, y al volver del fondo no se recargaba. Ahora revalida con el servidor, busca actualización cada vez que vuelves a la app y se recarga sola una vez cuando llega una versión nueva (el progreso ya está guardado).
+
 ## [1.5.1] — 2026-10-18
 
 ### Corregido
@@ -102,6 +107,7 @@ Primera versión completa.
 - Guardado automático en el navegador (localStorage) + exportar/importar progreso en JSON.
 - Modal estilizado para reiniciar el progreso.
 
+[1.5.2]: #
 [1.5.1]: #
 [1.5.0]: #
 [1.4.1]: #

@@ -3,11 +3,14 @@
 // - Portadas e íconos: caché primero; se guardan la primera vez que se ven.
 // - Google (Drive, inicio de sesión) nunca pasa por aquí: solo se atienden pedidos del mismo origen.
 // Al publicar una versión, sube CACHE para que se descarte la caché anterior.
-var CACHE = "orden-canon-v1.5.1";
+var CACHE = "orden-canon-v1.5.2";
 var CORE = ["./", "index.html", "privacidad.html", "manifest.webmanifest", "icons/favicon.svg", "icons/icon-192.png"];
 
 self.addEventListener("install", function (e) {
-  e.waitUntil(caches.open(CACHE).then(function (c) { return c.addAll(CORE); }).then(function () { return self.skipWaiting(); }));
+  // `reload`: GitHub Pages manda max-age=600 y sin esto se guardaría la versión anterior
+  e.waitUntil(caches.open(CACHE).then(function (c) {
+    return c.addAll(CORE.map(function (u) { return new Request(u, { cache: "reload" }); }));
+  }).then(function () { return self.skipWaiting(); }));
 });
 
 self.addEventListener("activate", function (e) {
@@ -20,7 +23,8 @@ self.addEventListener("fetch", function (e) {
   var req = e.request, url = new URL(req.url);
   if (req.method !== "GET" || url.origin !== location.origin) return;
   if (req.mode === "navigate" || /\.(html|webmanifest)$/.test(url.pathname) || url.pathname.endsWith("/")) {
-    e.respondWith(fetch(req).then(function (res) {
+    // `no-cache`: revalida con el servidor en vez de usar la caché HTTP de 10 minutos
+    e.respondWith(fetch(req, { cache: "no-cache" }).then(function (res) {
       var copy = res.clone();
       caches.open(CACHE).then(function (c) { c.put(req, copy); });
       return res;

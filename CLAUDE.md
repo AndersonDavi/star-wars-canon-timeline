@@ -10,7 +10,7 @@ A single-page, interactive Star Wars canon watch-order guide. It is plain static
 - `posters/<p>.webp`: one poster per franchise/title (500 px wide), referenced by each card's `p` field. The `.jpg` files are the originals and are no longer loaded.
 - `icons/`: the clone trooper helmet. `icon.svg` is the source (app icon), `favicon.svg` is a tighter crop and `icon-maskable.svg` has more padding. The PNGs are rendered from them with `sharp` (global `sharp-cli`). `og-image.jpg` is the 1200×630 link preview used by the Open Graph tags.
 - `sprites/`: ships and droids for the background easter egg (`FLEET` in the script), cut out on transparent backgrounds. To add one, put a WebP of about 360 px here and add an entry to `FLEET` (`kind` ship or droid, size, path, duration, message).
-- `sw.js`, `manifest.webmanifest`: installable PWA that works offline. `sw.js` serves pages network-first and posters/icons cache-first, and only handles same-origin requests.
+- `sw.js`, `manifest.webmanifest`: installable PWA that works offline. `sw.js` serves pages network-first and posters/icons cache-first, and only handles same-origin requests. GitHub Pages sends `max-age=600`, so page fetches use `cache:"no-cache"` and install uses `cache:"reload"`. The page calls `reg.update()` whenever it becomes visible again and reloads once on `controllerchange`, so an installed app picks up a release without being force-closed.
 - `privacidad.html`: privacy policy. The Google OAuth consent screen points to it.
 - `CHANGELOG.md`: release notes.
 
