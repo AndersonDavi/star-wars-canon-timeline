@@ -1,0 +1,17 @@
+{
+  "name": "Orden del Canon · Star Wars",
+  "short_name": "Orden del Canon",
+  "description": "Guía de visionado del canon de Star Wars en orden cronológico o de estreno, con tu progreso guardado.",
+  "lang": "es",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#03040a",
+  "theme_color": "#03040a",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
+    { "src": "icons/icon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}

@@ -4,7 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Guía Star Wars — Orden cronológico del canon</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🪐</text></svg>">
+<meta name="description" content="Guía para ver todo el canon de Star Wars en orden cronológico o de estreno, con tu progreso guardado y sincronizado con Google Drive.">
+<meta name="theme-color" content="#03040a">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
 <style>
   :root{
     --bg:#03040a; --panel:#0c0d15; --panel-2:#11121c;
@@ -49,8 +53,17 @@
       radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,.5), transparent),
       radial-gradient(1px 1px at 65% 15%, rgba(255,255,255,.45), transparent);
     background-size:300px 300px;opacity:.7;
-    animation:drift 400s linear infinite reverse}
+    animation:drift 400s linear infinite reverse,twinkle 5s ease-in-out infinite alternate}
   @keyframes drift{to{transform:translate(-260px,-260px)}}
+  @keyframes twinkle{from{opacity:.35}to{opacity:.85}}
+  /* Estrellas fugaces: cruzan de vez en cuando, cada una con su ritmo */
+  .shoot{position:absolute;top:12%;left:-20%;width:180px;height:1.5px;border-radius:99px;opacity:0;
+    background:linear-gradient(90deg,transparent,rgba(170,215,255,.9) 70%,#fff);
+    box-shadow:0 0 8px rgba(140,200,255,.7);transform:rotate(14deg);animation:shoot 11s ease-in 3s infinite}
+  .shoot.s2{top:46%;width:120px;animation-duration:17s;animation-delay:8s}
+  .shoot.s3{top:74%;width:150px;animation-duration:23s;animation-delay:14s}
+  @keyframes shoot{0%{opacity:0;transform:translateX(0) rotate(14deg)}
+    1%{opacity:1}7%{opacity:0;transform:translateX(150vw) rotate(14deg)}100%{opacity:0;transform:translateX(150vw) rotate(14deg)}}
 
   /* ===== TOPBAR ===== */
   .stick{position:sticky;top:0;z-index:20}
@@ -58,9 +71,10 @@
     background:rgba(3,4,10,.9);border-bottom:1px solid var(--line)}
   .topbar-inner{max-width:1220px;margin:0 auto;padding:13px 22px;
     display:flex;align-items:center;gap:22px;flex-wrap:wrap}
-  .brand{display:flex;align-items:center;gap:12px;min-width:180px}
-  .brand-mark{color:var(--accent);font-size:20px;filter:drop-shadow(0 0 8px rgba(255,232,31,.6))}
-  .brand-txt h1{margin:0;font-size:15px;font-weight:800;letter-spacing:.17em;text-transform:uppercase}
+  .brand{display:flex;align-items:center;gap:14px;min-width:180px}
+  .sw-logo{height:38px;width:auto;flex:0 0 auto;color:var(--accent);filter:drop-shadow(0 0 10px rgba(255,232,31,.35))}
+  .brand-txt{padding-left:14px;border-left:1px solid var(--line)}
+  .brand-txt h1{margin:0;font-size:14px;font-weight:800;letter-spacing:.2em;text-transform:uppercase}
   .brand-txt p{margin:2px 0 0;font-size:11px;color:var(--muted);letter-spacing:.05em}
   .progress{flex:1;min-width:230px}
   .progress-meta{display:flex;align-items:baseline;gap:10px;margin-bottom:8px}
@@ -77,12 +91,20 @@
     box-shadow:4px 0 0 rgba(0,0,0,.4),8px 0 0 rgba(0,0,0,.4)}
   .hilt::after{content:"";position:absolute;right:-4px;top:2px;bottom:2px;width:5px;border-radius:1px;
     background:linear-gradient(180deg,#d6d9df,#9498a2)}
+  .hilt i{position:absolute;left:19px;top:-2px;width:5px;height:4px;border-radius:1px 1px 0 0;
+    background:var(--saber);box-shadow:0 0 5px var(--saber)}
   .blade-track{flex:1;height:8px;border-radius:99px;margin-left:-1px;position:relative;
     background:rgba(120,180,255,.05);box-shadow:inset 0 0 0 1px rgba(120,180,255,.06)}
   .blade{height:100%;width:0;border-radius:99px;position:relative;
-    background:linear-gradient(90deg,#fdffff,color-mix(in srgb,var(--saber) 42%,#fff) 28%,var(--saber));
+    background:
+      linear-gradient(90deg,transparent,rgba(255,255,255,.95) 50%,transparent) -40% 0/38% 100% no-repeat,
+      linear-gradient(90deg,#fdffff,color-mix(in srgb,var(--saber) 42%,#fff) 28%,var(--saber));
     box-shadow:0 0 6px var(--saber),0 0 15px var(--saber),0 0 30px color-mix(in srgb,var(--saber) 55%,transparent);
-    transition:width .55s cubic-bezier(.4,0,.2,1),box-shadow .5s ease}
+    transition:width .55s cubic-bezier(.4,0,.2,1),box-shadow .5s ease;
+    animation:hum 2.6s steps(1) infinite,surge 3.2s cubic-bezier(.5,0,.5,1) infinite}
+  @keyframes hum{0%,100%{filter:brightness(1)}12%{filter:brightness(1.18)}14%{filter:brightness(.94)}
+    46%{filter:brightness(1.08)}48%{filter:brightness(1)}71%{filter:brightness(1.22)}73%{filter:brightness(.97)}}
+  @keyframes surge{0%{background-position:-40% 0,0 0}60%,100%{background-position:140% 0,0 0}}
   .blade.igniting{transition:width 1s cubic-bezier(.16,.9,.24,1),box-shadow .5s ease}
   .blade::before{content:"";position:absolute;left:2px;right:6px;top:1px;height:2px;border-radius:99px;
     background:rgba(255,255,255,.92)}
@@ -90,7 +112,7 @@
     width:11px;height:11px;border-radius:50%;background:#fff;
     box-shadow:0 0 8px #fff,0 0 18px var(--saber),0 0 30px var(--saber)}
   /* Al completar el 100% — pulso lado oscuro */
-  body.maxed .blade{animation:saberPulse 1.5s ease-in-out infinite}
+  body.maxed .blade{animation:saberPulse 1.5s ease-in-out infinite,surge 1.6s cubic-bezier(.5,0,.5,1) infinite}
   body.maxed .blade::after{animation:tipPulse 1.5s ease-in-out infinite}
   body.maxed #pct{animation:pctPulse 1.5s ease-in-out infinite}
   @keyframes saberPulse{
@@ -118,7 +140,7 @@
   .menu{position:absolute;right:0;top:calc(100% + 8px);z-index:40;min-width:240px;padding:6px;border-radius:12px;
     background:linear-gradient(180deg,var(--panel),#08090f);border:1px solid var(--line);box-shadow:var(--shadow);
     animation:pop .16s cubic-bezier(.2,.9,.3,1.3)}
-  .menu[hidden]{display:none}
+  .menu[hidden],.menu [hidden]{display:none}
   .menu button{display:flex;align-items:center;gap:11px;width:100%;text-align:left;font-family:inherit;
     font-size:13px;font-weight:600;color:var(--txt);background:none;border:0;border-radius:8px;padding:9px 10px;cursor:pointer}
   .menu button svg{width:17px;height:17px;flex:0 0 auto;color:var(--muted);transition:color .18s}
@@ -141,7 +163,19 @@
   .chip:hover{color:var(--txt)}
   .chip.active{color:#08090d;background:var(--accent)}
   .chip:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-  .toolbar .spacer{flex:1}
+  .search{display:flex;align-items:center;gap:8px;flex:1;max-width:340px;margin:0 auto;height:36px;padding:0 12px;
+    border-radius:99px;background:var(--panel-2);border:1px solid var(--line);color:var(--muted);transition:border-color .18s}
+  .search:focus-within{border-color:var(--accent);color:var(--accent)}
+  .search svg{width:15px;height:15px;flex:0 0 auto}
+  .search input{flex:1;min-width:0;height:100%;font:inherit;font-size:13px;color:var(--txt);background:none;border:0;outline:none}
+  .search input::placeholder{color:var(--muted-2)}
+  .search-close{display:none;font:inherit;font-size:13px;color:var(--muted);background:none;border:0;padding:6px;cursor:pointer}
+  .btn-search{display:none;padding:9px 10px}
+  .btn-search svg{width:16px;height:16px}
+  .no-results{position:relative;z-index:1;max-width:1220px;margin:-10px auto 50px;padding:0 22px;text-align:center;color:var(--muted);font-size:15px}
+  .no-results .boba{display:block;width:72px;height:72px;margin:0 auto 14px;color:var(--muted-2);filter:drop-shadow(0 0 14px rgba(255,232,31,.15))}
+  .no-results span{display:block;color:var(--txt);font-weight:700}
+  .no-results small{display:block;margin-top:4px;font-size:12.5px;color:var(--muted-2)}
 
   /* ===== TIMELINE ===== */
   main{position:relative;z-index:1;max-width:1220px;margin:0 auto;padding:24px 22px 60px}
@@ -153,16 +187,48 @@
   .era-node{position:absolute;left:11px;top:20px;width:22px;height:22px;border-radius:50%;
     background:var(--bg);border:2px solid var(--era);
     box-shadow:0 0 14px -1px var(--era),0 0 4px var(--era);z-index:2}
-  .era-head{margin-bottom:10px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
-  .era-title{margin:0;font-size:17px;font-weight:800;letter-spacing:.02em;color:#fff}
+  .era-head{margin-bottom:14px;display:flex;align-items:baseline;gap:6px 12px;flex-wrap:wrap}
+  .era-title{margin:0;font-size:20px;font-weight:800;letter-spacing:.01em;color:#fff;text-shadow:0 0 22px color-mix(in srgb,var(--era) 45%,transparent)}
+  .era-tools{margin-left:auto;display:flex;align-items:center;gap:10px}
+  .era-count{font-size:12px;font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums}
+  .era.era-done .era-count{color:var(--era)}
+  .era.era-done .era-node{background:var(--era);animation:nodePulse 2.4s ease-in-out infinite}
+  .era-node{transition:background .4s}
+  @keyframes nodePulse{50%{box-shadow:0 0 24px 2px var(--era),0 0 6px var(--era)}}
+  .era-all{font-family:inherit;font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--muted);background:none;border:1px solid var(--line);border-radius:99px;padding:4px 10px;cursor:pointer;transition:.18s}
+  .era-all:hover{color:var(--era);border-color:var(--era)}
+  .era-all:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
   .era-kicker{font-size:10.5px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--era)}
   .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:15px}
 
   /* ===== CARD ===== */
   .card{position:relative;text-align:left;font-family:inherit;color:inherit;cursor:pointer;
     background:transparent;border:none;padding:0;display:flex;flex-direction:column;gap:8px;transition:transform .18s}
-  .card:hover{transform:translateY(-4px)}
+  @media (hover:hover){
+    .card:hover{transform:translateY(-6px)}
+    .card:hover .poster{border-color:color-mix(in srgb,var(--era) 60%,var(--line));
+      box-shadow:0 0 0 1px color-mix(in srgb,var(--era) 30%,transparent),0 18px 40px -10px color-mix(in srgb,var(--era) 55%,#000)}
+    .card:hover .poster img{filter:grayscale(.45) brightness(.82) contrast(1)}
+    .card:hover .tick{border-color:var(--era);background:color-mix(in srgb,var(--era) 30%,rgba(0,0,0,.5))}
+    .card:hover .title{color:#fff}
+  }
+  /* Al marcar: el check rebota y un tajo de luz cruza el póster */
+  .poster::before{content:"";position:absolute;inset:-30% -60%;z-index:2;pointer-events:none;opacity:0;
+    background:linear-gradient(115deg,transparent 42%,color-mix(in srgb,var(--era) 60%,#fff) 49%,#fff 50%,color-mix(in srgb,var(--era) 60%,#fff) 51%,transparent 58%);
+    transform:translateX(-60%)}
+  .card.pop .poster::before{animation:slash .7s cubic-bezier(.3,.6,.3,1)}
+  .card.pop .tick{animation:tickPop .45s cubic-bezier(.3,1.6,.5,1)}
+  @keyframes slash{0%{opacity:0;transform:translateX(-60%)}15%{opacity:.9}100%{opacity:0;transform:translateX(60%)}}
+  @keyframes tickPop{0%{transform:scale(.5)}60%{transform:scale(1.3)}100%{transform:scale(1)}}
+  @media (prefers-reduced-motion:no-preference){
+    .card.reveal{opacity:0;transform:translateY(16px)}
+    .card.reveal.in{opacity:1;transform:none;transition:opacity .5s ease var(--d,0s),transform .5s cubic-bezier(.2,.8,.3,1) var(--d,0s)}
+  }
   .card:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:12px}
+  .card{scroll-margin:190px 0 110px}
+  .card.spot .poster{animation:spot 1.8s ease-out}
+  @keyframes spot{0%,40%{box-shadow:0 0 0 3px var(--accent),0 0 34px 4px var(--accent)}100%{box-shadow:var(--shadow)}}
   .poster{position:relative;border-radius:10px;overflow:hidden;background:var(--panel-2);
     border:1px solid var(--line);box-shadow:var(--shadow);aspect-ratio:2/3}
   .poster img{width:100%;height:100%;object-fit:cover;display:block;
@@ -182,10 +248,12 @@
     display:grid;place-items:center;background:rgba(0,0,0,.5);border:1.5px solid rgba(255,255,255,.3);transition:.2s}
   .tick svg{width:14px;height:14px;stroke:transparent}
   .body{display:flex;flex-direction:column;gap:2px;padding:0 2px}
-  .title{font-size:13px;font-weight:700;line-height:1.22}
+  .title{font-size:13.5px;font-weight:700;line-height:1.25;color:#cfd3de;transition:color .18s;
+    display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
   .meta{font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums;line-height:1.35}
-  .ep-toggle{margin-top:6px;font-family:inherit;font-size:10px;font-weight:700;letter-spacing:.06em;
-    text-transform:uppercase;color:var(--era);background:none;border:none;padding:4px 0 0;cursor:pointer;text-align:left}
+  .ep-toggle{align-self:flex-start;margin-top:7px;font-family:inherit;font-size:10px;font-weight:700;letter-spacing:.06em;
+    text-transform:uppercase;color:var(--era);background:color-mix(in srgb,var(--era) 10%,transparent);
+    border:1px solid color-mix(in srgb,var(--era) 35%,transparent);border-radius:99px;padding:4px 10px 4px 8px;cursor:pointer;text-align:left}
   .ep-toggle:hover{filter:brightness(1.25)}
   .ep-toggle:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
   .ep-toggle .caret{display:inline-block;transition:transform .2s}
@@ -193,11 +261,22 @@
   .eplist{list-style:none;margin:6px 0 0;padding:6px 0 0;border-top:1px solid var(--line-soft);
     display:none;flex-direction:column;gap:1px}
   .eplist.open{display:flex}
-  .eplist li{font-size:10px;color:var(--muted-2);line-height:1.42;padding-left:10px;position:relative;
-    white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .eplist li::before{content:"";position:absolute;left:0;top:6px;width:4px;height:4px;border-radius:50%;
-    background:color-mix(in srgb,var(--era) 75%,transparent)}
-  .card.done .eplist li{color:var(--muted)}
+  .eplist li{min-width:0}
+  /* Cada capítulo se marca por separado; la carta queda vista con el último */
+  .ep{display:flex;align-items:center;gap:6px;width:100%;font-family:inherit;font-size:10.5px;line-height:1.3;text-align:left;
+    color:var(--muted-2);background:none;border:0;border-radius:5px;padding:3px 2px;cursor:pointer}
+  .ep span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .ep::before{content:"";flex:0 0 auto;width:10px;height:10px;border-radius:50%;box-sizing:border-box;
+    border:1.5px solid color-mix(in srgb,var(--era) 75%,transparent);transition:.15s}
+  .ep:hover{color:var(--txt)}
+  .ep:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+  .ep[aria-pressed="true"]{color:var(--muted)}
+  .ep[aria-pressed="true"]::before{background:var(--era);border-color:var(--era);box-shadow:0 0 6px -1px var(--era)}
+  .ep.hit span{color:var(--accent)}
+  .epbar{position:absolute;left:0;right:0;bottom:0;height:4px;z-index:2;background:rgba(0,0,0,.6);display:none}
+  .epbar i{display:block;height:100%;width:var(--ep,0%);background:var(--era);box-shadow:0 0 8px var(--era)}
+  .card.partial .epbar{display:block}
+  .card.partial .poster img{filter:grayscale(.6) brightness(.7)}
 
   .card.done .poster img{filter:none}
   .card.done .poster{border-color:color-mix(in srgb,var(--era) 70%,transparent);
@@ -273,13 +352,31 @@
     padding:11px 18px;border-radius:10px;font-size:13px;font-weight:600;
     box-shadow:0 0 20px rgba(55,182,255,.3),var(--shadow);opacity:0;pointer-events:none;transition:.3s}
   .toast.show{opacity:1;transform:translate(-50%,0)}
+  .toast.show.has-action{pointer-events:auto}
+  .toast{display:flex;align-items:center;gap:14px;max-width:calc(100vw - 28px)}
+  .toast button{font:inherit;font-size:12px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;
+    color:var(--accent);background:none;border:0;padding:2px 0;cursor:pointer;white-space:nowrap}
+
+  /* ===== SEGUIR VIENDO ===== */
+  .next-fab{position:fixed;right:22px;bottom:22px;z-index:30;display:flex;align-items:center;gap:11px;max-width:min(360px,calc(100vw - 28px));
+    font-family:inherit;color:#08090d;background:var(--accent);border:0;border-radius:99px;padding:10px 18px 10px 14px;cursor:pointer;
+    box-shadow:0 10px 30px rgba(0,0,0,.55),0 0 22px -4px rgba(255,232,31,.7);transition:transform .18s,box-shadow .18s}
+  .next-fab[hidden]{display:none}
+  .next-fab:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(0,0,0,.6),0 0 30px -2px rgba(255,232,31,.8)}
+  .next-fab:focus-visible{outline:2px solid #fff;outline-offset:3px}
+  .next-fab svg{width:18px;height:18px;flex:0 0 auto}
+  .next-txt{display:flex;flex-direction:column;min-width:0;text-align:left;font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;line-height:1.2}
+  .next-txt small{font-size:12px;font-weight:600;letter-spacing:0;text-transform:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  body:has(.next-fab:not([hidden])) .toast{bottom:86px}
 
   /* Celular: barra superior compacta (marca + acciones arriba, sable abajo) y toolbar en una línea */
   @media (max-width:640px){
     .topbar-inner{padding:10px 14px 11px;gap:8px 12px}
     .brand{min-width:0;flex:1;gap:9px}
-    .brand-mark{font-size:16px}
-    .brand-txt h1{font-size:13px;letter-spacing:.14em}
+    .sw-logo{height:26px}
+    .brand{gap:10px}
+    .brand-txt{padding-left:10px}
+    .brand-txt h1{font-size:11px;letter-spacing:.14em;line-height:1.25}
     .brand-txt p{display:none}
     .actions{order:2;gap:6px}
     .progress{min-width:100%;order:3}
@@ -291,6 +388,16 @@
     .toolbar-inner{padding:8px 14px;gap:8px;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
     .toolbar-inner::-webkit-scrollbar{display:none}
     .chip{font-size:11.5px;padding:6px 10px}
+    .btn-search{display:inline-flex}
+    .search{display:none;max-width:none;margin:0}
+    .search-close{display:block}
+    .search input::-webkit-search-cancel-button{-webkit-appearance:none;appearance:none}
+    body:has(.next-fab:not([hidden])) .foot{padding-bottom:110px}
+    .toolbar.searching .search{display:flex}
+    .toolbar.searching .seg{display:none}
+    .no-results{padding:0 14px}
+    .next-fab{right:14px;bottom:14px;left:14px;max-width:none}
+    .era-head{gap:4px 10px}
     main{padding:18px 14px 50px}
     .foot{padding:6px 14px 50px}
     /* Ancho completo bajo los botones (no fixed: el backdrop-filter de la barra lo encerraría) */
@@ -312,16 +419,16 @@
 </head>
 <body>
 
-<div class="space" aria-hidden="true"></div>
+<div class="space" aria-hidden="true"><i class="shoot"></i><i class="shoot s2"></i><i class="shoot s3"></i></div>
 
 <div class="stick">
 <header class="topbar">
   <div class="topbar-inner">
     <div class="brand">
-      <span class="brand-mark">◆</span>
+      <svg class="sw-logo" viewBox="0 52 192.756 89" fill="currentColor" fill-rule="evenodd" role="img" aria-label="Star Wars"><title>Star Wars</title><path d="M5.669 81.215v12.65h37.003c4.301 0 9.796-3.977 9.796-10.556 0-2.646 1.012-4.372-2.098-7.872l-4.733-5.608c-2.712-2.53.324-2.53 2.602-2.53h15.623v26.566h12.39V67.299h16.699V55.922H38.877c-6.579 0-9.796 6.317-9.615 9.606.182 3.289.787 7.427 6.254 12.398 4.987 4.533-2.469 3.289-3.218 3.289H5.669zM120.348 55.922H100.36L89.155 93.866h12.47l2.023-5.313h13.156l1.953 5.313h12.215l-10.624-37.944zm-13.916 23.522l4.301-13.916 4.049 13.916h-8.35zM170.443 81.215c-4.807 0-4.807-1.771-4.807-1.771 4.119 0 7.771-6.001 7.771-12.145s-6-11.377-10.809-11.377h-26.891v37.944h13.664v-12.65s5.818 6.831 8.854 9.614c3.037 2.783 3.289 3.036 7.41 3.036h21.449v-12.65c.002-.001-11.834-.001-16.641-.001zm-12.398-8.855h-8.672v-6.832h8.672c3.976 0 4.664 6.832 0 6.832zM5.669 98.672h13.979l3.542 12.652 3.289-12.652h14.675l3.795 12.652 3.796-12.652h12.144l-11.133 37.953H38.624l-4.878-17.965-5.496 17.965H16.865L5.669 98.672zM89.578 98.891H69.59l-11.204 37.943h12.469l2.024-5.312h13.157l1.953 5.312h12.216L89.578 98.891zm-13.915 23.521l4.301-13.916 4.048 13.916h-8.349zM170.695 110.059c-2.275 0-4.756.266-2.043 2.795l4.734 5.609c3.109 3.5 3.059 4.959 3.059 7.607 0 6.578-6.508 10.555-10.809 10.555l-29.896.201c-4.119 0-4.371-.252-7.408-3.035-3.035-2.783-8.855-9.615-8.855-9.615v12.65h-13.662V98.883h26.891c4.807 0 10.809 5.234 10.809 11.377 0 6.145-3.652 12.145-7.773 12.145 0 0 1.812 1.822 4.848 1.822 3.037 0 14.727.012 14.727.012.748 0 8.203 1.244 3.217-3.289-5.467-4.971-6.072-9.107-6.254-12.396s2.662-9.881 9.238-9.881h25.57v11.387h-16.393v-.001zm-42.545 5.261h-8.674v-6.832h8.674c3.977 0 4.664 6.832 0 6.832z"/></svg>
       <div class="brand-txt">
         <h1>Orden del Canon</h1>
-        <p>Star Wars · secuencia de visionado · jul 2026</p>
+        <p>Secuencia de visionado · 2026</p>
       </div>
     </div>
     <div class="progress">
@@ -330,11 +437,13 @@
         <span id="count" class="count">0 / 0 vistos</span>
       </div>
       <div class="saber">
-        <div class="hilt"></div>
+        <div class="hilt"><i></i></div>
         <div class="blade-track"><div class="blade" id="barFill"></div></div>
       </div>
     </div>
     <div class="actions">
+      <button type="button" id="btnSearch" class="btn btn-search" title="Buscar" aria-label="Buscar" aria-controls="q">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
       <button type="button" id="btnDrive" class="btn btn-drive" data-state="off" title="Sincroniza tu progreso con Google Drive" hidden>
         <svg class="drive-logo" viewBox="0 0 87.3 78" aria-hidden="true"><path fill="#0066da" d="m6.6 66.85 3.85 6.65c.8 1.4 1.95 2.5 3.3 3.3L27.5 53H0c0 1.55.4 3.1 1.2 4.5z"/><path fill="#00ac47" d="M43.65 25 29.9 1.2c-1.35.8-2.5 1.9-3.3 3.3l-25.4 44A9.06 9.06 0 0 0 0 53h27.5z"/><path fill="#ea4335" d="M73.55 76.8c1.35-.8 2.5-1.9 3.3-3.3l1.6-2.75L86.1 57.5c.8-1.4 1.2-2.95 1.2-4.5H59.798l5.852 11.5z"/><path fill="#00832d" d="M43.65 25 57.4 1.2C56.05.4 54.5 0 52.9 0H34.4c-1.6 0-3.15.45-4.5 1.2z"/><path fill="#2684fc" d="M59.8 53H27.5L13.75 76.8c1.35.8 2.9 1.2 4.5 1.2h50.8c1.6 0 3.15-.45 4.5-1.2z"/><path fill="#ffba00" d="m73.4 26.5-12.7-22c-.8-1.4-1.95-2.5-3.3-3.3L43.65 25 59.8 53h27.45c0-1.55-.4-3.1-1.2-4.5z"/></svg>
         <span class="btxt">Drive</span><span class="drive-dot" aria-hidden="true"></span></button>
@@ -348,6 +457,9 @@
           <button type="button" role="menuitem" id="btnLoad">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 9l5-5 5 5"/><path d="M12 4v12"/></svg>
             <span>Cargar progreso<small>Desde un archivo JSON</small></span></button>
+          <button type="button" role="menuitem" id="btnInstall" hidden>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="2.5"/><path d="M12 7v7M9 11l3 3 3-3"/><path d="M10.5 18.5h3"/></svg>
+            <span>Instalar app<small>Ábrela como una app, también sin conexión</small></span></button>
           <div class="menu-sep" role="separator"></div>
           <button type="button" role="menuitem" id="btnReset" class="danger">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>
@@ -366,7 +478,11 @@
       <button type="button" class="chip" data-filter="film" aria-pressed="false">Películas</button>
       <button type="button" class="chip" data-filter="tv" aria-pressed="false">Series</button>
     </div>
-    <span class="spacer"></span>
+    <div class="search" role="search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input type="search" id="q" placeholder="Buscar título o capítulo" autocomplete="off" spellcheck="false" aria-label="Buscar título o capítulo">
+      <button type="button" class="search-close" id="qClose" aria-label="Cerrar búsqueda">✕</button>
+    </div>
     <div class="seg" role="group" aria-label="Orden">
       <button type="button" class="chip active" data-view="chrono" aria-pressed="true" title="Orden de la historia (in-universe)">Cronológico</button>
       <button type="button" class="chip" data-view="release" aria-pressed="false" title="Orden en que se estrenaron">Estreno</button>
@@ -376,11 +492,17 @@
 </div>
 
 <main id="root"></main>
+<p class="no-results" id="noResults" hidden></p>
+
+<button type="button" class="next-fab" id="btnNext" hidden>
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5Z"/></svg>
+  <span class="next-txt">Seguir viendo<small></small></span></button>
 
 <footer class="foot">
   <p>Secuencia continua de visionado, numerada del 01 en adelante. Cada tramo de The Clone Wars con salto de orden es su propia tarjeta; márcalas todas a la vista.</p>
   <p class="foot-note">Portadas oficiales cortesía de TMDB. Orden contrastado con las guías de <a href="https://www.starwars.com/news/star-wars-movies-and-series-guide" target="_blank" rel="noopener noreferrer">películas y series</a> y de <a href="https://www.starwars.com/news/star-wars-the-clone-wars-chronological-episodeorder" target="_blank" rel="noopener noreferrer">The Clone Wars</a> publicadas por Lucasfilm. Las antologías y algunos finales abarcan fechas paralelas: en esos casos se prioriza una ruta de visionado continua, no una intercalación por minutos.</p>
-  <p class="version"><span class="ver-tag" id="verTag">v1.2.0</span> · actualizado <span id="verDate">2026-10-18</span> · <a href="privacidad.html">Privacidad</a></p>
+  <p class="foot-note">Guía hecha por fans, sin relación con Lucasfilm ni Disney. Star Wars y sus logotipos son marcas de Lucasfilm Ltd.</p>
+  <p class="version"><span class="ver-tag" id="verTag">v1.3.0</span> · actualizado <span id="verDate">2026-10-18</span> · <a href="privacidad.html">Privacidad</a></p>
 </footer>
 
 <div class="modal-backdrop" id="modal" hidden>
@@ -418,7 +540,7 @@
 (function(){
   "use strict";
   var KEY="sw-canon-explode-v1";
-  var APP_VERSION="1.2.0", APP_UPDATED="2026-10-18";
+  var APP_VERSION="1.3.0", APP_UPDATED="2026-10-18";
   (function(){ var t=document.getElementById("verTag"), d=document.getElementById("verDate");
     if(t) t.textContent="v"+APP_VERSION; if(d) d.textContent=APP_UPDATED; })();
 
@@ -599,10 +721,18 @@
   }
   var ALLCARDS=[]; ERAS.forEach(function(s){ s.cards.forEach(function(c){ ALLCARDS.push(c); }); });
   var ALL=ALLCARDS.map(function(c){ return c.id; });
+  var BYID={}; ALLCARDS.forEach(function(c){ BYID[c.id]=c; });
+  // Capítulos marcables: "<idCarta>/<n>" (n desde 1, en el orden de `ep`)
+  function epKeys(c){ return c.ep?c.ep.map(function(x,i){ return c.id+"/"+(i+1); }):[]; }
+  var EPKEYS=[]; ALLCARDS.forEach(function(c){ EPKEYS=EPKEYS.concat(epKeys(c)); });
+  var KEYS=ALL.concat(EPKEYS);
   var RELEASE_SECTIONS=buildReleaseSections(ALLCARDS);
   function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
   save();
   var CHECK='<svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17 4 12"/></svg>';
+
+  // Casco de Boba Fett (SVG Repo) para la búsqueda sin resultados
+  var BOBA='<svg class="boba" viewBox="0 0 14 14" fill="currentColor" aria-hidden="true"><path d="m 3.7423486,12.14805 c -1.006326,-0.467 -1.840911,-0.8561 -1.854633,-0.8647 -0.01699,-0.011 0.02245,-0.5331 0.123702,-1.6388 0.08176,-0.8928 0.149123,-1.6621 0.1497,-1.7096 l 0.001,-0.086 -0.136632,-0.01 c -0.240554,-0.018 -0.436155,-0.154 -0.537672,-0.3735 -0.04888,-0.1056 -0.05044,-0.1399 -0.05044,-1.107 0,-0.9911 3.8e-4,-0.9989 0.05462,-1.1166 0.06623,-0.1437 0.127358,-0.2118 0.260223,-0.2899 l 0.100989,-0.059 0,-1.5185 0,-1.5186 -0.253881,0 c -0.208798,0 -0.272063,-0.01 -0.356266,-0.05 -0.31304094,-0.1515 -0.31043194,-0.606 0.0044,-0.7584 0.09297,-0.045 0.146454,-0.047 1.035074,-0.047 0.860183,5e-4 0.944838,0 1.03209,0.044 0.171262,0.079 0.249503,0.2037 0.249503,0.3974 0,0.1224 -0.03849,0.2079 -0.134511,0.2988 -0.109853,0.1039 -0.171482,0.1143 -0.674948,0.1143 l -0.473696,0 0,2.587 0,2.587 0.148513,0.028 c 1.218724,0.2318 2.326583,1.1441 2.980792,2.4546 0.436844,0.875 0.679256,1.9049 0.713274,3.0302 l 0.01383,0.4574 -0.282676,0 -0.282676,-10e-4 -1.829683,-0.8491 z m 2.839574,-2.2374 c 0,-1.6992 -0.0032,-3.0894 -0.0071,-3.0894 -0.01605,0 -3.76356,-0.666 -3.813585,-0.6777 -0.05221,-0.012 -0.05411,-0.021 -0.04752,-0.22 l 0.0069,-0.2073 4.710842,-0.01 4.7108404,-0.01 0,0.2135 c 0,0.2018 -0.0029,0.2142 -0.05346,0.2262 -0.02941,0.01 -0.839397,0.1518 -1.799981,0.3217 -0.9605834,0.17 -1.8026134,0.3203 -1.8711774,0.334 l -0.124662,0.025 -0.006,3.0815 -0.006,3.0814 -0.849496,0.01 -0.849496,0.01 0,-3.0894 z m 2.146215,2.667 c 0.04871,-1.3717 0.373245,-2.5569 0.959825,-3.5052 0.5640244,-0.9118 1.3856284,-1.5937 2.2818474,-1.894 0.223559,-0.075 0.572073,-0.1556 0.590855,-0.1368 0.01035,0.01 0.438102,4.2313 0.429405,4.2373 -0.0024,0 -0.839219,0.3894 -1.859726,0.8617 l -1.8554724,0.8587 -0.280856,0 -0.280857,0 0.01498,-0.4217 z m -5.982708,-7.8059 c 0.09314,-0.7204 0.197041,-1.0837 0.453648,-1.5861 0.540747,-1.0588 1.567685,-1.7833 2.911229,-2.0539 0.493067,-0.099 0.714095,-0.1191 1.327052,-0.1184 1.04693,0.001 1.755415,0.1507 2.530667,0.5339 0.4134214,0.2044 0.7126284,0.4164 1.0208804,0.7235 0.640143,0.6378 0.986422,1.3974 1.118453,2.4535 l 0.0156,0.1247 -4.6937554,0 -4.693756,0 0.01,-0.077 z m 7.191114,-1.2823 c 0.2677534,-0.123 0.4507664,-0.3609 0.4850874,-0.6306 0.0087,-0.069 0.01023,-0.1247 0.0033,-0.1247 -0.0069,0 -0.06632,0.036 -0.132039,0.08 -0.3556924,0.2394 -0.9226674,0.27 -1.3171704,0.071 -0.0685,-0.034 -0.153945,-0.083 -0.189885,-0.1088 l -0.06535,-0.046 0,0.096 c 0,0.2882 0.226989,0.5723 0.554343,0.6939 0.179334,0.067 0.478856,0.052 0.661687,-0.032 z"/></svg>';
 
   var root=document.getElementById("root");
 
@@ -612,75 +742,182 @@
       var cardsHtml=sec.cards.map(function(c){
         n++; var num=String(n).padStart(2,"0");
         var done=!!state[c.id];
-        var eplist=c.ep?'<button type="button" class="ep-toggle" aria-expanded="false"><span class="caret">▸</span> '+c.ep.length+' capítulos</button><ul class="eplist">'+c.ep.map(function(x){return '<li>'+x+'</li>';}).join("")+'</ul>':'';
+        var eplist=c.ep?'<button type="button" class="ep-toggle" aria-expanded="false"><span class="caret">▸</span> <span class="ep-count">'+c.ep.length+' capítulos</span></button>'
+          +'<ul class="eplist">'+c.ep.map(function(x,i){ return '<li><button type="button" class="ep" data-ep="'+i+'" aria-pressed="false"><span>'+x+'</span></button></li>'; }).join("")+'</ul>':'';
         return '<article class="card '+(c.k==="film"?"film ":"")+(done?"done ":"")+'" data-id="'+c.id+'" data-kind="'+c.k+'" tabindex="0" role="button" aria-pressed="'+done+'" aria-label="'+num+'. '+c.t+'">'
           + '<div class="poster" data-t="'+c.t+'">'
-          +   '<img src="posters/'+c.p+'.jpg" alt="Póster de '+c.t+'" loading="lazy" onerror="this.closest(\'.poster\').classList.add(\'noimg\')">'
+          +   '<img src="posters/'+c.p+'.webp" alt="Póster de '+c.t+'" loading="lazy" onerror="this.closest(\'.poster\').classList.add(\'noimg\')">'
           +   '<span class="seqnum cnum">'+num+'</span>'
           +   '<span class="tick">'+CHECK+'</span>'
+          +   (c.ep?'<span class="epbar"><i></i></span>':'')
           + '</div>'
           + '<div class="body"><div class="title">'+c.t+'</div><div class="meta">'+c.m+'</div>'+eplist+'</div>'
           + '</article>';
       }).join("");
       html+='<section class="era" style="--era:'+sec.color+'">'
         + '<span class="era-node"></span>'
-        + '<div class="era-head"><h2 class="era-title">'+sec.era+'</h2><span class="era-kicker">'+sec.kicker+'</span></div>'
+        + '<div class="era-head"><h2 class="era-title">'+sec.era+'</h2><span class="era-kicker">'+sec.kicker+'</span>'
+        +   '<span class="era-tools"><span class="era-count"></span><button type="button" class="era-all"></button></span></div>'
         + '<div class="cards">'+cardsHtml+'</div></section>';
     });
     return html;
   }
 
   var viewMode="chrono";
-  var activeFilter="all";
+  var activeFilter="all", query="";
+  // Búsqueda sin tildes ni mayúsculas, por título, descripción y nombres de capítulos
+  function norm(x){ return String(x).normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase(); }
+  var SEARCH={}; ALLCARDS.forEach(function(c){ SEARCH[c.id]={ txt:norm(c.t+" "+c.m), ep:(c.ep||[]).map(norm) }; });
+
   function applyFilter(){
+    var q=norm(query.trim()), total=0;
     [].forEach.call(root.querySelectorAll(".era"), function(era){
       var vis=0;
       [].forEach.call(era.querySelectorAll(".card"), function(card){
+        var sx=SEARCH[card.getAttribute("data-id")], epHit=false;
         var hide=activeFilter!=="all" && card.getAttribute("data-kind")!==activeFilter;
+        if(!hide&&q&&sx.txt.indexOf(q)<0){
+          epHit=sx.ep.some(function(e){ return e.indexOf(q)>-1; });
+          hide=!epHit;
+        }
+        [].forEach.call(card.querySelectorAll(".ep"), function(b,i){ b.classList.toggle("hit", epHit&&sx.ep[i].indexOf(q)>-1); });
+        if(epHit) openEpisodes(card, true);
         card.classList.toggle("hide", hide); if(!hide) vis++;
       });
       era.classList.toggle("hide", vis===0);
+      total+=vis;
     });
+    var none=document.getElementById("noResults");
+    if(none){
+      none.hidden=total>0;
+      if(!total) none.innerHTML=BOBA+'<span>Ni Boba Fett encuentra «'+esc(query.trim())+'».</span><small>Prueba con otro título o capítulo.</small>';
+    }
+    paintEras(); updateNext();
   }
+  function esc(x){ return String(x).replace(/[&<>"]/g, function(ch){ return { "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;" }[ch]; }); }
+  function openEpisodes(card, open){
+    var tog=card.querySelector(".ep-toggle"); if(!tog) return;
+    card.querySelector(".eplist").classList.toggle("open", open);
+    tog.setAttribute("aria-expanded", open);
+  }
+  // Las cartas aparecen suavemente al entrar en pantalla (no con movimiento reducido)
+  var revealIO=("IntersectionObserver" in window)&&!matchMedia("(prefers-reduced-motion: reduce)").matches
+    ? new IntersectionObserver(function(entries){
+        var i=0;
+        entries.forEach(function(en){
+          if(!en.isIntersecting) return;
+          var el=en.target; revealIO.unobserve(el);
+          el.style.setProperty("--d", Math.min(i++,6)*0.06+"s");
+          el.classList.add("in");
+          // Sin la clase, el hover vuelve a su transición corta
+          setTimeout(function(){ el.classList.remove("reveal","in"); el.style.removeProperty("--d"); }, 1000);
+        });
+      }, { rootMargin:"0px 0px -5% 0px" })
+    : null;
+
   function render(){
     root.innerHTML=renderSections(viewMode==="chrono"?ERAS:RELEASE_SECTIONS);
+    paintCards();
     applyFilter();
+    if(revealIO) [].forEach.call(root.querySelectorAll(".card"), function(c){ c.classList.add("reveal"); revealIO.observe(c); });
   }
   render();
 
   // `state.__t[id]` guarda cuándo se marcó o desmarcó cada carta por última vez: al combinar
   // el progreso de dos equipos, gana el cambio más reciente de cada carta.
   function stamp(id, when){ (state.__t||(state.__t={}))[id]=when; }
-  function stampAll(){ var now=new Date().toISOString(); ALL.forEach(function(id){ stamp(id, now); }); }
+  function stampAll(){ var now=new Date().toISOString(); KEYS.forEach(function(k){ stamp(k, now); }); }
+  function setKey(k, on, when){ if(on) state[k]=true; else delete state[k]; stamp(k, when); }
 
-  function paintCards(){
-    [].forEach.call(root.querySelectorAll(".card"), function(c){
-      var d=!!state[c.getAttribute("data-id")];
-      c.classList.toggle("done",d); c.setAttribute("aria-pressed",d);
+  // Una carta vista cuenta todos sus capítulos como vistos; los capítulos sueltos son
+  // progreso parcial de una carta sin marcar.
+  function paintCard(el){
+    var c=BYID[el.getAttribute("data-id")], d=!!state[c.id];
+    el.classList.toggle("done",d); el.setAttribute("aria-pressed",d);
+    if(!c.ep) return;
+    var keys=epKeys(c), seen=0;
+    [].forEach.call(el.querySelectorAll(".ep"), function(b,i){ var on=d||!!state[keys[i]]; if(on) seen++; b.setAttribute("aria-pressed",on); });
+    var partial=!d&&seen>0;
+    el.querySelector(".ep-count").textContent=partial?seen+" de "+keys.length+" capítulos":keys.length+" capítulos";
+    el.style.setProperty("--ep", Math.round(seen/keys.length*100)+"%");
+    el.classList.toggle("partial", partial);
+  }
+  function paintCards(){ [].forEach.call(root.querySelectorAll(".card"), paintCard); }
+
+  function paintEras(){
+    [].forEach.call(root.querySelectorAll(".era"), function(sec){
+      var cards=[].filter.call(sec.querySelectorAll(".card"), function(c){ return !c.classList.contains("hide"); });
+      var seen=cards.filter(function(c){ return state[c.getAttribute("data-id")]; }).length, all=cards.length>0&&seen===cards.length;
+      sec.querySelector(".era-count").textContent=seen+"/"+cards.length;
+      sec.classList.toggle("era-done", all);
+      var b=sec.querySelector(".era-all");
+      b.textContent=all?"Desmarcar":"Marcar todo";
+      b.setAttribute("aria-label", (all?"Desmarcar ":"Marcar como vistas ")+"las "+cards.length+" entradas de "+sec.querySelector(".era-title").textContent);
     });
   }
 
+  function changed(){ save(); refresh(); scheduleDrive(); }
+
   function toggle(card){
-    var id=card.getAttribute("data-id");
-    if(state[id]) delete state[id]; else state[id]=true;
-    stamp(id, new Date().toISOString());
-    var done=!!state[id];
-    card.classList.toggle("done", done);
-    card.setAttribute("aria-pressed", done);
-    save(); refresh(); scheduleDrive();
+    var c=BYID[card.getAttribute("data-id")], now=new Date().toISOString();
+    setKey(c.id, !state[c.id], now);
+    epKeys(c).forEach(function(k){ if(state[k]) setKey(k, false, now); });   // la carta manda sobre sus capítulos
+    paintCard(card);
+    if(state[c.id]){ card.classList.remove("pop"); void card.offsetWidth; card.classList.add("pop"); }
+    changed();
   }
-  root.addEventListener("click", function(e){
-    var tog=e.target.closest(".ep-toggle");
-    if(tog){
-      var list=tog.parentNode.querySelector(".eplist");
-      var open=list.classList.toggle("open");
-      tog.setAttribute("aria-expanded", open);
-      return;
+
+  function toggleEpisode(card, i){
+    var c=BYID[card.getAttribute("data-id")], keys=epKeys(c), k=keys[i], now=new Date().toISOString();
+    if(state[c.id]){
+      // Estaba completa: queda todo visto menos este capítulo
+      setKey(c.id, false, now);
+      keys.forEach(function(x){ setKey(x, x!==k, now); });
+    } else {
+      setKey(k, !state[k], now);
+      if(keys.every(function(x){ return state[x]; })){
+        // Último capítulo: la carta queda vista
+        setKey(c.id, true, now);
+        keys.forEach(function(x){ setKey(x, false, now); });
+        card.classList.remove("pop"); void card.offsetWidth; card.classList.add("pop");
+      }
     }
+    paintCard(card); changed();
+  }
+
+  // Marca o desmarca las cartas visibles de una época; el aviso permite deshacer
+  function markEra(sec){
+    var cards=[].filter.call(sec.querySelectorAll(".card"), function(c){ return !c.classList.contains("hide"); });
+    var on=!cards.every(function(c){ return state[c.getAttribute("data-id")]; });
+    var now=new Date().toISOString(), before={};
+    cards.forEach(function(el){
+      var c=BYID[el.getAttribute("data-id")];
+      [c.id].concat(epKeys(c)).forEach(function(k){ before[k]=!!state[k]; });
+      if(!!state[c.id]!==on) setKey(c.id, on, now);
+      epKeys(c).forEach(function(k){ if(state[k]) setKey(k, false, now); });
+    });
+    paintCards(); changed();
+    toast((on?"Marcaste ":"Desmarcaste ")+cards.length+" entradas de "+sec.querySelector(".era-title").textContent, {
+      label:"Deshacer",
+      run:function(){
+        var t=new Date().toISOString();
+        Object.keys(before).forEach(function(k){ if(!!state[k]!==before[k]) setKey(k, before[k], t); });
+        paintCards(); changed();
+      }
+    });
+  }
+
+  root.addEventListener("click", function(e){
+    var ep=e.target.closest(".ep");
+    if(ep){ toggleEpisode(ep.closest(".card"), +ep.getAttribute("data-ep")); return; }
+    var tog=e.target.closest(".ep-toggle");
+    if(tog){ openEpisodes(tog.closest(".card"), tog.getAttribute("aria-expanded")!=="true"); return; }
+    var all=e.target.closest(".era-all");
+    if(all){ markEra(all.closest(".era")); return; }
     var card=e.target.closest(".card"); if(card) toggle(card);
   });
   root.addEventListener("keydown", function(e){
-    if(e.target.closest(".ep-toggle")) return;   // el botón maneja su propio Enter/Espacio
+    if(e.target.closest("button")) return;   // los botones internos manejan su propio Enter/Espacio
     var card=e.target.closest(".card"); if(!card) return;
     if(e.key===" "||e.key==="Enter"){ e.preventDefault(); toggle(card); }
   });
@@ -726,7 +963,23 @@
     document.body.classList.toggle("maxed", max);
     if(max && !wasMax && ignited){ toast("★ ¡Canon completo! Que la Fuerza te acompañe."); }
     wasMax=max;
+    paintEras(); updateNext();
   }
+
+  // Seguir viendo: la primera carta sin marcar del orden y filtro actuales
+  var nextCard;
+  function updateNext(){
+    var fab=document.getElementById("btnNext"); if(!fab) return;
+    nextCard=[].find.call(root.querySelectorAll(".card"), function(c){ return !c.classList.contains("hide")&&!state[c.getAttribute("data-id")]; })||null;
+    fab.hidden=!nextCard;
+    if(nextCard) fab.querySelector("small").textContent=nextCard.querySelector(".cnum").textContent+" · "+BYID[nextCard.getAttribute("data-id")].t;
+  }
+  document.getElementById("btnNext").addEventListener("click", function(){
+    if(!nextCard) return;
+    nextCard.scrollIntoView({ behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth", block:"center" });
+    nextCard.focus({ preventScroll:true });
+    nextCard.classList.remove("spot"); void nextCard.offsetWidth; nextCard.classList.add("spot");
+  });
 
   // Controles segmentados: activa el botón tocado dentro de su grupo
   function segment(attr, onPick){
@@ -745,12 +998,25 @@
     viewMode=v; render(); refresh();
   });
 
+  // Búsqueda (en celular se abre con la lupa de la barra superior)
+  var qInput=document.getElementById("q"), toolbarEl=document.querySelector(".toolbar");
+  qInput.addEventListener("input", function(){ query=qInput.value; applyFilter(); window.scrollTo({ top:0 }); });
+  function closeSearch(){
+    qInput.value=""; query=""; applyFilter();
+    toolbarEl.classList.remove("searching"); document.getElementById("btnSearch").focus();
+  }
+  qInput.addEventListener("keydown", function(e){ if(e.key==="Escape"){ e.stopPropagation(); closeSearch(); } });
+  document.getElementById("qClose").addEventListener("click", closeSearch);
+  document.getElementById("btnSearch").addEventListener("click", function(){
+    if(toolbarEl.classList.toggle("searching")) qInput.focus(); else closeSearch();
+  });
+
   // Menú "Más"
   var btnMore=document.getElementById("btnMore"), moreMenu=document.getElementById("moreMenu");
-  var menuItems=[].slice.call(moreMenu.querySelectorAll("[role=menuitem]"));
+  function menuItems(){ return [].filter.call(moreMenu.querySelectorAll("[role=menuitem]"), function(b){ return !b.hidden; }); }
   function setMenu(open, focusFirst){
     moreMenu.hidden=!open; btnMore.setAttribute("aria-expanded", open);
-    if(open&&focusFirst) menuItems[0].focus();
+    if(open&&focusFirst) menuItems()[0].focus();
   }
   btnMore.addEventListener("click", function(){ setMenu(moreMenu.hidden, false); });
   btnMore.addEventListener("keydown", function(e){
@@ -758,10 +1024,10 @@
   });
   moreMenu.addEventListener("click", function(e){ if(e.target.closest("[role=menuitem]")) setMenu(false); });
   moreMenu.addEventListener("keydown", function(e){
-    var i=menuItems.indexOf(document.activeElement);
+    var items=menuItems(), i=items.indexOf(document.activeElement);
     if(e.key==="ArrowDown"||e.key==="ArrowUp"){
       e.preventDefault();
-      menuItems[(i+(e.key==="ArrowDown"?1:-1)+menuItems.length)%menuItems.length].focus();
+      items[(i+(e.key==="ArrowDown"?1:-1)+items.length)%items.length].focus();
     } else if(e.key==="Escape"||e.key==="Tab"){
       setMenu(false); if(e.key==="Escape") btnMore.focus();
     }
@@ -772,14 +1038,25 @@
 
   // Toast + JSON
   var toastEl=document.getElementById("toast"), toastT;
-  function toast(msg){ toastEl.textContent=msg; toastEl.classList.add("show");
-    clearTimeout(toastT); toastT=setTimeout(function(){toastEl.classList.remove("show");},2200); }
+  /** Aviso breve. `action` ({ label, run }) agrega un botón, p. ej. Deshacer. */
+  function toast(msg, action){
+    toastEl.textContent="";
+    var span=document.createElement("span"); span.textContent=msg; toastEl.appendChild(span);
+    if(action){
+      var b=document.createElement("button"); b.type="button"; b.textContent=action.label;
+      b.addEventListener("click", function(){ toastEl.classList.remove("show"); action.run(); });
+      toastEl.appendChild(b);
+    }
+    toastEl.classList.toggle("has-action", !!action);
+    toastEl.classList.add("show");
+    clearTimeout(toastT); toastT=setTimeout(function(){toastEl.classList.remove("show");}, action?5000:2200);
+  }
 
   // El mismo formato sirve para el JSON descargado y para el archivo de Drive.
   // `watched` mantiene la compatibilidad con versiones anteriores; `marks` trae las fechas.
   function buildBackup(){
     var t=state.__t||{}, marks={};
-    ALL.forEach(function(id){ if(state[id]||t[id]) marks[id]={ w:!!state[id], t:t[id]||"" }; });
+    KEYS.forEach(function(id){ if(state[id]||t[id]) marks[id]={ w:!!state[id], t:t[id]||"" }; });
     return { app:"sw-canon-explode", appVersion:APP_VERSION, version:2, updated:new Date().toISOString(),
       watched:ALL.filter(function(id){return state[id];}), marks:marks };
   }
@@ -800,17 +1077,25 @@
    */
   function mergeBackup(data){
     var list=backupList(data); if(!list) return 0;
-    var marks=(!Array.isArray(data)&&data.marks)||{}, t=state.__t||(state.__t={}), changed=0;
-    ALL.forEach(function(id){
+    var marks=(!Array.isArray(data)&&data.marks)||{}, t=state.__t||(state.__t={}), n=0;
+    KEYS.forEach(function(id){
       var r=marks[id]||(list.indexOf(id)>-1?{ w:true, t:"" }:null);
       if(!r) return;
       var lt=t[id]||"", rt=r.t||"", local=!!state[id], w=local;
       if(rt>lt){ w=!!r.w; t[id]=rt; }
       else if(!rt&&!lt) w=local||!!r.w;
-      if(w!==local){ if(w) state[id]=true; else delete state[id]; changed++; }
+      if(w!==local){ if(w) state[id]=true; else delete state[id]; n++; }
+    });
+    // Si entre dos equipos se completaron todos los capítulos, la carta queda vista
+    ALLCARDS.forEach(function(c){
+      var keys=epKeys(c);
+      if(keys.length&&!state[c.id]&&keys.every(function(k){ return state[k]; })){
+        var now=new Date().toISOString();
+        setKey(c.id, true, now); keys.forEach(function(k){ setKey(k, false, now); });
+      }
     });
     save(); paintCards(); refresh();
-    return changed;
+    return n;
   }
 
   function downloadJSON(){
@@ -834,8 +1119,7 @@
         if(!list) throw 0;
         // Cargar un archivo reemplaza el progreso: queda como el cambio más reciente en todos lados
         state={__schema101:true}; list.forEach(function(id){ if(ALL.indexOf(id)>-1) state[id]=true; });
-        stampAll(); save(); paintCards();
-        refresh(); scheduleDrive(); toast("Progreso cargado ✓");
+        stampAll(); paintCards(); changed(); toast("Progreso cargado ✓");
       }catch(err){ toast("Archivo no válido"); }
       fileInput.value="";
     };
@@ -863,8 +1147,8 @@
   document.getElementById("mCancel").addEventListener("click", function(){ closeModal(modal); });
   document.getElementById("mSave").addEventListener("click", downloadJSON);
   document.getElementById("mConfirm").addEventListener("click", function(){
-    state={__schema101:true}; stampAll(); save(); paintCards();
-    refresh(); scheduleDrive(); closeModal(modal); toast("Progreso reiniciado");
+    state={__schema101:true}; stampAll(); paintCards(); changed();
+    closeModal(modal); toast("Progreso reiniciado");
   });
 
   // ===== Sincronización con Google Drive =====
@@ -1148,6 +1432,19 @@
     if(driveInfo().conectado){ prepareDrive().catch(function(){}); setDriveState("paused"); }
     else renderDrive();
   }
+
+  // App instalable y sin conexión
+  if("serviceWorker" in navigator && /^https?:$/.test(location.protocol)){
+    window.addEventListener("load", function(){ navigator.serviceWorker.register("sw.js").catch(function(){}); });
+  }
+  var installPrompt=null, btnInstall=document.getElementById("btnInstall");
+  window.addEventListener("beforeinstallprompt", function(e){ e.preventDefault(); installPrompt=e; btnInstall.hidden=false; });
+  btnInstall.addEventListener("click", function(){
+    if(!installPrompt) return;
+    installPrompt.prompt();
+    installPrompt.userChoice.then(function(){ installPrompt=null; btnInstall.hidden=true; });
+  });
+  window.addEventListener("appinstalled", function(){ btnInstall.hidden=true; toast("App instalada ✓"); });
 
   // Encendido del sable al cargar: extiende de 0 hasta el progreso guardado
   setTimeout(function(){ ignited=true; refresh(true); }, 260);

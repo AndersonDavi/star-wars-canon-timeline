@@ -4,8 +4,8 @@
     {
       "name": "guia",
       "runtimeExecutable": "python",
-      "runtimeArgs": ["-m", "http.server", "8787", "--bind", "127.0.0.1"],
-      "port": 8787
+      "runtimeArgs": ["-m", "http.server", "8788", "--bind", "127.0.0.1"],
+      "port": 8788
     }
   ]
 }

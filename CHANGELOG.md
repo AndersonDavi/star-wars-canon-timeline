@@ -3,6 +3,20 @@
 Todas las versiones notables de esta guía interactiva de visionado.
 Formato basado en [Keep a Changelog](https://keepachangelog.com/). Versionado [SemVer](https://semver.org/).
 
+## [1.3.0] — 2026-10-18
+
+### Añadido
+- Botón **Seguir viendo**: lleva a la primera entrada sin marcar del orden y filtro actuales y la resalta.
+- Progreso por época (`3/8`) con **Marcar todo / Desmarcar** y aviso para deshacer.
+- Búsqueda por título, descripción o nombre de capítulo, sin importar tildes; si coincide un capítulo, abre la lista y lo resalta. En celular se abre con la lupa.
+- Capítulos de The Clone Wars marcables uno por uno: la tarjeta muestra "3 de 15 capítulos" y una barra parcial, y queda vista al marcar el último. También se sincronizan con Drive y van en el JSON.
+- App instalable y sin conexión (manifest, service worker e íconos con la insignia rebelde); "Instalar app" aparece en el menú ⋯ cuando el navegador lo permite.
+- Logo de Star Wars en la barra superior, aviso de marcas en el pie y README.
+
+### Cambiado
+- Rediseño visual: el sable zumba y lo recorre un destello de energía; al marcar, un tajo de luz cruza el póster y el check rebota; las tarjetas aparecen al hacer scroll y se iluminan con el color de su época al pasar el mouse; estrellas que titilan y estrellas fugaces en el fondo; el nodo de la época se enciende al completarla.
+- Portadas en WebP de 500 px: de 7,2 MB a 1,5 MB.
+
 ## [1.2.0] — 2026-10-18
 
 ### Añadido
@@ -57,6 +71,7 @@ Primera versión completa.
 - Guardado automático en el navegador (localStorage) + exportar/importar progreso en JSON.
 - Modal estilizado para reiniciar el progreso.
 
+[1.3.0]: #
 [1.2.0]: #
 [1.1.0]: #
 [1.0.1]: #
